@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:glowup/Repositories/models/profile.dart';
 import 'package:glowup/Repositories/models/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -61,22 +62,34 @@ class SupabaseConnect {
     }
   }
 
-  Future fetchData() async {
+  Future<void> fetchData() async {
     try {
+      // 24.654018, 46.583054
       final resClient = supabase.client;
-      var response = await resClient.from("providers").select("*").single();
-      log("-----");
-      final provider = Provider.fromJson(response);
-      provider.latitude = null;
-      provider.longitude = null;
-      await resClient
-          .from("providers")
-          .update(provider.toJson())
-          .eq("id", provider.id);
+      var response = await resClient.from("profiles").select("*").single();
+      var providerRes = await resClient.from("providers").select("*").single();
+      var provider = Provider.fromJson(providerRes);
 
-      log(jsonEncode(provider.toJson()));
+      var profile = Profile.fromJson(response);
+      var distances = await resClient
+          .rpc("providers_with_distance", params: {"p_profile_id": profile.id})
+          .select("*")
+          .single();
+
+      log(jsonEncode(distances));
     } catch (e) {
       log("Error fetching data: $e");
+    }
+  }
+
+  Future<void> getProvidersDistanceFromUser() async {
+    try {
+      final resClient = supabase.client;
+      if (user == null) {
+        log("User not signed in, cannot get providers distance");
+      }
+    } catch (e) {
+      log("Error getting providers distance from user: $e");
     }
   }
 

@@ -21,6 +21,7 @@ class Provider {
   late double? latitude;
   late double? longitude;
   late String? mapsUrl;
+  String? distanceFromUser;
 
   Provider.fromJson(Map<String, dynamic> json) {
     name = json['name'];
