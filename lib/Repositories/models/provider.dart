@@ -1,3 +1,5 @@
+import 'package:glowup/Repositories/models/stylist.dart';
+
 class Provider {
   Provider({
     required this.name,
@@ -22,6 +24,7 @@ class Provider {
   late double? longitude;
   late String? mapsUrl;
   String? distanceFromUser;
+  List<Stylist> stylists = [];
 
   Provider.fromJson(Map<String, dynamic> json) {
     name = json['name'];
