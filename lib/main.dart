@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glowup/Screens/Shared/Onboarding/onboarding_screen.dart';
+
+import 'package:glowup/Screens/onboarding/onboarding_screen.dart';
+import 'package:glowup/Screens/splash/splash.dart';
 import 'package:glowup/Styles/theme.dart';
 import 'package:glowup/Utilities/setup.dart';
 
@@ -22,8 +24,13 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) =>
-          MaterialApp(theme: lightTheme, darkTheme: darkTheme, home: child),
-      child: const OnboardingScreen(),
+          MaterialApp(theme: lightTheme, darkTheme: darkTheme, initialRoute: '/splash',
+      routes: {
+        '/splash': (context) => const SplashScreen(),
+        '/onboarding': (context) => const OnboardingScreen(),
+      },),
+    
+      
     );
   }
 }
