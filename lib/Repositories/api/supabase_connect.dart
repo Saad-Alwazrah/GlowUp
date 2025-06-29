@@ -15,6 +15,8 @@ class SupabaseConnect {
   List<Stylist> stylists = [];
   List<Services> services = [];
   List<Appointment> appointments = [];
+  List<Map<String, dynamic>> distances = [];
+  List<Map<String, dynamic>> serviceStylists = [];
 
   late Profile userProfile;
   User? user;
@@ -42,14 +44,16 @@ class SupabaseConnect {
         getStylists(),
         getProviders(),
         getServices(),
+        getServiceStylists(),
+        getAppointments(),
         getDistancesFromUser(),
       ]).then((_) {
+        linkData();
         log("Data fetched successfully");
       });
-      await getAppointments();
       log("Data fetched in ${stopwatch.elapsedMilliseconds} ms");
       print(
-        "${jsonEncode(appointments)} ${jsonEncode(appointments[0].provider)} ${jsonEncode(appointments[0].stylist)} ${jsonEncode(appointments[0].service)}",
+        "${jsonEncode(appointments)} ${jsonEncode(appointments[0].provider?.distanceFromUser)} ${jsonEncode(appointments[0].stylist)} ${jsonEncode(appointments[0].service)}",
       );
     } catch (e) {
       log("Error fetching data: $e");
@@ -69,25 +73,27 @@ class SupabaseConnect {
       appointments = appointmentsResponse
           .map((e) => Appointment.fromJson(e))
           .toList();
-      for (var appointment in appointments) {
-        for (var provider in providers) {
-          if (appointment.providerId == provider.id) {
-            appointment.provider = provider;
-          }
-        }
-        for (var stylist in stylists) {
-          if (appointment.stylistId == stylist.id) {
-            appointment.stylist = stylist;
-          }
-        }
-        for (var service in services) {
-          if (appointment.serviceId == service.id) {
-            appointment.service = service;
-          }
-        }
-      }
     } catch (e) {
       log("Error fetching appointments: $e");
+    }
+  }
+
+  Future<void> getServiceStylists() async {
+    try {
+      final resClient = supabase.client;
+      // Getting the service stylists from supabase
+      final serviceStylistsResponse = await resClient
+          .from("service_stylists")
+          .select("*");
+      if (serviceStylistsResponse.isEmpty) {
+        log("No Service Stylists found");
+        return;
+      }
+      serviceStylists = List<Map<String, dynamic>>.from(
+        serviceStylistsResponse,
+      );
+    } catch (e) {
+      log("Error fetching service stylists: $e");
     }
   }
 
@@ -103,32 +109,7 @@ class SupabaseConnect {
       }
       services = servicesResponse.map((e) => Services.fromJson(e)).toList();
 
-      final serviceStylistsResponse = await resClient
-          .from("service_stylists")
-          .select("*");
-      if (serviceStylistsResponse.isEmpty) {
-        log("No Service Stylists found");
-        return;
-      }
-
-      // Parsing the services into a list of Service objects
-      for (var service in services) {
-        for (var stylist in stylists) {
-          if (serviceStylistsResponse.any(
-            (e) =>
-                e['service_id'] == service.id && e['stylist_id'] == stylist.id,
-          )) {
-            service.stylists.add(stylist);
-          }
-        }
-      }
-      for (var service in services) {
-        for (var provider in providers) {
-          if (service.providerId == provider.id) {
-            service.provider = provider;
-          }
-        }
-      }
+      //  Parsing the services into a list of Service objects
     } catch (e) {
       log("Error fetching services: $e");
     }
@@ -145,15 +126,6 @@ class SupabaseConnect {
       }
       providers = providersResponse.map((e) => Provider.fromJson(e)).toList();
       // getting the distance from each provider to the user
-
-      await getStylists();
-      for (var stylist in stylists) {
-        for (var provider in providers) {
-          if (provider.id == stylist.providerId) {
-            provider.stylists.add(stylist);
-          }
-        }
-      }
     } catch (e) {
       log("Error fetching providers: $e");
     }
@@ -161,22 +133,14 @@ class SupabaseConnect {
 
   Future<void> getDistancesFromUser() async {
     final resClient = supabase.client;
-    final distances = await resClient
+    final distancesRes = await resClient
         .rpc(
           "providers_with_distance",
           params: {"p_profile_id": "c5c8fd53-93c4-453f-ba57-69566b0c4a85"},
         )
         .select("*");
     // The above RPC function should return a list of providers with their distances
-
-    for (var e in distances) {
-      for (var provider in providers) {
-        if (provider.id == e['provider_id']) {
-          provider.distanceFromUser =
-              "${(e['distance_m'] / 1000).toStringAsFixed(2)} km";
-        }
-      }
-    }
+    distances = List<Map<String, dynamic>>.from(distancesRes);
   }
 
   Future<void> getStylists() async {
@@ -187,6 +151,67 @@ class SupabaseConnect {
       return;
     }
     stylists = stylistsResponse.map((e) => Stylist.fromJson(e)).toList();
+  }
+
+  void linkData() {
+    Stopwatch stopwatch = Stopwatch()..start();
+
+    // linking providers with stylists
+    for (Stylist stylist in stylists) {
+      for (Provider provider in providers) {
+        if (provider.id == stylist.providerId) {
+          provider.stylists.add(stylist);
+        }
+      }
+    }
+    //linking providers with distance from user
+    for (Map<String, dynamic> distance in distances) {
+      for (Provider provider in providers) {
+        if (provider.id == distance['provider_id']) {
+          provider.distanceFromUser =
+              "${(distance['distance_m'] / 1000).toStringAsFixed(2)} km";
+        }
+      }
+    }
+    // linking stylists with services
+    for (Services service in services) {
+      for (Stylist stylist in stylists) {
+        if (serviceStylists.any(
+          (e) => e['service_id'] == service.id && e['stylist_id'] == stylist.id,
+        )) {
+          service.stylists.add(stylist);
+        }
+      }
+    }
+    // linking services with their provider
+    for (Services service in services) {
+      for (Provider provider in providers) {
+        if (service.providerId == provider.id) {
+          service.provider = provider;
+        }
+      }
+    }
+    // linking appointments with their provider
+    for (Appointment appointment in appointments) {
+      for (Provider provider in providers) {
+        if (appointment.providerId == provider.id) {
+          appointment.provider = provider;
+        }
+      }
+      // linking appointments with their stylist
+      for (Stylist stylist in stylists) {
+        if (appointment.stylistId == stylist.id) {
+          appointment.stylist = stylist;
+        }
+      }
+      // linking appointments with their service
+      for (Services service in services) {
+        if (appointment.serviceId == service.id) {
+          appointment.service = service;
+        }
+      }
+    }
+    log("Data linked in ${stopwatch.elapsedMilliseconds} ms");
   }
 
   Future<bool> signUpNewUser({
