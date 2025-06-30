@@ -23,7 +23,7 @@ class OnboardingScreen extends StatelessWidget {
          CustomButton(
   text: "Login",
   onTap: () {
-    Navigator.pushNamed(context, '/nextPage');
+    Navigator.pushNamed(context, '/navbar');
   },
 ),
 SizedBox(height: 20,),

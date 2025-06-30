@@ -60,4 +60,9 @@ class AppFonts {
     fontWeight: FontWeight.w900,
     fontSize: 48,
   );
+   static const TextStyle black32 = TextStyle(
+    fontFamily: 'MontserratAlternates',
+    fontWeight: FontWeight.w900,
+    fontSize: 32,
+  );
 }

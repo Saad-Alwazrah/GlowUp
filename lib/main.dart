@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glowup/Screens/Customer/NavBar/nav_bar_screen.dart';
 
 import 'package:glowup/Screens/onboarding/onboarding_screen.dart';
 import 'package:glowup/Screens/splash/splash.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/splash': (context) => const SplashScreen(),
         '/onboarding': (context) => const OnboardingScreen(),
+        '/navbar' : (context) => const NavBarScreen(),
       },),
     
       
