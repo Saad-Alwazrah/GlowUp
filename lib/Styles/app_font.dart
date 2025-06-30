@@ -21,7 +21,7 @@ class AppFonts {
 
   static const TextStyle semiBold24 = TextStyle(
     fontFamily: 'MontserratAlternates',
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w900,
     fontSize: 24,
   );
 
@@ -31,9 +31,9 @@ class AppFonts {
     fontSize: 14,
   );
 
-  static const TextStyle extraBold22 = TextStyle(
+  static const TextStyle regular22 = TextStyle(
     fontFamily: 'MontserratAlternates',
-    fontWeight: FontWeight.w800,
+    fontWeight: FontWeight.w300,
     fontSize: 22,
   );
 
@@ -54,5 +54,15 @@ class AppFonts {
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.italic,
     fontSize: 16,
+  );
+   static const TextStyle black48 = TextStyle(
+    fontFamily: 'MontserratAlternates',
+    fontWeight: FontWeight.w900,
+    fontSize: 48,
+  );
+   static const TextStyle black32 = TextStyle(
+    fontFamily: 'MontserratAlternates',
+    fontWeight: FontWeight.w900,
+    fontSize: 32,
   );
 }

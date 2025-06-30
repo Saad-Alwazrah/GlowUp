@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.10+1
   flutter_bloc: ^9.1.1
   flutter_native_splash: ^2.4.6
   get_it: ^8.0.3
@@ -48,8 +49,13 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-  - assets/images/
+  - lib/assets/images/logo1.png
+  - lib/assets/images/logo2.png
   - .env
+  - lib/assets/svgs/booking.svg
+  - lib/assets/svgs/home.svg
+  - lib/assets/svgs/me.svg
+  - lib/assets/svgs/salons.svg
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
