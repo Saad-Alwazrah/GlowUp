@@ -1,3 +1,4 @@
+import 'package:glowup/Repositories/models/appointment.dart';
 import 'package:glowup/Repositories/models/stylist.dart';
 
 class Provider {
@@ -25,6 +26,7 @@ class Provider {
   late String? mapsUrl;
   String? distanceFromUser;
   List<Stylist> stylists = [];
+  List<Appointment> appointments = [];
 
   Provider.fromJson(Map<String, dynamic> json) {
     name = json['name'];

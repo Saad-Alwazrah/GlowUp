@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:glowup/Repositories/models/appointment.dart';
+import 'package:glowup/Repositories/models/availability_slot.dart';
 import 'package:glowup/Repositories/models/profile.dart';
 import 'package:glowup/Repositories/models/provider.dart';
 import 'package:glowup/Repositories/models/services.dart';
@@ -15,6 +15,7 @@ class SupabaseConnect {
   List<Stylist> stylists = [];
   List<Services> services = [];
   List<Appointment> appointments = [];
+  List<AvailabilitySlot> availabilitySlots = [];
   List<Map<String, dynamic>> distances = [];
   List<Map<String, dynamic>> serviceStylists = [];
 
@@ -47,14 +48,12 @@ class SupabaseConnect {
         getServiceStylists(),
         getAppointments(),
         getDistancesFromUser(),
+        getAvailabilitySlots(),
       ]).then((_) {
         linkData();
         log("Data fetched successfully");
       });
       log("Data fetched in ${stopwatch.elapsedMilliseconds} ms");
-      print(
-        "${jsonEncode(appointments)} ${jsonEncode(appointments[0].provider?.distanceFromUser)} ${jsonEncode(appointments[0].stylist)} ${jsonEncode(appointments[0].service)}",
-      );
     } catch (e) {
       log("Error fetching data: $e");
     }
@@ -133,24 +132,48 @@ class SupabaseConnect {
 
   Future<void> getDistancesFromUser() async {
     final resClient = supabase.client;
-    final distancesRes = await resClient
-        .rpc(
-          "providers_with_distance",
-          params: {"p_profile_id": "c5c8fd53-93c4-453f-ba57-69566b0c4a85"},
-        )
-        .select("*");
-    // The above RPC function should return a list of providers with their distances
-    distances = List<Map<String, dynamic>>.from(distancesRes);
+    try {
+      final distancesRes = await resClient
+          .rpc(
+            "providers_with_distance",
+            params: {"p_profile_id": userProfile.id},
+          )
+          .select("*");
+      // The above RPC function should return a list of providers with their distances
+      distances = List<Map<String, dynamic>>.from(distancesRes);
+    } catch (e) {
+      log("Error fetching distances from user: $e");
+    }
   }
 
   Future<void> getStylists() async {
     final resClient = supabase.client;
-    final stylistsResponse = await resClient.from("stylists").select("*");
-    if (stylistsResponse.isEmpty) {
-      log("No Stylists found");
-      return;
+    try {
+      final stylistsResponse = await resClient.from("stylists").select("*");
+      if (stylistsResponse.isEmpty) {
+        log("No Stylists found");
+        return;
+      }
+      stylists = stylistsResponse.map((e) => Stylist.fromJson(e)).toList();
+    } catch (e) {
+      log("Error fetching stylists: $e");
     }
-    stylists = stylistsResponse.map((e) => Stylist.fromJson(e)).toList();
+  }
+
+  Future<void> getAvailabilitySlots() async {
+    final resClient = supabase.client;
+    try {
+      final slotsResponse = await resClient
+          .from("availability_slots")
+          .select("*")
+          .gt("date", DateTime.now().toIso8601String());
+
+      availabilitySlots = slotsResponse
+          .map((e) => AvailabilitySlot.fromJson(e))
+          .toList();
+    } catch (e) {
+      log("Error fetching availability slots: $e");
+    }
   }
 
   void linkData() {
@@ -183,6 +206,14 @@ class SupabaseConnect {
         }
       }
     }
+    // linking stylists with their availability slots
+    for (Stylist stylist in stylists) {
+      for (AvailabilitySlot slot in availabilitySlots) {
+        if (slot.stylistId == stylist.id) {
+          stylist.availabilitySlots.add(slot);
+        }
+      }
+    }
     // linking services with their provider
     for (Services service in services) {
       for (Provider provider in providers) {
@@ -211,7 +242,7 @@ class SupabaseConnect {
         }
       }
     }
-    log("Data linked in ${stopwatch.elapsedMilliseconds} ms");
+    log("Data linked in ${stopwatch.elapsedMicroseconds} µs");
   }
 
   Future<bool> signUpNewUser({
@@ -253,9 +284,16 @@ class SupabaseConnect {
     final Session? session = res.session;
     final User? user = res.user;
     this.user = user;
+    final resClient = supabase.client;
+    final userProfileResponse = await resClient
+        .from("profiles")
+        .select("*")
+        .eq("id", user!.id)
+        .single();
+    userProfile = Profile.fromJson(userProfileResponse);
 
     if (session != null) {
-      log("User signed in: ${user?.email}");
+      log("User signed in: ${user.email}");
       return true;
     } else {
       log("Sign in failed");

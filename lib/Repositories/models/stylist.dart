@@ -1,3 +1,5 @@
+import 'package:glowup/Repositories/models/availability_slot.dart';
+
 class Stylist {
   Stylist({
     required this.id,
@@ -15,6 +17,7 @@ class Stylist {
   late final int? ratingCount;
   late final String createdAt;
   late final String? bio;
+  List<AvailabilitySlot> availabilitySlots = [];
 
   Stylist.fromJson(Map<String, dynamic> json) {
     id = json['id'];
