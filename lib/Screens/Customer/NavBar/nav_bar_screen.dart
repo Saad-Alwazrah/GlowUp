@@ -5,24 +5,19 @@ import 'package:glowup/Screens/Customer/BookingsScreen/Bookings_screen.dart';
 import 'package:glowup/Screens/Customer/Home/home_screen.dart';
 import 'package:glowup/Screens/Customer/NavBar/bloc/nav_bar_bloc.dart';
 import 'package:glowup/Screens/Customer/Profile/profile_screen.dart';
-import 'package:glowup/Screens/Customer/Salons/salons_screen.dart';
+import 'package:glowup/Screens/Customer/Providers/providers_screen.dart';
 
 class NavBarScreen extends StatelessWidget {
   const NavBarScreen({super.key});
 
   final List<String> svgPaths = const [
-    'lib/assets/svgs/home.svg',
-    'lib/assets/svgs/salons.svg',
-    'lib/assets/svgs/booking.svg',
-    'lib/assets/svgs/me.svg',
+    'assets/svgs/home.svg',
+    'assets/svgs/salons.svg',
+    'assets/svgs/booking.svg',
+    'assets/svgs/me.svg',
   ];
 
-  final List<String> labels = const [
-    "Home",
-    "Salons",
-    "Bookings",
-    "Me",
-  ];
+  final List<String> labels = const ["Home", "Providers", "Bookings", "Me"];
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +30,14 @@ class NavBarScreen extends StatelessWidget {
             return Stack(
               children: [
                 IndexedStack(
-  index: state.selectedIndex,
-  children: const [
-    HomeScreen(),
-    SalonsScreen(),
-    BookingsScreen(),
-    ProfileScreen(),
-  ],
-),
-
+                  index: state.selectedIndex,
+                  children: const [
+                    HomeScreen(),
+                    ProvidersScreen(),
+                    BookingsScreen(),
+                    ProfileScreen(),
+                  ],
+                ),
 
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -62,7 +56,9 @@ class NavBarScreen extends StatelessWidget {
 
                         return GestureDetector(
                           onTap: () {
-                            context.read<NavBarBloc>().add(ChangeTabEvent(index));
+                            context.read<NavBarBloc>().add(
+                              ChangeTabEvent(index),
+                            );
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +83,7 @@ class NavBarScreen extends StatelessWidget {
                                       : const Color(0xFFCBB9A8),
                                   fontSize: 12,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         );
@@ -103,4 +99,3 @@ class NavBarScreen extends StatelessWidget {
     );
   }
 }
-

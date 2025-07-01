@@ -8,28 +8,29 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        SizedBox(height: 100,),
-        Row(
-          children: [
-            SizedBox(width: 50,),
-            Text("Hello, Sara", style: AppFonts.black32,),
-          ],
-        ),
-         SizedBox(height: 10,),
-        Row(
-          children: [
-            SizedBox(width: 50,),
-            Text("Are you ready for a Glow Up", style: AppFonts.light16,),
-          ],
-        ),
-        SizedBox(height: 32,),
-        CustomSearchBar(
-  controller: TextEditingController(),
-  hintText: "Search salons",
-)
-
-      ],),
+      body: Column(
+        children: [
+          SizedBox(height: 100),
+          Row(
+            children: [
+              SizedBox(width: 50),
+              Text("Hello, Sara", style: AppFonts.black32),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              SizedBox(width: 50),
+              Text("Are you ready for a Glow Up", style: AppFonts.light16),
+            ],
+          ),
+          SizedBox(height: 32),
+          CustomSearchBar(
+            controller: TextEditingController(),
+            hintText: "Search salons",
+          ),
+        ],
+      ),
     );
   }
 }
