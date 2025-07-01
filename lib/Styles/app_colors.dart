@@ -9,6 +9,7 @@ class AppColors {
   static const Color mintGreen = Color(0xFFD3F7CF);
   static const Color paleYellow = Color(0xFFFAECBF);
   static const Color coralPink = Color(0xFFFFB196);
+   static const Color white = Color(0xFFFFFFFF);
 
   //dark mode
   static const Color backgroundDark = Color(0xFF1A1A1A);

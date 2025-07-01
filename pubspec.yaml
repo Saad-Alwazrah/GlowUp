@@ -28,13 +28,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  image_path: "lib/assets/images/logo_glow_up.png"
+  android: true
+  ios: true
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -56,7 +57,19 @@ flutter:
   - lib/assets/svgs/home.svg
   - lib/assets/svgs/me.svg
   - lib/assets/svgs/salons.svg
-  #   - images/a_dot_burr.jpeg
+  - lib/assets/svgs/hair_comb 1.svg
+  - lib/assets/svgs/Make_up.svg
+  - lib/assets/svgs/Nail_polish.svg
+  - lib/assets/svgs/more.svg
+  - lib/assets/images/profile.png
+  - lib/assets/svgs/badge_name.svg
+  - lib/assets/svgs/phone_number.svg
+  - lib/assets/svgs/language.svg
+  - lib/assets/svgs/email.svg
+  - lib/assets/svgs/help.svg
+  - lib/assets/svgs/settings.svg
+  - lib/assets/svgs/logout.svg
+  - lib/assets/svgs/contrast.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glowup/Screens/Customer/Apppointments/appointments_screen.dart';
 import 'package:glowup/Screens/Customer/BookingsScreen/Bookings_screen.dart';
-import 'package:glowup/Screens/Customer/Home/home_screen.dart';
+import 'package:glowup/Screens/Customer/Providers/providers_screen.dart';
+import 'package:glowup/Screens/Customer/Services/services_screen.dart';
 import 'package:glowup/Screens/Customer/NavBar/bloc/nav_bar_bloc.dart';
 import 'package:glowup/Screens/Customer/Profile/profile_screen.dart';
 import 'package:glowup/Screens/Customer/Salons/salons_screen.dart';
@@ -18,8 +20,8 @@ class NavBarScreen extends StatelessWidget {
   ];
 
   final List<String> labels = const [
-    "Home",
-    "Salons",
+    "Services",
+    "Providers",
     "Bookings",
     "Me",
   ];
@@ -37,9 +39,9 @@ class NavBarScreen extends StatelessWidget {
                 IndexedStack(
   index: state.selectedIndex,
   children: const [
-    HomeScreen(),
-    SalonsScreen(),
-    BookingsScreen(),
+    ServicesScreen(),
+    ProvidersScreen(),
+    AppointmentsScreen(),
     ProfileScreen(),
   ],
 ),
