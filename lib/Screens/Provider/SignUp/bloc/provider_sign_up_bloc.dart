@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-part 'sign_up_event.dart';
-part 'sign_up_state.dart';
+part 'provider_sign_up_event.dart';
+part 'provider_sign_up_state.dart';
 
-class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  // List of the text for the "Sign_Up" screen title
+class ProviderSignUpBloc
+    extends Bloc<ProviderSignUpEvent, ProviderSignUpState> {
   List<String> titleText = ["Get Started", "Choose Location", "Verification"];
 
   int currentPage = 0;
@@ -24,23 +24,24 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   // Textfields controllers
   TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController addressController = TextEditingController();
 
-  SignUpBloc() : super(SignUpInitial()) {
-    on<SignUpEvent>((event, emit) {});
+  ProviderSignUpBloc() : super(ProviderSignUpInitial()) {
+    // List of the text for the "Sign_Up" screen title
 
-    on<CreateAccountEvent>(createAccountMethod);
+    on<CreateProviderAccountEvent>(createAccountMethod);
     on<SendConfermationEvent>(sendConfermationMethod);
     on<UpdateUIEvent>(updatePageViewMethod);
   }
 
   // Main Validation Method
   FutureOr<void> createAccountMethod(
-    CreateAccountEvent event,
-    Emitter<SignUpState> emit,
+    CreateProviderAccountEvent event,
+    Emitter<ProviderSignUpState> emit,
   ) async {
     if (signUpformKey.currentState!.validate()) {
       await changePage();
@@ -66,7 +67,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   Future<void> updatePageViewMethod(
     UpdateUIEvent event,
-    Emitter<SignUpState> emit,
+    Emitter<ProviderSignUpState> emit,
   ) async {
     // Don't forget to add the validation for the textfields
     await changePage();
@@ -78,6 +79,15 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       return "This field is required";
     } else if (text.length < 3) {
       return "the name should atleast be 4 charectars long";
+    } else {
+      return null;
+    }
+  }
+
+  // Need to add validation for the phone
+  String? phoneValidation({String? text}) {
+    if (text == null || text.isEmpty) {
+      return "This field is required";
     } else {
       return null;
     }
@@ -122,7 +132,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   FutureOr<void> sendConfermationMethod(
     SendConfermationEvent event,
-    Emitter<SignUpState> emit,
+    Emitter<ProviderSignUpState> emit,
   ) async {
     if (locaionFormKey.currentState!.validate()) {
       await changePage();

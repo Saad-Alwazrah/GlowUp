@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glowup/Screens/Customer/SignUp/sign_up_screen.dart';
 import 'package:glowup/Screens/Shared/Onboarding/onboarding_screen.dart';
 import 'package:glowup/Styles/theme.dart';
 import 'package:glowup/Utilities/setup.dart';
@@ -9,7 +11,15 @@ void main() async {
   // Ensure that the setup is completed before running the app
   // This is where we initialize services, load environment variables, etc.
   await setup();
-  runApp(const MyApp());
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: [Locale("en"), Locale("ar")],
+      path: "assets/translations",
+      child:
+        MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -21,9 +31,15 @@ class MyApp extends StatelessWidget {
       designSize: const Size(402, 952),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) =>
-          MaterialApp(theme: lightTheme, darkTheme: darkTheme, home: child),
-      child: const OnboardingScreen(),
+      builder: (context, child) => MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        home: child,
+      ),
+      child: SignUpScreen(),
     );
   }
 }
