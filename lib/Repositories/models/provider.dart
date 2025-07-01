@@ -23,6 +23,9 @@ class Provider {
   late int? ratingCount;
   late double? latitude;
   late double? longitude;
+  String? avatarUrl;
+  String? bannerUrl;
+
   late String? mapsUrl;
   String? distanceFromUser;
   List<Stylist> stylists = [];
@@ -38,6 +41,8 @@ class Provider {
     ratingCount = json['rating_count'] as int?;
     latitude = json['latitude'] as double?;
     longitude = json['longitude'] as double?;
+    avatarUrl = json['avatar_url'] ?? '';
+    bannerUrl = json['banner_url'] ?? '';
     mapsUrl = json['maps_url'] as String?;
   }
 
@@ -52,6 +57,8 @@ class Provider {
     _data['rating_count'] = ratingCount;
     _data['latitude'] = latitude;
     _data['longitude'] = longitude;
+    _data['avatar_url'] = avatarUrl;
+    _data['banner_url'] = bannerUrl;
     _data['maps_url'] = mapsUrl;
     return _data;
   }

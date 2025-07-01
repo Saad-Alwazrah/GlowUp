@@ -1,3 +1,6 @@
+// ignore_for_file: body_might_complete_normally_catch_error
+
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -54,6 +57,7 @@ class SupabaseConnect {
         log("Data fetched successfully");
       });
       log("Data fetched in ${stopwatch.elapsedMilliseconds} ms");
+      log("Services: ${jsonEncode(services)}");
     } catch (e) {
       log("Error fetching data: $e");
     }
@@ -243,6 +247,128 @@ class SupabaseConnect {
       }
     }
     log("Data linked in ${stopwatch.elapsedMicroseconds} µs");
+  }
+
+  /// Uploads or replaces the authenticated user’s avatar.
+  /// Returns true if the upload was successful.
+  Future<bool?> uploadUserAvatar({
+    required String localFilePath,
+    required String userId,
+  }) async {
+    final bucket = supabase.client.storage.from('assets');
+    final remotePath = 'users/$userId/avatar.jpg';
+
+    // Delete existing avatar (if any)
+    await bucket.remove([remotePath]).catchError((_) {});
+
+    // Upload new file
+    try {
+      await supabase.client
+          .from('profiles')
+          .update({'avatar_url': remotePath})
+          .eq('id', userId);
+      userProfile.avatarUrl = bucket.getPublicUrl(remotePath);
+    } catch (e) {
+      log('Avatar upload error: $e');
+      return false;
+    }
+
+    return true;
+  }
+
+  /// Deletes the authenticated user’s avatar.
+  /// Returns true if deletion succeeded.
+  Future<bool> deleteUserAvatar({required String userId}) async {
+    final bucket = supabase.client.storage.from('public-assets');
+    final remotePath = 'users/$userId/avatar.jpg';
+
+    try {
+      await bucket.remove([remotePath]).catchError((_) {});
+      await supabase.client
+          .from('profiles')
+          .update({'avatar_url': null})
+          .eq('id', userId);
+      userProfile.avatarUrl = null;
+    } catch (e) {
+      log('Avatar deletion error: $e');
+      return false;
+    }
+    return true;
+  }
+
+  /// Uploads or replaces a provider’s banner image.
+  /// Returns the public URL of the uploaded banner.
+  Future<bool?> uploadProviderBanner({
+    required String localFilePath,
+    required String providerId,
+  }) async {
+    final bucket = supabase.client.storage.from('public-assets');
+    final remotePath = 'providers/$providerId/banner.jpg';
+
+    // Delete existing banner (if any)
+    await bucket.remove([remotePath]).catchError((_) {});
+
+    try {
+      await supabase.client
+          .from('providers')
+          .update({'banner_url': remotePath})
+          .eq('id', providerId);
+      providers.firstWhere((p) => p.id == providerId).bannerUrl = bucket
+          .getPublicUrl(remotePath);
+    } catch (e) {
+      log('Banner upload error: $e');
+      return false;
+    }
+
+    return true;
+  }
+
+  /// Deletes a provider’s banner image.
+  /// Returns true if deletion succeeded.
+  Future<bool> deleteProviderBanner({required String providerId}) async {
+    final bucket = supabase.client.storage.from('public-assets');
+    final remotePath = 'providers/$providerId/banner.jpg';
+
+    try {
+      await bucket.remove([remotePath]).catchError((_) {});
+      await supabase.client
+          .from('providers')
+          .update({'banner_url': null})
+          .eq('id', providerId);
+      providers.firstWhere((p) => p.id == providerId).bannerUrl = null;
+      return true;
+    } catch (e) {
+      log('Banner deletion error: $e');
+      return false;
+    }
+  }
+
+  /// Uploads an image for a specific service.
+  /// Returns the public URL of the uploaded service image.
+  Future<bool?> uploadServiceImage({
+    required String localFilePath,
+    required int providerId,
+    required int serviceId,
+  }) async {
+    final bucket = supabase.client.storage.from('public-assets');
+    final remotePath = 'providers/$providerId/services/$serviceId.jpg';
+
+    // Delete existing service image (if any)
+    await bucket.remove([remotePath]).catchError((_) {});
+
+    try {
+      await supabase.client
+          .from('services')
+          .update({'image_url': remotePath})
+          .eq('id', serviceId);
+      services.firstWhere((s) => s.id == serviceId).imageUrl = bucket
+          .getPublicUrl(remotePath);
+    } catch (e) {
+      log('Service image upload error: $e');
+      return false;
+    }
+
+    return true;
   }
 
   Future<bool> signUpNewUser({

@@ -16,6 +16,7 @@ class Profile {
   late final String role;
   late double? latitude;
   late double? longitude;
+  String? avatarUrl;
   late final String? mapsUrl;
 
   Profile.fromJson(Map<String, dynamic> json) {
@@ -26,6 +27,7 @@ class Profile {
     role = json['role'];
     latitude = json['latitude'] as double?;
     longitude = json['longitude'] as double?;
+    avatarUrl = json['avatar_url'] ?? '';
     mapsUrl = json['maps_url'] as String?;
   }
 
@@ -38,6 +40,7 @@ class Profile {
     _data['role'] = role;
     _data['latitude'] = latitude;
     _data['longitude'] = longitude;
+    _data['avatar_url'] = avatarUrl;
     _data['maps_url'] = mapsUrl;
     return _data;
   }

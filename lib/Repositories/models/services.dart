@@ -16,6 +16,9 @@ class Services {
   late final int durationMinutes;
   late final double price;
   late final String providerId;
+  late final String imageUrl;
+  late final String category;
+  late final String subCategory;
   List<Stylist> stylists = [];
   Provider? provider;
 
@@ -26,6 +29,9 @@ class Services {
     durationMinutes = json['duration_minutes'];
     price = json['price'];
     providerId = json['provider_id'];
+    imageUrl = json['image_url'] ?? '';
+    category = json['category'] ?? '';
+    subCategory = json['sub_category'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -36,6 +42,9 @@ class Services {
     _data['duration_minutes'] = durationMinutes;
     _data['price'] = price;
     _data['provider_id'] = providerId;
+    _data['image_url'] = imageUrl;
+    _data['category'] = category;
+    _data['sub_category'] = subCategory;
     return _data;
   }
 }
