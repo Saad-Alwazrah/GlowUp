@@ -8,11 +8,10 @@ import 'package:glowup/Screens/Shared/splash/splash.dart';
 import 'package:glowup/Screens/Customer/SignUp/sign_up_screen.dart';
 import 'package:glowup/Styles/theme.dart';
 import 'package:glowup/Utilities/setup.dart';
+import 'package:glowup/CustomWidgets/Customer/Categories/bloc/categories_bloc.dart'; // 👈 make sure this is imported
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Ensure that the setup is completed before running the app
-  // This is where we initialize services, load environment variables, etc.
   await setup();
 
   runApp(
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         theme: lightTheme,
         darkTheme: darkTheme,
-        initialRoute: '/splashscreen',
+        initialRoute: '/navbar',
         routes: {
           '/splashscreen': (context) => const SplashScreen(),
           '/onboarding': (context) => const OnboardingScreen(),
