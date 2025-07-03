@@ -1,9 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:glowup/CustomWidgets/Shared/CustomMaps/custom_maps.dart';
 import 'package:glowup/CustomWidgets/shared/custom_textfield.dart';
 import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
-import 'package:glowup/Styles/app_colors.dart';
-import 'package:glowup/Utilities/extensions/screen_size.dart';
 
 class SecondPageView extends StatelessWidget {
   GlobalKey<FormState> formKey;
@@ -17,7 +16,7 @@ class SecondPageView extends StatelessWidget {
     required this.controller,
     required this.addressValidation,
     required this.pressedMethod,
-    required this.formKey
+    required this.formKey,
   });
 
   @override
@@ -28,12 +27,7 @@ class SecondPageView extends StatelessWidget {
         // Relpace the placeholder with googleMap instance
 
         // The size of the instance
-        Container(
-          width: context.getScreenWidth(size: 0.8),
-          height: 72,
-          decoration: BoxDecoration(color: AppColors.goldenPeachDark),
-          child: Placeholder(),
-        ),
+        CustomMaps(),
         Form(
           key: formKey,
           child: CustomTextfield(

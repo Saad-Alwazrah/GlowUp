@@ -4,12 +4,14 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:glowup/Repositories/models/appointment.dart';
 import 'package:glowup/Repositories/models/availability_slot.dart';
 import 'package:glowup/Repositories/models/profile.dart';
 import 'package:glowup/Repositories/models/provider.dart';
 import 'package:glowup/Repositories/models/services.dart';
 import 'package:glowup/Repositories/models/stylist.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseConnect {
@@ -21,9 +23,11 @@ class SupabaseConnect {
   List<AvailabilitySlot> availabilitySlots = [];
   List<Map<String, dynamic>> distances = [];
   List<Map<String, dynamic>> serviceStylists = [];
+  late Position userLocation;
 
   late Profile userProfile;
   User? user;
+  Provider? theProvider;
 
   String getEmail() {
     return user?.email?.trim() ?? '';
@@ -374,27 +378,81 @@ class SupabaseConnect {
   Future<bool> signUpNewUser({
     required String email,
     required String password,
+    required String username,
+    required LatLng position,
   }) async {
-    final AuthResponse res = await supabase.client.auth.signUp(
-      email: email,
-      password: password,
-    );
-    final Session? session = res.session;
-    final User? user = res.user;
-    this.user = user;
-    final resClient = supabase.client;
-    final userProfileResponse = await resClient
-        .from("profiles")
-        .select("*")
-        .eq("id", user!.id)
-        .single();
-    userProfile = Profile.fromJson(userProfileResponse);
+    try {
+      final resClient = supabase.client;
+      final AuthResponse res = await resClient.auth.signUp(
+        email: email,
+        password: password,
+      );
+      final User? user = res.user;
+      this.user = user;
+      userProfile = Profile(
+        id: user!.id,
+        fullName: "",
+        role: "customer",
+        latitude: position.latitude,
+        longitude: position.longitude,
+        phone: null,
+        username: username,
+      );
+    } catch (e) {
+      log("Error signing up user: $e");
+      return false;
+    }
 
-    if (session != null) {
-      log("User signed up as: ${user.email}");
+    try {
+      final resClient = supabase.client;
+      await resClient.from("profiles").upsert(userProfile.toJson());
       return true;
-    } else {
-      log("Sign in failed");
+    } catch (e) {
+      log("Error creating user profile: $e");
+      return false;
+    }
+  }
+
+  Future<bool> signUpNewProvider({
+    required String email,
+    required String password,
+    required String number,
+    required String username,
+    required String address,
+    required LatLng position,
+  }) async {
+    try {
+      final resClient = supabase.client;
+      final AuthResponse res = await resClient.auth.signUp(
+        email: email,
+        password: password,
+      );
+      final User? user = res.user;
+      this.user = user;
+      userProfile = Profile(
+        id: user!.id,
+        fullName: "",
+        role: "provider",
+        phone: number,
+        username: username,
+      );
+      final newProvider = Provider(
+        id: user.id,
+        name: "",
+        phone: number,
+        address: address,
+        latitude: position.latitude,
+        longitude: position.longitude,
+        createdAt: DateTime.now().toIso8601String(),
+        avgRating: null,
+        ratingCount: 0,
+      );
+
+      await resClient.from("profiles").upsert(userProfile.toJson());
+      await resClient.from("providers").upsert(newProvider.toJson());
+      return true;
+    } catch (e) {
+      log("Error signing up provider: $e");
       return false;
     }
   }
@@ -410,6 +468,7 @@ class SupabaseConnect {
     final Session? session = res.session;
     final User? user = res.user;
     this.user = user;
+
     final resClient = supabase.client;
     final userProfileResponse = await resClient
         .from("profiles")
@@ -418,6 +477,18 @@ class SupabaseConnect {
         .single();
     userProfile = Profile.fromJson(userProfileResponse);
 
+    if (userProfile.role == "customer") {
+      await getDistancesFromUser();
+      linkData();
+    } else if (userProfile.role == "provider") {
+      final providerResponse = await resClient
+          .from("providers")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+      theProvider = Provider.fromJson(providerResponse);
+      // Fetch provider-specific data if needed
+    }
     if (session != null) {
       log("User signed in: ${user.email}");
       return true;

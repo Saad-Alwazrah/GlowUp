@@ -1,10 +1,8 @@
-import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:glowup/Repositories/api/supabase_connect.dart';
-import 'package:glowup/main.dart';
+import 'package:glowup/Repositories/layers/location_data.dart';
 
 Future<void> setup() async {
   // Alternatively you could write it if you don't like global variables
@@ -16,7 +14,8 @@ Future<void> setup() async {
 
     return supabaseConnect;
   });
-
+  GetIt.I.registerSingleton<LocationData>(LocationData());
   await EasyLocalization.ensureInitialized();
+
   await GetIt.I.allReady();
 }

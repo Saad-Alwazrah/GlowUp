@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:glowup/CustomWidgets/Customer/filter_pop_up.dart';
-
+import 'package:glowup/CustomWidgets/Shared/filter_pop_up.dart';
 
 class CustomSearchBar extends StatelessWidget {
   final TextEditingController controller;
@@ -18,10 +16,7 @@ class CustomSearchBar extends StatelessWidget {
   });
 
   void _showFilterDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const FilterPopup(),
-    );
+    showDialog(context: context, builder: (context) => const FilterPopup());
   }
 
   @override
@@ -29,17 +24,15 @@ class CustomSearchBar extends StatelessWidget {
     return Container(
       width: 349,
       height: 49,
-     
+
       decoration: BoxDecoration(
-      
         color: Colors.white,
         borderRadius: BorderRadius.circular(100),
-       
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Row(
         children: [
-          Icon(leftIcon, color: Color(0xFF2E2E2E),),
+          Icon(leftIcon, color: Color(0xFF2E2E2E)),
           const SizedBox(width: 8),
           Expanded(
             child: TextField(
@@ -55,7 +48,7 @@ class CustomSearchBar extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () => _showFilterDialog(context),
-            child: Icon(rightIcon, color: Color(0xFF2E2E2E),),
+            child: Icon(rightIcon, color: Color(0xFF2E2E2E)),
           ),
         ],
       ),

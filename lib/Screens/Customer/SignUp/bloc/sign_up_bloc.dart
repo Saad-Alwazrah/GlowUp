@@ -2,7 +2,12 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
+import 'package:glowup/Repositories/api/supabase_connect.dart';
+import 'package:glowup/Repositories/layers/location_data.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 
 part 'sign_up_event.dart';
@@ -11,6 +16,9 @@ part 'sign_up_state.dart';
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   // List of the text for the "Sign_Up" screen title
   List<String> titleText = ["Get Started", "Choose Location", "Verification"];
+  final locationData = GetIt.I.get<LocationData>();
+  final supabase = GetIt.I.get<SupabaseConnect>();
+  LatLng? position;
 
   int currentPage = 0;
 
@@ -20,7 +28,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   // Form keys for the forms
   final signUpformKey = GlobalKey<FormState>();
 
-  final locaionFormKey = GlobalKey<FormState>();
+  final locationFormKey = GlobalKey<FormState>();
 
   // Textfields controllers
   TextEditingController nameController = TextEditingController();
@@ -36,6 +44,17 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<SendConfermationEvent>(sendConfermationMethod);
     on<UpdateUIEvent>(updatePageViewMethod);
   }
+  @override
+  Future<void> close() {
+    // Dispose of the controllers when the bloc is closed
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    addressController.dispose();
+    pageController.dispose();
+    return super.close();
+  }
 
   // Main Validation Method
   FutureOr<void> createAccountMethod(
@@ -43,7 +62,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     Emitter<SignUpState> emit,
   ) async {
     if (signUpformKey.currentState!.validate()) {
-      await changePage();
+      changePage();
       emit(SuccessState());
     } else {
       emit(ErrorState());
@@ -124,9 +143,19 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SendConfermationEvent event,
     Emitter<SignUpState> emit,
   ) async {
-    if (locaionFormKey.currentState!.validate()) {
-      await changePage();
-      emit(SuccessState());
+    if (locationFormKey.currentState!.validate()) {
+      final signUpStatus = await supabase.signUpNewUser(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        username: nameController.text.trim(),
+        position: position!,
+      );
+      if (signUpStatus) {
+        await changePage();
+        emit(SuccessState());
+      } else {
+        emit(ErrorState());
+      }
     } else {
       emit(ErrorState());
     }
@@ -135,7 +164,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   String? addressValidation({String? text}) {
     if (text == null || text.isEmpty) {
       return "This field is required";
+    } else if (locationData.marker == null) {
+      return "Please select a location";
     } else {
+      position = locationData.marker!.position;
+      locationData.marker = null;
       return null;
     }
   }

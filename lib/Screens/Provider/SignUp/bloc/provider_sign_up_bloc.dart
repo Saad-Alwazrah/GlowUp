@@ -3,6 +3,10 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:glowup/Repositories/api/supabase_connect.dart';
+import 'package:glowup/Repositories/layers/location_data.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 
 part 'provider_sign_up_event.dart';
@@ -13,6 +17,9 @@ class ProviderSignUpBloc
   List<String> titleText = ["Get Started", "Choose Location", "Verification"];
 
   int currentPage = 0;
+  final locationData = GetIt.I.get<LocationData>();
+  final supabase = GetIt.I.get<SupabaseConnect>();
+  LatLng? position;
 
   // Pageview controller
   PageController pageController = PageController();
@@ -20,7 +27,7 @@ class ProviderSignUpBloc
   // Form keys for the forms
   final signUpformKey = GlobalKey<FormState>();
 
-  final locaionFormKey = GlobalKey<FormState>();
+  final locationFormKey = GlobalKey<FormState>();
 
   // Textfields controllers
   TextEditingController nameController = TextEditingController();
@@ -36,6 +43,18 @@ class ProviderSignUpBloc
     on<CreateProviderAccountEvent>(createAccountMethod);
     on<SendConfermationEvent>(sendConfermationMethod);
     on<UpdateUIEvent>(updatePageViewMethod);
+  }
+  @override
+  Future<void> close() {
+    // Dispose of the controllers when the bloc is closed
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    phoneController.dispose();
+    addressController.dispose();
+    pageController.dispose();
+    return super.close();
   }
 
   // Main Validation Method
@@ -134,9 +153,21 @@ class ProviderSignUpBloc
     SendConfermationEvent event,
     Emitter<ProviderSignUpState> emit,
   ) async {
-    if (locaionFormKey.currentState!.validate()) {
-      await changePage();
-      emit(SuccessState());
+    if (locationFormKey.currentState!.validate()) {
+      final signUpStatus = await supabase.signUpNewProvider(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        username: nameController.text.trim(),
+        number: phoneController.text.trim(),
+        address: addressController.text.trim(),
+        position: position!,
+      );
+      if (signUpStatus) {
+        await changePage();
+        emit(SuccessState());
+      } else {
+        emit(ErrorState());
+      }
     } else {
       emit(ErrorState());
     }
@@ -145,7 +176,11 @@ class ProviderSignUpBloc
   String? addressValidation({String? text}) {
     if (text == null || text.isEmpty) {
       return "This field is required";
+    } else if (locationData.marker == null) {
+      return "Please select a location";
     } else {
+      position = locationData.marker!.position;
+      locationData.marker = null;
       return null;
     }
   }

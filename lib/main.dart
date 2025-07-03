@@ -2,13 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/Screens/Customer/NavBar/nav_bar_screen.dart';
+import 'package:glowup/Screens/Provider/NavBar/provider_nav_bar_screen.dart';
+import 'package:glowup/Screens/Provider/SignUp/provider_sign_up_screen.dart';
 import 'package:glowup/Screens/Shared/Login/login_screen.dart';
 import 'package:glowup/Screens/Shared/Onboarding/onboarding_screen.dart';
 import 'package:glowup/Screens/Shared/splash/splash.dart';
 import 'package:glowup/Screens/Customer/SignUp/sign_up_screen.dart';
 import 'package:glowup/Styles/theme.dart';
 import 'package:glowup/Utilities/setup.dart';
-import 'package:glowup/CustomWidgets/Customer/Categories/bloc/categories_bloc.dart'; // 👈 make sure this is imported
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,13 +39,15 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         theme: lightTheme,
         darkTheme: darkTheme,
-        initialRoute: '/navbar',
+        initialRoute: '/onboarding',
         routes: {
           '/splashscreen': (context) => const SplashScreen(),
           '/onboarding': (context) => const OnboardingScreen(),
           '/signup': (context) => const SignUpScreen(),
           '/login': (context) => const LoginScreen(),
           '/navbar': (context) => const NavBarScreen(),
+          '/providerSignup': (context) => const ProviderSignUpScreen(),
+          '/providernavbar': (context) => const ProviderNavBarScreen(),
         },
       ),
     );
