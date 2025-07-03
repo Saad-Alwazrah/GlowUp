@@ -25,7 +25,7 @@ class SupabaseConnect {
   List<Map<String, dynamic>> serviceStylists = [];
   late Position userLocation;
 
-  late Profile userProfile;
+  Profile? userProfile;
   User? user;
   Provider? theProvider;
 
@@ -40,8 +40,37 @@ class SupabaseConnect {
         anonKey: dotenv.env['ANON_KEY']!,
       );
       await fetchData();
+      await isLoggedIn();
     } catch (e) {
       log("Supabase initialization failed: $e");
+    }
+  }
+
+  Future<void> isLoggedIn() async {
+    if (supabase.client.auth.currentUser != null) {
+      user = supabase.client.auth.currentUser;
+      final resClient = supabase.client;
+      final userProfileResponse = await resClient
+          .from("profiles")
+          .select("*")
+          .eq("id", user!.id)
+          .single();
+      userProfile = Profile.fromJson(userProfileResponse);
+
+      if (userProfile?.role == "customer") {
+        await getDistancesFromUser();
+        linkData();
+      } else if (userProfile?.role == "provider") {
+        final providerResponse = await resClient
+            .from("providers")
+            .select("*")
+            .eq("id", user!.id)
+            .single();
+        theProvider = Provider.fromJson(providerResponse);
+        // Fetch provider-specific data if needed
+      }
+    } else {
+      log("No user is currently authenticated");
     }
   }
 
@@ -144,7 +173,7 @@ class SupabaseConnect {
       final distancesRes = await resClient
           .rpc(
             "providers_with_distance",
-            params: {"p_profile_id": userProfile.id},
+            params: {"p_profile_id": userProfile?.id},
           )
           .select("*");
       // The above RPC function should return a list of providers with their distances
@@ -271,7 +300,7 @@ class SupabaseConnect {
           .from('profiles')
           .update({'avatar_url': remotePath})
           .eq('id', userId);
-      userProfile.avatarUrl = bucket.getPublicUrl(remotePath);
+      userProfile?.avatarUrl = bucket.getPublicUrl(remotePath);
     } catch (e) {
       log('Avatar upload error: $e');
       return false;
@@ -292,7 +321,7 @@ class SupabaseConnect {
           .from('profiles')
           .update({'avatar_url': null})
           .eq('id', userId);
-      userProfile.avatarUrl = null;
+      userProfile?.avatarUrl = null;
     } catch (e) {
       log('Avatar deletion error: $e');
       return false;
@@ -405,7 +434,7 @@ class SupabaseConnect {
 
     try {
       final resClient = supabase.client;
-      await resClient.from("profiles").upsert(userProfile.toJson());
+      await resClient.from("profiles").upsert(userProfile!.toJson());
       return true;
     } catch (e) {
       log("Error creating user profile: $e");
@@ -448,7 +477,7 @@ class SupabaseConnect {
         ratingCount: 0,
       );
 
-      await resClient.from("profiles").upsert(userProfile.toJson());
+      await resClient.from("profiles").upsert(userProfile!.toJson());
       await resClient.from("providers").upsert(newProvider.toJson());
       return true;
     } catch (e) {
@@ -477,10 +506,10 @@ class SupabaseConnect {
         .single();
     userProfile = Profile.fromJson(userProfileResponse);
 
-    if (userProfile.role == "customer") {
+    if (userProfile?.role == "customer") {
       await getDistancesFromUser();
       linkData();
-    } else if (userProfile.role == "provider") {
+    } else if (userProfile?.role == "provider") {
       final providerResponse = await resClient
           .from("providers")
           .select("*")
@@ -494,6 +523,20 @@ class SupabaseConnect {
       return true;
     } else {
       log("Sign in failed");
+      return false;
+    }
+  }
+
+  Future<bool> signOut() async {
+    try {
+      await supabase.client.auth.signOut();
+      user = null;
+      userProfile = null;
+      theProvider = null;
+      log("User signed out successfully");
+      return true;
+    } catch (e) {
+      log("Error signing out: $e");
       return false;
     }
   }

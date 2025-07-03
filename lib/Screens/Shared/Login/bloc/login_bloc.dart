@@ -32,9 +32,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         password: passwordController.text,
       );
       if (loginStatus) {
-        if (supabase.userProfile.role == "customer") {
+        if (supabase.userProfile?.role == "customer") {
           emit(CustomerLoggedIn());
-        } else if (supabase.userProfile.role == "provider") {
+        } else if (supabase.userProfile?.role == "provider") {
           emit(ProviderLoggedIn());
         }
       }
