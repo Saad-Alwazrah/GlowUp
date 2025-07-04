@@ -44,5 +44,34 @@
     "Enter Full Name" : "Enter Full Name",
     "Enter Email" : "Enter Password",
     "Enter Password" : "Enter Password",
-    "Confirm Password" : "Confirm Password"
+    "Confirm Password" : "Confirm Password",
+    "Dark mode": "Dark mode",
+    "Dark mode toggled": "Dark mode toggled",
+  "SAR": "SAR",
+  "No address": "No address",
+  "Service Name": "Service Name",
+  "Price": "Price",
+   "Search bookings": "Search bookings",
+  "pending": "Pending",
+  "status": "Status",
+  "paid": "Paid",
+  "Pending": "Pending",
+  "Status": "Status",
+  "Paid": "Paid",
+  "completed": "Completed",
+    "Completed": "Completed",
+  "No bookings found.": "No bookings found.",
+ "cancel": "Cancelled",
+ "dark_mode": "Dark Mode",
+ 
+  "home": "Home",
+  "providers": "Providers",
+  "bookings": "Bookings",
+  "me": "Me"
+
+
+
+
+
+
 }

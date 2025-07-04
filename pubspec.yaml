@@ -36,7 +36,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 
 flutter_launcher_icons:
-  image_path: "lib/assets/images/logo_glow_up.png"
+  image_path: "assets/images/logo_glow_up-2.png"
   android: true
   ios: true
 

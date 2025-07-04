@@ -1,121 +1,118 @@
 import 'package:flutter/material.dart';
-import 'package:glowup/Repositories/models/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glowup/Repositories/models/appointment.dart';
 
-import 'package:glowup/Repositories/models/services.dart';
+class BookingCard extends StatelessWidget {
+  final Appointment appointment;
 
-class ServiceCard extends StatelessWidget {
-  final Services service;
-  final Provider provider;
-  final double rating;
-  final String imageUrl;
-
-  const ServiceCard({
-    super.key,
-    required this.service,
-    required this.rating,
-    required this.imageUrl,
-    required this.provider,
-  });
+  const BookingCard({super.key, required this.appointment});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    final serviceName = appointment.service?.name ?? "Service".tr();
+    final stylistName = appointment.stylist?.name ?? "Stylist".tr();
+    final providerName = appointment.provider?.name ?? "Salon".tr();
+    final atHome = appointment.atHome ? "At Home".tr() : "In Salon".tr();
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// Image & Overlays
-          Stack(
+          // Service name
+          Text(
+            serviceName,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+  fontWeight: FontWeight.w600,
+),
+
+          ),
+         SizedBox(height: 8.h),
+
+          // Date + Time
+          Column(
             children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-                child: Image.network(
-                  imageUrl,
-                  height: 160,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+                   SizedBox(width: 10.w),
+                  Text(appointment.appointmentDate),
+                ],
               ),
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    provider.name,
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        rating.toString(),
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(
-                        Icons.star,
-                        color: Color(0xFFF4C465),
-                        size: 16,
-                      ),
-                    ],
-                  ),
-                ),
+             SizedBox(height: 4.h),
+              Row(
+                children: [
+                  const Icon(Icons.access_time, size: 16, color: Colors.grey),
+                  const SizedBox(width: 10),
+                  Text("${appointment.appointmentStart} - ${appointment.appointmentEnd}"),
+                ],
               ),
             ],
           ),
+          SizedBox(height: 4.h),
 
-          /// Details
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  service.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+          // Stylist & Provider
+          Column(
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.person, size: 16, color: Colors.grey),
+                  SizedBox(width: 10.w),
+                  Text(stylistName),
+                ],
+              ),
+              SizedBox(height: 4.h),
+              Row(
+                children: [
+                  const Icon(Icons.store, size: 16, color: Colors.grey),
+                SizedBox(width: 10.w),
+                  Text(providerName),
+                  const Spacer(),
+                  Container(
+                    width: 80.w,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    decoration: BoxDecoration(
+                      color: _statusColor(appointment.status),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Text(
+                      appointment.status.tr(), // TRANSLATED STATUS
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'SAR ${service.price.toStringAsFixed(0)}',
-                  style: const TextStyle(fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  provider.address ?? "",
-                  style: const TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
     );
   }
+
+  Color _statusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return Colors.orange;
+      case 'completed':
+        return Colors.blue;
+      case 'paid':
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
+  }
 }
+
+

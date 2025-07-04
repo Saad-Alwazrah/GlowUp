@@ -16,7 +16,7 @@ ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: AppColors.goldenPeach,
   scaffoldBackgroundColor: AppColors.background,
-  cardColor: AppColors.softBrown,
+  cardColor: AppColors.white,
   textTheme: const TextTheme(
     bodyLarge: TextStyle(color: AppColors.darkText),
     bodyMedium: TextStyle(color: AppColors.darkText),
@@ -31,8 +31,8 @@ ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: AppColors.backgroundDark,
   cardColor: AppColors.cardDark,
   textTheme: const TextTheme(
-    bodyLarge: TextStyle(color: AppColors.lightTextDark),
-    bodyMedium: TextStyle(color: AppColors.mutedTextDark),
+    bodyLarge: TextStyle(color: AppColors.white),
+    bodyMedium: TextStyle(color: AppColors.darkText),
   ),
   iconTheme: const IconThemeData(color: AppColors.lightTextDark),
   useMaterial3: false,

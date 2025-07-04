@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glowup/CustomWidgets/Customer/filter_pop_up.dart';
+import 'package:glowup/Styles/app_colors.dart';
 
 
 class CustomSearchBar extends StatelessWidget {
@@ -32,15 +34,17 @@ class CustomSearchBar extends StatelessWidget {
      
       decoration: BoxDecoration(
       
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(100),
+         color: Theme.of(context).cardColor, 
+    borderRadius: BorderRadius.circular(100),
        
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Row(
         children: [
-          Icon(leftIcon, color: Color(0xFF2E2E2E),),
-          const SizedBox(width: 8),
+          Icon(leftIcon, color: Theme.of(context).brightness == Brightness.dark
+        ? AppColors.white
+        : AppColors.darkText,),
+           SizedBox(width: 8.w),
           Expanded(
             child: TextField(
               controller: controller,
@@ -55,8 +59,11 @@ class CustomSearchBar extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () => _showFilterDialog(context),
-            child: Icon(rightIcon, color: Color(0xFF2E2E2E),),
-          ),
+            child: Icon(rightIcon,    color: Theme.of(context).brightness == Brightness.dark
+        ? AppColors.white
+        : AppColors.darkText,
+  ),),
+          
         ],
       ),
     );

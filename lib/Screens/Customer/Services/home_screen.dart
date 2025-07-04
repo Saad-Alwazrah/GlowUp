@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/Customer/Categories/Categories_widget.dart';
 import 'package:glowup/CustomWidgets/Customer/search_bar.dart';
 import 'package:glowup/Screens/Customer/Services/bloc/home_bloc.dart';
@@ -33,7 +34,7 @@ class HomeScreen extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 100),
+                 SizedBox(height: 100.h),
                 const Padding(
                   padding: EdgeInsets.only(left: 50),
                   child: Text("Hello, Sara", style: AppFonts.black32),

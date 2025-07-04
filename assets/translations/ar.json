@@ -44,5 +44,31 @@
     "Enter Full Name" : "الاسم الكامل",
     "Enter Email" : "البريد الإلكتروني",
     "Enter Password" : "كلمة المرور",
-    "Confirm Password" : "تأكيد كلمة المرور"
+    "Confirm Password" : "تأكيد كلمة المرور", 
+    "Dark mode": "الوضع الداكن",
+    "Dark mode toggled": "تم تفعيل الوضع الداكن",
+     "Search bookings": "البحث في الحجوزات",
+  "pending": "قيد الانتظار",
+  "status": "ملغي",
+  "paid": "مدفوع",
+   "Pending": "قيد الانتظار",
+  "Status": "ملغي",
+  "Paid": "مدفوع",
+  "completed": "مكتمل",
+   "Completed": "مكتمل",
+  "No bookings found.": "لا توجد حجوزات",
+    "cancel": "تم الإلغاء",
+    "dark_mode": "الوضع الداكن",
+    
+  "home": "الرئيسية",
+  "providers": "المراكز",
+  "bookings": "الحجوزات",
+  "me": "حسابي"
+
+
+
+
+
+
+
 }
