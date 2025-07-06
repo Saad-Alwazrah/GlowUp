@@ -6,6 +6,7 @@ import 'package:glowup/Repositories/api/supabase_connect.dart';
 import 'package:glowup/Screens/Customer/BookingConfirmation/booking_confirmation_screen.dart';
 import 'package:glowup/Screens/Customer/Help/help_screen.dart';
 import 'package:glowup/Screens/Customer/NavBar/nav_bar_screen.dart';
+import 'package:glowup/Screens/Provider/About/provider_about_screen.dart';
 
 import 'package:glowup/Screens/Provider/NavBar/provider_nav_bar_screen.dart';
 import 'package:glowup/Screens/Provider/SignUp/provider_sign_up_screen.dart';
