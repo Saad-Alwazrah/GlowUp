@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,11 +17,24 @@ class ProfileScreen extends StatelessWidget {
       create: (context) => ProfileBloc(),
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (listenerContext, state) {
+          final bloc = listenerContext.read<ProfileBloc>();
           if (state is UserLoggedOut) {
             Navigator.pushReplacementNamed(context, '/onboarding');
-          } else if (state is LogOutError) {
+          }
+          if (state is LogOutError) {
             ScaffoldMessenger.of(
               listenerContext,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          }
+          if (state is UserAvatarUpdated) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Avatar updated successfully!")),
+            );
+            bloc.add(LoadProfileAvatar());
+          }
+          if (state is UpdateAvatarError) {
+            ScaffoldMessenger.of(
+              context,
             ).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },

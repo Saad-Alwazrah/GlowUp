@@ -12,3 +12,13 @@ final class LogOutError extends ProfileState {
 
   LogOutError(this.message);
 }
+
+final class UserAvatarUpdated extends ProfileState {}
+
+final class UserAvatarLoaded extends ProfileState {}
+
+final class UpdateAvatarError extends ProfileState {
+  final String message;
+
+  UpdateAvatarError(this.message);
+}

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:glowup/Repositories/models/services.dart';
 import 'package:glowup/Styles/app_colors.dart';
@@ -33,6 +34,8 @@ class ServiceCard extends StatelessWidget {
                       const Center(child: CircularProgressIndicator()),
 
                   fit: BoxFit.cover,
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error, color: Colors.red, size: 75.h),
                 ),
               ),
               Positioned(
