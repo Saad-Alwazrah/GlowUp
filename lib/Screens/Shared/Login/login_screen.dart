@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
+import 'package:glowup/CustomWidgets/shared/custom_auth_container.dart';
 import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
 import 'package:glowup/CustomWidgets/shared/custom_textfield.dart';
 import 'package:glowup/CustomWidgets/shared/onTap_text.dart';

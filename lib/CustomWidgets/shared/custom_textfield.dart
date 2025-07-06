@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:glowup/Styles/app_colors.dart';
 
 class CustomTextfield extends StatelessWidget {
   bool isPassword;
+  bool numbersOnly;
   final TextEditingController textFieldcontroller;
   final String textFieldHint;
   final String? Function(String?) validationMethod;
+  final String? initialText;
 
   CustomTextfield({
     super.key,
     required this.textFieldHint,
     required this.textFieldcontroller,
     this.isPassword = false,
+    this.numbersOnly = false,
     required this.validationMethod,
+    this.initialText,
   });
 
   @override
@@ -20,6 +25,8 @@ class CustomTextfield extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       child: TextFormField(
+        keyboardType: numbersOnly ? TextInputType.number : null,
+        inputFormatters: numbersOnly ? [FilteringTextInputFormatter.digitsOnly] : null,
         controller: textFieldcontroller,
         decoration: InputDecoration(
           filled: true,

@@ -7,18 +7,20 @@ class AppointmentsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        SizedBox(height: 96,),
-         Row(
-           children: [
-            SizedBox(width: 32,),
-             CustomSearchBar(
-                        controller: TextEditingController(),
-                        hintText: "Search bookings",
-                      ),
-           ],
-         ),
-      ],),
+      body: Column(
+        children: [
+          SizedBox(height: 96),
+          Row(
+            children: [
+              SizedBox(width: 32),
+              CustomSearchBar(
+                controller: TextEditingController(),
+                hintText: "Search bookings",
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

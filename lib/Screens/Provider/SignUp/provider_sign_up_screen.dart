@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glowup/CustomWidgets/Provider/sign_up/pageviews/provider_first_pageview_sign_up.dart';
 import 'package:glowup/CustomWidgets/Provider/sign_up/pageviews/provider_second_pageview_sign_up.dart';
 import 'package:glowup/CustomWidgets/Provider/sign_up/pageviews/provider_third_pageview_sign_up.dart';
-import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
+import 'package:glowup/CustomWidgets/shared/custom_auth_container.dart';
 import 'package:glowup/Screens/Provider/SignUp/bloc/provider_sign_up_bloc.dart';
 import 'package:glowup/Styles/app_font.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

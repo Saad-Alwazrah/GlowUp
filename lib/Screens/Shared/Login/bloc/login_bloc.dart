@@ -43,6 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       return null;
     }
   }
+  
 String? passwordValidation({String? text}) {
     if (text == null || text.isEmpty) {
       return "This field is required";

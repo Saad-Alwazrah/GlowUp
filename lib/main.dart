@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/Screens/Customer/NavBar/nav_bar_screen.dart';
+import 'package:glowup/Screens/Provider/Profile/provider_profile_screen.dart';
 import 'package:glowup/Screens/Shared/Login/login_screen.dart';
 import 'package:glowup/Screens/Shared/Onboarding/onboarding_screen.dart';
 import 'package:glowup/Screens/Shared/splash/splash.dart';
@@ -38,14 +39,16 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         theme: lightTheme,
         darkTheme: darkTheme,
-        initialRoute: '/navbar',
-        routes: {
-          '/splashscreen': (context) => const SplashScreen(),
-          '/onboarding': (context) => const OnboardingScreen(),
-          '/signup': (context) => const SignUpScreen(),
-          '/login': (context) => const LoginScreen(),
-          '/navbar': (context) => const NavBarScreen(),
-        },
+        // initialRoute: '/navbar',
+        // routes: {
+        //   '/splashscreen': (context) => const SplashScreen(),
+        //   '/onboarding': (context) => const OnboardingScreen(),
+        //   '/signup': (context) => const SignUpScreen(),
+        //   '/login': (context) => const LoginScreen(),
+        //   '/navbar': (context) => const NavBarScreen(),
+        // },
+        home: ProviderProfileScreen(),
+        // 
       ),
     );
   }
