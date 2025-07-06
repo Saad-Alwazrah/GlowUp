@@ -44,94 +44,97 @@ class ProfileScreen extends StatelessWidget {
             builder: (context, state) {
               final bloc = context.read<ProfileBloc>();
 
-              return Center(
-                child: Column(
-                  children: [
-                    SizedBox(height: 100),
-                    GestureDetector(
-                      onTap: () {
-                        bloc.add(UpdateUserAvatar());
-                      },
-                      child: ClipOval(
-                        clipBehavior: Clip.hardEdge,
-                        child: CachedNetworkImage(
-                          imageUrl: bloc.supabase.userProfile?.avatarUrl ?? '',
-                          height: 120.h,
-                          width: 120.w,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.softBrown,
-                            ),
+              return Column(
+                children: [
+                  SizedBox(height: 100.h),
+                  GestureDetector(
+                    onTap: () {
+                      bloc.add(UpdateUserAvatar());
+                    },
+                    child: ClipOval(
+                      clipBehavior: Clip.hardEdge,
+                      child: CachedNetworkImage(
+                        imageUrl: bloc.supabase.userProfile?.avatarUrl ?? '',
+                        height: 120.h,
+                        width: 120.w,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.softBrown,
                           ),
-                          errorWidget: (context, url, error) {
-                            return Image.asset(
-                              "assets/images/profile.png",
-                              height: 120.h,
-                              width: 120.w,
-                              fit: BoxFit.cover,
-                            );
-                          },
                         ),
+                        errorWidget: (context, url, error) {
+                          return Image.asset(
+                            "assets/images/profile.png",
+                            height: 120.h,
+                            width: 120.w,
+                            fit: BoxFit.cover,
+                          );
+                        },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
-                      width: 324,
-                      height: 520,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.6),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              SizedBox(width: 20),
-                              SvgPicture.asset('assets/svgs/badge_name.svg'),
-                              SizedBox(width: 20),
-                              Text("Name", style: AppFonts.light16),
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 1,
-                            width: 297,
-                            color: AppColors.darkText.withValues(alpha: 0.08),
-                          ),
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              SizedBox(width: 20),
-                              SvgPicture.asset("assets/svgs/phone_number.svg"),
-                              SizedBox(width: 20),
-                              Text("Phone", style: AppFonts.light16),
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 1,
-                            width: 297,
-                            color: AppColors.darkText.withValues(alpha: 0.08),
-                          ),
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              SizedBox(width: 20),
-                              SvgPicture.asset("assets/svgs/email.svg"),
-                              SizedBox(width: 20),
-                              Text("Email", style: AppFonts.light16),
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 1,
-                            width: 297,
-                            color: AppColors.darkText.withValues(alpha: 0.08),
-                          ),
-                          SizedBox(height: 20),
-                          Row(
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    width: 324,
+                    height: 520,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.6),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            SizedBox(width: 20),
+                            SvgPicture.asset('assets/svgs/badge_name.svg'),
+                            SizedBox(width: 20),
+                            Text("Name", style: AppFonts.light16),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          height: 1,
+                          width: 297,
+                          color: AppColors.darkText.withValues(alpha: 0.08),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            SizedBox(width: 20),
+                            SvgPicture.asset("assets/svgs/phone_number.svg"),
+                            SizedBox(width: 20),
+                            Text("Phone", style: AppFonts.light16),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          height: 1,
+                          width: 297,
+                          color: AppColors.darkText.withValues(alpha: 0.08),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            SizedBox(width: 20),
+                            SvgPicture.asset("assets/svgs/email.svg"),
+                            SizedBox(width: 20),
+                            Text("Email", style: AppFonts.light16),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          height: 1,
+                          width: 297,
+                          color: AppColors.darkText.withValues(alpha: 0.08),
+                        ),
+                        SizedBox(height: 20),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/help');
+                          },
+                          child: Row(
                             children: [
                               SizedBox(width: 20),
                               SvgPicture.asset("assets/svgs/help.svg"),
@@ -139,75 +142,76 @@ class ProfileScreen extends StatelessWidget {
                               Text("Help", style: AppFonts.light16),
                             ],
                           ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 1,
-                            width: 297,
-                            color: AppColors.darkText.withValues(alpha: 0.08),
-                          ),
-                          SizedBox(height: 20),
-                          Row(
+                        ),
+
+                        SizedBox(height: 20),
+                        Container(
+                          height: 1,
+                          width: 297,
+                          color: AppColors.darkText.withValues(alpha: 0.08),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            SizedBox(width: 20),
+                            SvgPicture.asset("assets/svgs/language.svg"),
+                            SizedBox(width: 20),
+                            Text("Language", style: AppFonts.light16),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          height: 1,
+                          width: 297,
+                          color: AppColors.darkText.withValues(alpha: 0.08),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            SizedBox(width: 20),
+                            SvgPicture.asset("assets/svgs/settings.svg"),
+                            SizedBox(width: 20),
+                            Text("Settings", style: AppFonts.light16),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          height: 1,
+                          width: 297,
+                          color: AppColors.darkText.withValues(alpha: 0.08),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            SizedBox(width: 20),
+                            SvgPicture.asset("assets/svgs/contrast.svg"),
+                            SizedBox(width: 20),
+                            Text("Dark mode", style: AppFonts.light16),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          height: 1,
+                          width: 297.w,
+                          color: AppColors.darkText.withValues(alpha: 0.08),
+                        ),
+                        SizedBox(height: 20),
+                        GestureDetector(
+                          onTap: () => bloc.add(LogOutUser()),
+                          child: Row(
                             children: [
                               SizedBox(width: 20),
-                              SvgPicture.asset("assets/svgs/language.svg"),
+                              SvgPicture.asset("assets/svgs/logout.svg"),
                               SizedBox(width: 20),
-                              Text("Language", style: AppFonts.light16),
+                              Text("Log out", style: AppFonts.light16),
                             ],
                           ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 1,
-                            width: 297,
-                            color: AppColors.darkText.withValues(alpha: 0.08),
-                          ),
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              SizedBox(width: 20),
-                              SvgPicture.asset("assets/svgs/settings.svg"),
-                              SizedBox(width: 20),
-                              Text("Settings", style: AppFonts.light16),
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 1,
-                            width: 297,
-                            color: AppColors.darkText.withValues(alpha: 0.08),
-                          ),
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              SizedBox(width: 20),
-                              SvgPicture.asset("assets/svgs/contrast.svg"),
-                              SizedBox(width: 20),
-                              Text("Dark mode", style: AppFonts.light16),
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 1,
-                            width: 297.w,
-                            color: AppColors.darkText.withValues(alpha: 0.08),
-                          ),
-                          SizedBox(height: 20),
-                          GestureDetector(
-                            onTap: () => bloc.add(LogOutUser()),
-                            child: Row(
-                              children: [
-                                SizedBox(width: 20),
-                                SvgPicture.asset("assets/svgs/logout.svg"),
-                                SizedBox(width: 20),
-                                Text("Log out", style: AppFonts.light16),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 20),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
           ),
