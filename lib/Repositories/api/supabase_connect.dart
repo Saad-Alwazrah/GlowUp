@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
@@ -284,7 +285,7 @@ class SupabaseConnect {
 
   /// Uploads or replaces the authenticated user’s avatar.
   /// Returns true if the upload was successful.
-  Future<bool?> uploadUserAvatar({
+  Future<bool> uploadUserAvatar({
     required String localFilePath,
     required String userId,
   }) async {
@@ -296,11 +297,13 @@ class SupabaseConnect {
 
     // Upload new file
     try {
+      await bucket.upload(remotePath, File(localFilePath));
+      userProfile?.avatarUrl = bucket.getPublicUrl(remotePath);
+
       await supabase.client
           .from('profiles')
-          .update({'avatar_url': remotePath})
+          .update({'avatar_url': userProfile!.avatarUrl})
           .eq('id', userId);
-      userProfile?.avatarUrl = bucket.getPublicUrl(remotePath);
     } catch (e) {
       log('Avatar upload error: $e');
       return false;

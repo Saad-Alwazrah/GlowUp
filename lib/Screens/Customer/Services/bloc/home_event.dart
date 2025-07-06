@@ -8,7 +8,4 @@ final class CategorySelectEvent extends HomeEvent {
   CategorySelectEvent(this.index);
 }
 
-final class SubCategorySelectEvent extends HomeEvent {
-  final int subIndex;
-  SubCategorySelectEvent(this.subIndex);
-}
+final class LoadHomeEvent extends HomeEvent {}
