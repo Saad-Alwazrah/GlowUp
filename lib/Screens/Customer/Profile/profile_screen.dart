@@ -93,14 +93,20 @@ class ProfileScreen extends StatelessWidget {
                           color: AppColors.darkText.withValues(alpha: 0.08),
                         ),
                         SizedBox(height: 20),
-                        Row(
-                          children: [
-                            SizedBox(width: 20),
-                            SvgPicture.asset("assets/svgs/help.svg"),
-                            SizedBox(width: 20),
-                            Text("Help", style: AppFonts.light16),
-                          ],
-                        ),
+                      GestureDetector(
+  onTap: () {
+    Navigator.pushNamed(context, '/help');
+  },
+  child: Row(
+    children: [
+      SizedBox(width: 20),
+      SvgPicture.asset("assets/svgs/help.svg"),
+      SizedBox(width: 20),
+      Text("Help", style: AppFonts.light16),
+    ],
+  ),
+),
+
                         SizedBox(height: 20),
                         Container(
                           height: 1,
