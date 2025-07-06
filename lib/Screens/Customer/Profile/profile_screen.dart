@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,20 +54,25 @@ class ProfileScreen extends StatelessWidget {
                       },
                       child: ClipOval(
                         clipBehavior: Clip.hardEdge,
-                        child: (bloc.supabase.userProfile?.avatarUrl != null)
-                            ? Image.network(
-                                bloc.supabase.userProfile!.avatarUrl!,
-                                height: 120.h,
-                                width: 120.w,
-
-                                fit: BoxFit.cover,
-                              )
-                            : Image.asset(
-                                "assets/images/logo1.png",
-                                height: 120.h,
-                                width: 120.w,
-                                fit: BoxFit.cover,
-                              ),
+                        child: CachedNetworkImage(
+                          imageUrl: bloc.supabase.userProfile?.avatarUrl ?? '',
+                          height: 120.h,
+                          width: 120.w,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.softBrown,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) {
+                            return Image.asset(
+                              "assets/images/profile.png",
+                              height: 120.h,
+                              width: 120.w,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        ),
                       ),
                     ),
                     SizedBox(height: 20),

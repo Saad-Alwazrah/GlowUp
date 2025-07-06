@@ -298,7 +298,10 @@ class SupabaseConnect {
     // Upload new file
     try {
       await bucket.upload(remotePath, File(localFilePath));
-      userProfile?.avatarUrl = bucket.getPublicUrl(remotePath);
+      final bustedUrl =
+          '${bucket.getPublicUrl(remotePath)}?updated=${DateTime.now().millisecondsSinceEpoch}';
+
+      userProfile?.avatarUrl = bustedUrl;
 
       await supabase.client
           .from('profiles')
