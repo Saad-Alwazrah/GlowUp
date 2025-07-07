@@ -10,7 +10,7 @@ class OntapText extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: pressedMethod,
-      child: Text(text, style: AppFonts.italic16),
+      child: Text(text, style: AppFonts.regular14),
     );
   }
 }

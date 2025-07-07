@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:glowup/CustomWidgets/Customer/button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glowup/CustomWidgets/Shared/button.dart';
+import 'package:glowup/Screens/Shared/Onboarding/bloc/onboarding_bloc.dart';
 import 'package:glowup/Styles/app_font.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -7,39 +10,61 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(height: 200),
-            Image.asset("assets/images/logo2.png"),
-            Text("Beauty at Your Fingertips", style: AppFonts.semiBold24),
-            SizedBox(height: 10),
-            Text("Browse top-rated salons near", style: AppFonts.regular22),
-            SizedBox(height: 5),
-            Text("you and find services that fit ", style: AppFonts.regular22),
-            SizedBox(height: 5),
-            Text("your style fast and very easy", style: AppFonts.regular22),
-            SizedBox(height: 64),
-            CustomButton(
-              text: "Login",
-              onTap: () {
-                Navigator.pushNamed(context, '/login');
-              },
+    return BlocProvider(
+      create: (context) => OnboardingBloc(),
+      child: BlocListener<OnboardingBloc, OnboardingState>(
+        listener: (listenerContext, state) {},
+        child: Scaffold(
+          body: Center(
+            child: Column(
+              children: [
+                SizedBox(height: 200.h),
+                Image.asset(
+                  "assets/images/logo2.png",
+                  height: 200.h,
+                  width: 200.w,
+                  fit: BoxFit.cover,
+                ),
+                Text("Beauty at Your Fingertips", style: AppFonts.semiBold24),
+                SizedBox(height: 10.h),
+                Text("Browse top-rated salons near", style: AppFonts.regular22),
+                SizedBox(height: 5.h),
+                Text(
+                  "you and find services that fit ",
+                  style: AppFonts.regular22,
+                ),
+                SizedBox(height: 5.h),
+                Text(
+                  "your style fast and very easy",
+                  style: AppFonts.regular22,
+                ),
+                SizedBox(height: 48.h),
+                CustomButton(
+                  text: "Login",
+                  onTap: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                ),
+                SizedBox(height: 20.h),
+                CustomButton(
+                  text: "Sign Up",
+                  onTap: () {
+                    Navigator.pushNamed(context, '/signup');
+                  },
+                ),
+                SizedBox(height: 32.h),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/providerSignup');
+                  },
+                  child: Text(
+                    "Are you a Provider? Register here",
+                    style: AppFonts.regular14,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 20),
-            CustomButton(
-              text: "Sign Up",
-              onTap: () {
-                Navigator.pushNamed(context, '/signup');
-              },
-            ),
-            SizedBox(height: 32),
-            Text(
-              "Are you a Provider? Register here",
-              style: AppFonts.regular14,
-            ),
-          ],
+          ),
         ),
       ),
     );

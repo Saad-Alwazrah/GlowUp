@@ -1,11 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
 
 import 'package:glowup/CustomWidgets/shared/custom_auth_container.dart';
 import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
 import 'package:glowup/CustomWidgets/shared/custom_textfield.dart';
 import 'package:glowup/CustomWidgets/shared/onTap_text.dart';
+import 'package:glowup/Screens/Customer/NavBar/nav_bar_screen.dart';
+import 'package:glowup/Screens/Provider/NavBar/provider_nav_bar_screen.dart';
 import 'package:glowup/Screens/Shared/Login/bloc/login_bloc.dart';
 import 'package:glowup/Styles/app_font.dart';
 
@@ -19,70 +23,96 @@ class LoginScreen extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final bloc = context.read<LoginBloc>();
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: Column(
-              children: [
-                Image.asset("assets/images/logo1.png"),
-                Spacer(),
-                BlocBuilder<LoginBloc, LoginState>(
-                  builder: (context, state) {
-                    return BackgroundContainer(
-                      heightSize: 0.7,
-                      childWidget: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(),
-                          Text("Welcome Back", style: AppFonts.semiBold24),
-                          SizedBox(),
-                          Form(
-                            key: bloc.loginFormKey,
-                            child: Column(
-                              children: [
-                                CustomTextfield(
-                                  textFieldHint: "Email",
-                                  textFieldcontroller: bloc.emailController,
-                                  validationMethod: (value) =>
-                                      bloc.emailValidation(text: value),
-                                ),
-                                CustomTextfield(
-                                  textFieldHint: "Password",
-                                  textFieldcontroller: bloc.passwordController,
-                                  validationMethod: (value) =>
-                                      bloc.passwordValidation(text: value),
-                                ),
-                              ],
+          return BlocListener<LoginBloc, LoginState>(
+            listener: (listenerContext, state) {
+              if (state is CustomerLoggedIn) {
+                Navigator.pushReplacement(
+                  listenerContext,
+                  MaterialPageRoute(builder: (context) => NavBarScreen()),
+                );
+              }
+              if (state is ProviderLoggedIn) {
+                Navigator.pushReplacement(
+                  listenerContext,
+                  MaterialPageRoute(
+                    builder: (context) => ProviderNavBarScreen(),
+                  ),
+                );
+              }
+              if (state is ErrorState) {
+                ScaffoldMessenger.of(
+                  listenerContext,
+                ).showSnackBar(SnackBar(content: Text("Login failed")));
+              }
+            },
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              body: Column(
+                children: [
+                  SizedBox(height: 64.h),
+
+                  Image.asset(
+                    "assets/images/logo1.png",
+                    height: 200.h,
+                    width: 200.w,
+                    fit: BoxFit.cover,
+                  ),
+                  Spacer(),
+                  BlocBuilder<LoginBloc, LoginState>(
+                    builder: (context, state) {
+                      return BackgroundContainer(
+                        heightSize: 0.7.h,
+                        childWidget: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(),
+                            Text("Welcome Back", style: AppFonts.semiBold24),
+                            SizedBox(),
+                            Form(
+                              key: bloc.loginFormKey,
+                              child: Column(
+                                children: [
+                                  CustomTextfield(
+                                    textFieldHint: "Email",
+                                    textFieldcontroller: bloc.emailController,
+                                    validationMethod: (value) =>
+                                        bloc.emailValidation(text: value),
+                                  ),
+                                  CustomTextfield(
+                                    textFieldHint: "Password",
+                                    isPassword: true,
+                                    textFieldcontroller:
+                                        bloc.passwordController,
+                                    validationMethod: (value) =>
+                                        bloc.passwordValidation(text: value),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
 
-                          CustomElevatedButton(
-                            text: "Login".tr(),
-                            onTap: () {
-                              bloc.add(ValidateLogin());
-                            },
-                          ),
+                            CustomElevatedButton(
+                              text: "Login".tr(),
+                              onTap: () {
+                                bloc.add(ValidateLogin(context: context));
+                              },
+                            ),
 
-                          // SizedBox(),
-                          OntapText(
-                            text: "Don't have an account?  SignUp",
-                            pressedMethod: () {
-                              Navigator.pushNamed(context, '/signup');
-                              // Navigator.pushReplacement(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => Sign(),
-                              //   ),
-                              // );
-                            },
-                          ),
-                          SizedBox(height: 20),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
+                            // SizedBox(),
+                            OntapText(
+                              text: "Don't have an account?  SignUp",
+                              pressedMethod: () {
+                                Navigator.pushNamed(context, '/signup');
+                              },
+                            ),
+                            SizedBox(height: 20),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         },

@@ -8,7 +8,8 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   int selectedIndex = 0;
-  int selectedSubIndex = 0;
+  String selectedCategory = "Hair";
+  List<String> categories = ["Hair", "Makeup", "Nails", "Skin", "Other"];
   SupabaseConnect supabaseConnect = GetIt.I<SupabaseConnect>();
   HomeBloc() : super(HomeInitial()) {
     on<HomeEvent>((event, emit) {
@@ -16,10 +17,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
     on<CategorySelectEvent>((event, emit) {
       selectedIndex = event.index;
-      emit(CategorySelectedState());
-    });
-    on<SubCategorySelectEvent>((event, emit) {
-      selectedSubIndex = event.subIndex;
       emit(CategorySelectedState());
     });
   }

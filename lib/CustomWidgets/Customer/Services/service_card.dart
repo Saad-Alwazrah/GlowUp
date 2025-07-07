@@ -1,26 +1,20 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:glowup/Repositories/models/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:glowup/Repositories/models/services.dart';
+import 'package:glowup/Styles/app_colors.dart';
 
 class ServiceCard extends StatelessWidget {
   final Services service;
-  final Provider provider;
-  final double rating;
-  final String imageUrl;
 
-  const ServiceCard({
-    super.key,
-    required this.service,
-    required this.rating,
-    required this.imageUrl,
-    required this.provider,
-  });
+  const ServiceCard({super.key, required this.service});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      color: AppColors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -32,11 +26,16 @@ class ServiceCard extends StatelessWidget {
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
                 ),
-                child: Image.network(
-                  imageUrl,
+                child: CachedNetworkImage(
+                  imageUrl: service.imageUrl,
                   height: 160,
                   width: double.infinity,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+
                   fit: BoxFit.cover,
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error, color: Colors.red, size: 75.h),
                 ),
               ),
               Positioned(
@@ -52,7 +51,7 @@ class ServiceCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    provider.name,
+                    service.provider!.name,
                     style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                 ),
@@ -72,7 +71,7 @@ class ServiceCard extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        rating.toString(),
+                        service.provider!.avgRating.toString(),
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(width: 4),
@@ -108,7 +107,7 @@ class ServiceCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  provider.address ?? "",
+                  service.provider!.address ?? "",
                   style: const TextStyle(color: Colors.grey),
                 ),
               ],

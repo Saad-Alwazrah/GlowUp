@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
+import 'package:glowup/Repositories/api/supabase_connect.dart';
 import 'package:meta/meta.dart';
 
 part 'login_event.dart';
@@ -14,14 +16,28 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final supabase = GetIt.I.get<SupabaseConnect>();
 
   LoginBloc() : super(LoginInitial()) {
     on<ValidateLogin>(loginMethod);
   }
 
-  FutureOr<void> loginMethod(ValidateLogin event, Emitter<LoginState> emit) {
+  FutureOr<void> loginMethod(
+    ValidateLogin event,
+    Emitter<LoginState> emit,
+  ) async {
     if (loginFormKey.currentState!.validate()) {
-      emit(SuccessState());
+      final loginStatus = await supabase.signInWithEmail(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      if (loginStatus) {
+        if (supabase.userProfile?.role == "customer") {
+          emit(CustomerLoggedIn());
+        } else if (supabase.userProfile?.role == "provider") {
+          emit(ProviderLoggedIn());
+        }
+      }
     } else {
       emit(ErrorState());
     }
@@ -43,8 +59,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       return null;
     }
   }
-  
-String? passwordValidation({String? text}) {
+
+  String? passwordValidation({String? text}) {
     if (text == null || text.isEmpty) {
       return "This field is required";
     } else if (text.length < 6) {
@@ -53,5 +69,4 @@ String? passwordValidation({String? text}) {
       return null;
     }
   }
-  
 }

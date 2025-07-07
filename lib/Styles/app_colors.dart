@@ -5,11 +5,15 @@ class AppColors {
   static const Color background = Color(0xFFFFF5E1);
   static const Color softBrown = Color(0xFFB8A493);
   static const Color darkText = Color(0xFF2E2E2E);
+  static const Color calendarDay = Color(0xFFF2E3C6);
+  static const Color disabledCalendarDay = Color(0xFFD9D9D9);
   static const Color goldenPeach = Color(0xFFDFA878);
-  static const Color mintGreen = Color(0xFFD3F7CF);
+  static const Color mintGreen = Color(0xFFB8E6B3);
+  static const Color calendarHeaderBackground = Color(0xFFC9B8A7);
+  static const Color daysOfWeekTextColor = Color(0xFF473C38);
   static const Color paleYellow = Color(0xFFFAECBF);
   static const Color coralPink = Color(0xFFFFB196);
-   static const Color white = Color(0xFFFFFFFF);
+  static const Color white = Color(0xFFFFFFFF);
 
   //dark mode
   static const Color backgroundDark = Color(0xFF1A1A1A);

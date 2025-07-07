@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glowup/CustomWidgets/Customer/search_bar.dart';
+import 'package:glowup/CustomWidgets/Shared/search_bar.dart';
 
 class AppointmentsScreen extends StatelessWidget {
   const AppointmentsScreen({super.key});

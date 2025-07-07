@@ -1,15 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
+import 'package:glowup/Repositories/api/supabase_connect.dart';
+import 'package:glowup/Screens/Customer/Help/help_screen.dart';
 import 'package:glowup/Screens/Customer/NavBar/nav_bar_screen.dart';
-import 'package:glowup/Screens/Provider/Profile/provider_profile_screen.dart';
+
+import 'package:glowup/Screens/Provider/NavBar/provider_nav_bar_screen.dart';
+import 'package:glowup/Screens/Provider/SignUp/provider_sign_up_screen.dart';
 import 'package:glowup/Screens/Shared/Login/login_screen.dart';
 import 'package:glowup/Screens/Shared/Onboarding/onboarding_screen.dart';
 import 'package:glowup/Screens/Shared/splash/splash.dart';
 import 'package:glowup/Screens/Customer/SignUp/sign_up_screen.dart';
 import 'package:glowup/Styles/theme.dart';
 import 'package:glowup/Utilities/setup.dart';
-import 'package:glowup/CustomWidgets/Customer/Categories/bloc/categories_bloc.dart'; // 👈 make sure this is imported
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +29,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  final supabase = GetIt.I.get<SupabaseConnect>();
+  final loggedIn = GetIt.I.get<SupabaseConnect>().userProfile != null;
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +45,22 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         theme: lightTheme,
         darkTheme: darkTheme,
-        // initialRoute: '/navbar',
-        // routes: {
-        //   '/splashscreen': (context) => const SplashScreen(),
-        //   '/onboarding': (context) => const OnboardingScreen(),
-        //   '/signup': (context) => const SignUpScreen(),
-        //   '/login': (context) => const LoginScreen(),
-        //   '/navbar': (context) => const NavBarScreen(),
-        // },
-        home: ProviderProfileScreen(),
-        // 
+        initialRoute: loggedIn
+            ? (supabase.userProfile?.role == "customer"
+                  ? '/navbar'
+                  : '/providernavbar')
+            : '/splashscreen',
+        routes: {
+          '/splashscreen': (context) => const SplashScreen(),
+          '/onboarding': (context) => const OnboardingScreen(),
+          '/signup': (context) => const SignUpScreen(),
+          '/login': (context) => const LoginScreen(),
+          '/navbar': (context) => const NavBarScreen(),
+          '/providerSignup': (context) => const ProviderSignUpScreen(),
+          '/providernavbar': (context) => const ProviderNavBarScreen(),
+          '/help': (context) => const HelpScreen(),
+
+        },
       ),
     );
   }
