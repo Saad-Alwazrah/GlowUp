@@ -30,3 +30,4 @@ final class UpdateAvatarError extends ProfileState {
 final class UpdateLanguageState extends ProfileState {}
 
 final class LanguageSwitchToggled extends ProfileState {}
+final class ThemeModeChanged extends ProfileState {}

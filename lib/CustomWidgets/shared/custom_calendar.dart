@@ -7,8 +7,15 @@ import 'package:glowup/Styles/app_font.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CustomCalendar extends StatelessWidget {
-  const CustomCalendar({super.key, required this.stylist});
+  CustomCalendar({
+    super.key,
+    required this.stylist,
+    required this.onDaySelected,
+    required this.currentDay,
+  });
   final Stylist stylist;
+  final DateTime currentDay;
+  final void Function(DateTime day, DateTime focusedDay) onDaySelected;
 
   @override
   Widget build(BuildContext context) {
@@ -131,14 +138,16 @@ class CustomCalendar extends StatelessWidget {
           ),
         ),
 
-        focusedDay: DateTime.now(),
+        focusedDay: currentDay,
         firstDay: DateTime.now(),
         lastDay: DateTime.now().add(const Duration(days: 30)),
         currentDay: DateTime.now(),
+        selectedDayPredicate: (day) => isSameDay(day, currentDay),
         enabledDayPredicate: (day) {
           final d = DateTime(day.year, day.month, day.day);
           return availableDays.contains(d);
         },
+        onDaySelected: onDaySelected,
       ),
     );
   }

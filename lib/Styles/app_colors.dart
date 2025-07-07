@@ -13,6 +13,8 @@ class AppColors {
   static const Color daysOfWeekTextColor = Color(0xFF473C38);
   static const Color paleYellow = Color(0xFFFAECBF);
   static const Color coralPink = Color(0xFFFFB196);
+  static const Color ratingBackground = Color(0xFFF2E3C6);
+  static const Color ratingStars = Color(0xFFF2D267);
   static const Color white = Color(0xFFFFFFFF);
 
   //dark mode

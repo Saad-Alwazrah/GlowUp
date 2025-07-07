@@ -4,7 +4,7 @@ import 'package:glowup/Styles/app_colors.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
-  final VoidCallback onTap;
+  final void Function()? onTap;
 
   const CustomElevatedButton({
     super.key,
@@ -24,7 +24,6 @@ class CustomElevatedButton extends StatelessWidget {
           foregroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
-            
           ),
         ),
         onPressed: onTap,

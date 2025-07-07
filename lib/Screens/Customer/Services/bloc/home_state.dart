@@ -8,3 +8,5 @@ final class HomeInitial extends HomeState {}
 final class CategorySelectedState extends HomeState {
   CategorySelectedState();
 }
+
+final class SearchedServicesState extends HomeState {}

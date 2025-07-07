@@ -35,6 +35,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeManager themeManager = GetIt.I.get<ThemeManager>();
+
     return ScreenUtilInit(
       designSize: const Size(402, 952),
       minTextAdapt: true,
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         theme: lightTheme,
         darkTheme: darkTheme,
+        themeMode: themeManager.themeMode,
         initialRoute: loggedIn
             ? (supabase.userProfile?.role == "customer"
                   ? '/navbar'
@@ -59,7 +62,6 @@ class MyApp extends StatelessWidget {
           '/providerSignup': (context) => const ProviderSignUpScreen(),
           '/providernavbar': (context) => const ProviderNavBarScreen(),
           '/help': (context) => const HelpScreen(),
-
         },
       ),
     );

@@ -16,3 +16,5 @@ final class LanguageSwitchToggleEvent extends ProfileEvent {}
 final class ThemeSwitchToggleEvent extends ProfileEvent {}
 
 final class LoadProfileAvatar extends ProfileEvent {}
+
+final class ThemeModeChange extends ProfileEvent {}

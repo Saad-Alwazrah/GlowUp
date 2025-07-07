@@ -66,19 +66,19 @@ class ProfileScreen extends StatelessWidget {
                         placeholder: (context, url) => Center(
                           child: CircularProgressIndicator(
                             color: AppColors.softBrown,
-                          ),
+                          ),),
+                          errorWidget: (context, url, error) {
+                            return Image.asset(
+                              "assets/images/profile.png",
+                              height: 120.h,
+                              width: 120.h,
+                              fit: BoxFit.cover,
+                            );
+                          },
                         ),
-                        errorWidget: (context, url, error) {
-                          return Image.asset(
-                            "assets/images/profile.png",
-                            height: 120.h,
-                            width: 120.w,
-                            fit: BoxFit.cover,
-                          );
-                        },
                       ),
                     ),
-                  ),
+                  
                   SizedBox(height: 20),
                   CustomBackgroundContainer(
                     childWidget: Column(

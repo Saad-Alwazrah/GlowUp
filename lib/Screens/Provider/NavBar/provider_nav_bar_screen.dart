@@ -7,7 +7,6 @@ import 'package:glowup/Screens/Provider/NavBar/bloc/provider_nav_bar_bloc.dart';
 import 'package:glowup/Screens/Provider/Profile/provider_profile_screen.dart';
 import 'package:glowup/Screens/Provider/Services/provider_services_screen.dart';
 
-
 class ProviderNavBarScreen extends StatelessWidget {
   const ProviderNavBarScreen({super.key});
 
@@ -56,8 +55,8 @@ class ProviderNavBarScreen extends StatelessWidget {
                         return GestureDetector(
                           onTap: () {
                             context.read<ProviderNavBarBloc>().add(
-                                  ChangeProviderTabEvent(index),
-                                );
+                              ChangeProviderTabEvent(index),
+                            );
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -98,4 +97,3 @@ class ProviderNavBarScreen extends StatelessWidget {
     );
   }
 }
-

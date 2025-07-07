@@ -16,6 +16,9 @@ class ProvidersScreen extends StatelessWidget {
               CustomSearchBar(
                 controller: TextEditingController(),
                 hintText: "Search providers",
+                onChanged: (value) {
+                  // Implement search functionality here
+                },
               ),
             ],
           ),
