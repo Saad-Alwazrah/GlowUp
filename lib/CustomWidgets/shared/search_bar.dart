@@ -4,20 +4,16 @@ import 'package:glowup/CustomWidgets/Shared/filter_pop_up.dart';
 class CustomSearchBar extends StatelessWidget {
   final TextEditingController controller;
   final IconData leftIcon;
-  final IconData rightIcon;
   final String hintText;
+  final void Function(String)? onChanged;
 
   const CustomSearchBar({
     super.key,
     required this.controller,
     this.leftIcon = Icons.search,
-    this.rightIcon = Icons.tune_outlined,
     this.hintText = "Search",
+    this.onChanged,
   });
-
-  void _showFilterDialog(BuildContext context) {
-    showDialog(context: context, builder: (context) => const FilterPopup());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +37,8 @@ class CustomSearchBar extends StatelessWidget {
                 border: InputBorder.none,
                 hintText: hintText,
               ),
-              onChanged: (value) {
-                // Search logic goes here
-              },
+              onChanged: onChanged,
             ),
-          ),
-          GestureDetector(
-            onTap: () => _showFilterDialog(context),
-            child: Icon(rightIcon, color: Color(0xFF2E2E2E)),
           ),
         ],
       ),

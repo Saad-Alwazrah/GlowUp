@@ -16,6 +16,9 @@ class AppointmentsScreen extends StatelessWidget {
               CustomSearchBar(
                 controller: TextEditingController(),
                 hintText: "Search bookings",
+                onChanged: (value) {
+                  // Implement search functionality here
+                },
               ),
             ],
           ),

@@ -9,3 +9,8 @@ final class CategorySelectEvent extends HomeEvent {
 }
 
 final class LoadHomeEvent extends HomeEvent {}
+
+final class SearchEvent extends HomeEvent {
+  final String query;
+  SearchEvent(this.query);
+}

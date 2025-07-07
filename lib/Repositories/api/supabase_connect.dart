@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:glowup/Repositories/models/appointment.dart';
@@ -73,6 +74,41 @@ class SupabaseConnect {
     } else {
       log("No user is currently authenticated");
     }
+  }
+
+  bool isConflictingAppointment(
+    DateTime date,
+    TimeOfDay time,
+    Stylist stylist,
+  ) {
+    for (var appt in appointments) {
+      if (appt.stylistId != stylist.id) continue;
+      if (appt.status == "rejected") continue;
+
+      // 1. Parse the stored date string into a DateTime:
+      //    (handles both "2025-07-30" and full ISO strings)
+      final DateTime apptDateTime = DateTime.parse(appt.appointmentDate);
+      final DateTime apptDate = DateTime(
+        apptDateTime.year,
+        apptDateTime.month,
+        apptDateTime.day,
+      );
+      final DateTime selDate = DateTime(date.year, date.month, date.day);
+
+      if (apptDate != selDate) continue;
+
+      // 2. Parse the stored time string "HH:mm:ss" into TimeOfDay:
+      final parts = appt.appointmentStart.split(':');
+      final int apptHour = int.parse(parts[0]);
+      final int apptMinute = int.parse(parts[1]);
+      final TimeOfDay apptTime = TimeOfDay(hour: apptHour, minute: apptMinute);
+
+      // 3. Compare TimeOfDay directly:
+      if (apptTime == time) {
+        return true;
+      }
+    }
+    return false;
   }
 
   Future<void> fetchData() async {
@@ -214,9 +250,135 @@ class SupabaseConnect {
     }
   }
 
+  Future<void> updateEmail(String newEmail) async {
+    final resClient = supabase.client;
+    try {
+      final userRes = await resClient.auth.updateUser(
+        UserAttributes(email: newEmail),
+      );
+      user = userRes.user;
+      await resClient
+          .from("profiles")
+          .update({'email': newEmail})
+          .eq("id", userProfile!.id);
+      log("Email updated successfully");
+    } catch (e) {
+      log("Error updating email: $e");
+    }
+  }
+
+  Future<void> updatePhone(String newPhone) async {
+    final resClient = supabase.client;
+    try {
+      await resClient
+          .from("profiles")
+          .update({'phone': newPhone})
+          .eq("id", userProfile!.id);
+      userProfile?.phone = newPhone;
+      log("Phone updated successfully");
+    } catch (e) {
+      log("Error updating phone: $e");
+    }
+  }
+
+  Future<void> updateUsername(String newUsername) async {
+    final resClient = supabase.client;
+    try {
+      await resClient
+          .from("profiles")
+          .update({'username': newUsername})
+          .eq("id", userProfile!.id);
+      userProfile?.username = newUsername;
+      log("Username updated successfully");
+    } catch (e) {
+      log("Error updating username: $e");
+    }
+  }
+
+  Future<void> updateProviderName(String newName) async {
+    final resClient = supabase.client;
+    try {
+      await resClient
+          .from("providers")
+          .update({'name': newName})
+          .eq("id", theProvider!.id);
+      theProvider?.name = newName;
+      log("Provider name updated successfully");
+    } catch (e) {
+      log("Error updating provider name: $e");
+    }
+  }
+
+  Future<void> updateProviderPhone(String newPhone) async {
+    final resClient = supabase.client;
+    try {
+      await resClient
+          .from("providers")
+          .update({'phone': newPhone})
+          .eq("id", theProvider!.id);
+      theProvider?.phone = newPhone;
+      log("Provider phone updated successfully");
+    } catch (e) {
+      log("Error updating provider phone: $e");
+    }
+  }
+
+  Future<void> bookAppointment({
+    required String appointmentDate,
+    required String appointmentStart,
+    required String appointmentEnd,
+    required String stylistId,
+    required int serviceId,
+    required String providerId,
+    required bool atHome,
+  }) async {
+    final resClient = supabase.client;
+    try {
+      appointmentDate =
+          "${DateTime.parse(appointmentDate).year}-${DateTime.parse(appointmentDate).month.toString().padLeft(2, '0')}-${DateTime.parse(appointmentDate).day.toString().padLeft(2, '0')}";
+      appointmentStart =
+          "${DateTime.parse(appointmentStart).hour.toString().padLeft(2, '0')}:${DateTime.parse(appointmentStart).minute.toString().padLeft(2, '0')}";
+      appointmentEnd =
+          "${DateTime.parse(appointmentEnd).hour.toString().padLeft(2, '0')}:${DateTime.parse(appointmentEnd).minute.toString().padLeft(2, '0')}";
+      log("Booking appointment for user: ${userProfile?.id}");
+      log("Appointment date: $appointmentDate");
+      log("Appointment start: $appointmentStart");
+      log("Appointment end: $appointmentEnd");
+      log("Stylist ID: $stylistId");
+      log("Service ID: $serviceId");
+      log("Provider ID: $providerId");
+
+      final newAppointment = Appointment(
+        customerId: userProfile!.id,
+        bookedAt: DateTime.now().toIso8601String(),
+        appointmentDate: appointmentDate,
+        appointmentStart: appointmentStart,
+        appointmentEnd: appointmentEnd,
+        stylistId: stylistId,
+        serviceId: serviceId,
+        providerId: providerId,
+        status: "Pending",
+        atHome: atHome,
+      );
+      await resClient.from("appointments").insert(newAppointment.toJson());
+      await fetchData();
+      log("Appointment booked successfully");
+    } catch (e) {
+      log("Error booking appointment: $e");
+    }
+  }
+
   void linkData() {
     Stopwatch stopwatch = Stopwatch()..start();
-
+    for (var provider in providers) {
+      provider.stylists.clear();
+    }
+    for (var service in services) {
+      service.stylists.clear();
+    }
+    for (var stylist in stylists) {
+      stylist.availabilitySlots.clear();
+    }
     // linking providers with stylists
     for (Stylist stylist in stylists) {
       for (Provider provider in providers) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
-  final VoidCallback onTap;
+  final void Function()? onTap;
 
   const CustomElevatedButton({
     super.key,
@@ -22,7 +22,6 @@ class CustomElevatedButton extends StatelessWidget {
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
-            
           ),
         ),
         onPressed: onTap,

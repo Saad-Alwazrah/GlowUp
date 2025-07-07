@@ -22,3 +22,5 @@ final class UpdateAvatarError extends ProfileState {
 
   UpdateAvatarError(this.message);
 }
+
+final class ThemeModeChanged extends ProfileState {}

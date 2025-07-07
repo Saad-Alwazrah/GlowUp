@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:glowup/Repositories/api/supabase_connect.dart';
+import 'package:glowup/Styles/theme.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
@@ -9,6 +11,7 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final supabase = GetIt.I.get<SupabaseConnect>();
+  bool isDarkMode = false;
   ProfileBloc() : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) {});
     on<LogOutUser>((event, emit) async {
@@ -42,6 +45,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       } else {
         emit(UpdateAvatarError("Failed to load avatar"));
       }
+    });
+    on<ThemeModeChange>((event, emit) {
+      final themeManager = GetIt.I.get<ThemeManager>();
+      themeManager.toggleTheme();
+      emit(ThemeModeChanged());
     });
   }
 }

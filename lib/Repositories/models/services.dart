@@ -18,6 +18,7 @@ class Services {
   late final String providerId;
   late final String imageUrl;
   late final String category;
+  late final bool atHome;
   List<Stylist> stylists = [];
   Provider? provider;
 
@@ -30,6 +31,7 @@ class Services {
     providerId = json['provider_id'];
     imageUrl = json['image_url'] ?? '';
     category = json['category'] ?? '';
+    atHome = json['at_home'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -42,6 +44,7 @@ class Services {
     _data['provider_id'] = providerId;
     _data['image_url'] = imageUrl;
     _data['category'] = category;
+    _data['at_home'] = atHome;
     return _data;
   }
 }

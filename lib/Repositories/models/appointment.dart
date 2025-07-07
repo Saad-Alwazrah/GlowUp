@@ -4,7 +4,7 @@ import 'package:glowup/Repositories/models/stylist.dart';
 
 class Appointment {
   Appointment({
-    required this.id,
+    this.id,
     required this.customerId,
     required this.stylistId,
     required this.serviceId,
@@ -16,7 +16,7 @@ class Appointment {
     required this.atHome,
     required this.providerId,
   });
-  late final int id;
+  late final int? id;
   late final String customerId;
   late final String stylistId;
   late final int serviceId;
@@ -47,7 +47,6 @@ class Appointment {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['id'] = id;
     _data['customer_id'] = customerId;
     _data['stylist_id'] = stylistId;
     _data['service_id'] = serviceId;

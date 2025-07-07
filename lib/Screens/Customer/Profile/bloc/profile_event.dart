@@ -10,3 +10,5 @@ final class UpdateUserAvatar extends ProfileEvent {
 }
 
 final class LoadProfileAvatar extends ProfileEvent {}
+
+final class ThemeModeChange extends ProfileEvent {}
