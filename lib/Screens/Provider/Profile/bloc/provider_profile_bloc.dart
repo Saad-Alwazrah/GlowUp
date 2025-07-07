@@ -1,10 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:glowup/Repositories/api/supabase_connect.dart';
+import 'package:glowup/Repositories/models/provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
 part 'provider_profile_event.dart';
@@ -15,16 +16,27 @@ class ProviderProfileBloc
   final usernameKey = GlobalKey<FormState>();
   final phoneNumberKey = GlobalKey<FormState>();
   final emailKey = GlobalKey<FormState>();
+
+  // How to link them with the system
+  int languageSwitchValue = 0;
+  int themeSwitchValue = 0;
+
   final supabase = GetIt.I.get<SupabaseConnect>();
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
+  Provider provider = GetIt.I.get<SupabaseConnect>().theProvider!;
+
   // final username = GetIt.I.get<SupabaseConnect>().userProfile.username;
 
   ProviderProfileBloc() : super(ProviderProfileInitial()) {
     on<ProviderProfileEvent>((event, emit) {});
+    on<LanguageSwitchToggleEvent>(updateLanguage);
+    on<ThemeSwitchToggleEvent>(updateTheme);
+    on<UpdateUIEvent>(updateUI);
+    on<UpdateProviderAvatarEvent>(updateAvatarMethod);
   }
 
   validationMethod(GlobalKey<FormState> validationKey) {
@@ -39,7 +51,7 @@ class ProviderProfileBloc
     if (text == null || text.isEmpty) {
       return "This field is required";
     } else if (text.length < 3) {
-      return "the name should atleast be 4 charectars long";
+      return "the name should atleast be 3 charectars long";
     } else {
       return null;
     }
@@ -63,7 +75,6 @@ class ProviderProfileBloc
     }
   }
 
-
   // Need to check if phone alraedy exist in Supabase
   String? phoneValidation({String? text}) {
     if (text == null || text.isEmpty) {
@@ -74,6 +85,59 @@ class ProviderProfileBloc
       return "the number you enterd is Inavlid";
     } else {
       return null;
+    }
+  }
+
+  FutureOr<void> updateLanguage(
+    LanguageSwitchToggleEvent event,
+    Emitter<ProviderProfileState> emit,
+  ) {
+    if (languageSwitchValue == 0) {
+      languageSwitchValue = 1;
+      emit(UpdateLanguageState());
+    } else {
+      languageSwitchValue = 0;
+      emit(UpdateLanguageState());
+    }
+  }
+
+  FutureOr<void> updateTheme(
+    ThemeSwitchToggleEvent event,
+    Emitter<ProviderProfileState> emit,
+  ) {
+    if (themeSwitchValue == 0) {
+      themeSwitchValue = 1;
+      emit(UpdateLanguageState());
+    } else {
+      themeSwitchValue = 0;
+      emit(UpdateLanguageState());
+    }
+  }
+
+  FutureOr<void> updateUI(
+    UpdateUIEvent event,
+    Emitter<ProviderProfileState> emit,
+  ) {
+    emit(UpdateState());
+  }
+
+  FutureOr<void> updateAvatarMethod(
+    event,
+    Emitter<ProviderProfileState> emit,
+  ) async {
+    XFile? pickedAvatar = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedAvatar != null) {
+      final updateStatus = await supabase.uploadUserAvatar(
+        localFilePath: pickedAvatar.path,
+        userId: supabase.userProfile!.id,
+      );
+      if (updateStatus) {
+        emit(ProviderAvatarSuccessState());
+      } else {
+        emit(UpdateAvatarErrorState("Failed to update avatar"));
+      }
     }
   }
 }

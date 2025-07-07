@@ -40,7 +40,7 @@ class Profile {
     _data['role'] = role;
     _data['latitude'] = latitude;
     _data['longitude'] = longitude;
-    _data['avatar_url'] = avatarUrl;
+    _data['avatar_url'] = avatarUrl ?? "";
     _data['maps_url'] = mapsUrl;
     return _data;
   }

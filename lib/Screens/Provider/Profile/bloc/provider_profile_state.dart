@@ -7,5 +7,19 @@ final class ProviderProfileInitial extends ProviderProfileState {}
 
 class SuccessState extends ProviderProfileState {}
 
+class UpdateState extends ProviderProfileState {}
+
 class ErrorState extends ProviderProfileState {}
 
+final class ProviderAvatarSuccessState extends ProviderProfileState {}
+
+final class UpdateAvatarErrorState extends ProviderProfileState {
+
+    final String message;
+
+  UpdateAvatarErrorState(this.message);
+}
+
+final class UpdateLanguageState extends ProviderProfileState {}
+
+final class LanguageSwitchToggled extends ProviderProfileState {}

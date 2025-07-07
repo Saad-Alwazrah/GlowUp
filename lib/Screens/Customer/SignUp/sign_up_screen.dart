@@ -23,6 +23,7 @@ class SignUpScreen extends StatelessWidget {
         builder: (context) {
           final bloc = context.read<SignUpBloc>();
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,

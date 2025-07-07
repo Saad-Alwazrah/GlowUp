@@ -5,6 +5,10 @@ sealed class ProfileState {}
 
 final class ProfileInitial extends ProfileState {}
 
+final class SuccessState extends ProfileState {}
+
+final class ErrorState extends ProfileState {}
+
 final class UserLoggedOut extends ProfileState {}
 
 final class LogOutError extends ProfileState {
@@ -22,3 +26,7 @@ final class UpdateAvatarError extends ProfileState {
 
   UpdateAvatarError(this.message);
 }
+
+final class UpdateLanguageState extends ProfileState {}
+
+final class LanguageSwitchToggled extends ProfileState {}

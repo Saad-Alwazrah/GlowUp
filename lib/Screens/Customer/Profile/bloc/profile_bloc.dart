@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:glowup/Repositories/api/supabase_connect.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +11,17 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+  final usernameKey = GlobalKey<FormState>();
+  final emailKey = GlobalKey<FormState>();
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   final supabase = GetIt.I.get<SupabaseConnect>();
+
+  int languageSwitchValue = 0;
+  int themeSwitchValue = 0;
+
   ProfileBloc() : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) {});
     on<LogOutUser>((event, emit) async {
@@ -43,5 +56,67 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(UpdateAvatarError("Failed to load avatar"));
       }
     });
+  }
+
+  validationMethod(GlobalKey<FormState> validationKey) {
+    if (validationKey.currentState!.validate()) {
+      emit(SuccessState());
+    } else {
+      emit(ErrorState());
+    }
+  }
+
+  String? userNameValidation({String? text}) {
+    if (text == null || text.isEmpty) {
+      return "This field is required";
+    } else if (text.length < 3) {
+      return "the name should atleast be 3 charectars long";
+    } else {
+      return null;
+    }
+  }
+
+  // The regular Expression for the email  (true = email is valid ---- false = email is invalid)
+  bool isEmailValid(String? email) {
+    return RegExp(
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+    ).hasMatch(email!);
+  }
+
+  // Need to check if the Email already exist
+  String? emailValidation({String? text}) {
+    if (text == null || text.isEmpty) {
+      return "This field is required";
+    } else if (!isEmailValid(text)) {
+      return "The email is invalid";
+    } else {
+      return null;
+    }
+  }
+
+  FutureOr<void> updateLanguage(
+    LanguageSwitchToggleEvent event,
+    Emitter<ProfileState> emit,
+  ) {
+    if (languageSwitchValue == 0) {
+      languageSwitchValue = 1;
+      emit(UpdateLanguageState());
+    } else {
+      languageSwitchValue = 0;
+      emit(UpdateLanguageState());
+    }
+  }
+
+  FutureOr<void> updateTheme(
+    ThemeSwitchToggleEvent event,
+    Emitter<ProfileState> emit,
+  ) {
+    if (themeSwitchValue == 0) {
+      themeSwitchValue = 1;
+      emit(UpdateLanguageState());
+    } else {
+      themeSwitchValue = 0;
+      emit(UpdateLanguageState());
+    }
   }
 }
