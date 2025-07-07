@@ -24,6 +24,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   ProfileBloc() : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) {});
+    on<LanguageSwitchToggleEvent>(updateLanguage);
+    on<ThemeSwitchToggleEvent>(updateTheme);
     on<LogOutUser>((event, emit) async {
       final signOutStatus = await supabase.signOut();
       if (signOutStatus) {
@@ -106,17 +108,24 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(UpdateLanguageState());
     }
   }
-
+  
   FutureOr<void> updateTheme(
     ThemeSwitchToggleEvent event,
     Emitter<ProfileState> emit,
   ) {
     if (themeSwitchValue == 0) {
       themeSwitchValue = 1;
-      emit(UpdateLanguageState());
+      emit(SuccessState());
     } else {
       themeSwitchValue = 0;
-      emit(UpdateLanguageState());
+      emit(SuccessState());
     }
+  }
+
+  FutureOr<void> updateUI(
+    UpdateUIEvent event,
+    Emitter<ProfileState> emit,
+  ) {
+    emit(SuccessState());
   }
 }

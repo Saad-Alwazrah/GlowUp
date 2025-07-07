@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/Shared/search_bar.dart';
 
 class AppointmentsScreen extends StatelessWidget {
@@ -17,6 +18,12 @@ class AppointmentsScreen extends StatelessWidget {
                 controller: TextEditingController(),
                 hintText: "Search bookings",
               ),
+
+              SizedBox(height: 48.h,),
+
+              Container(child: Column(
+                children: [ListTile(leading: Text("sa"),)],
+              ))
             ],
           ),
         ],

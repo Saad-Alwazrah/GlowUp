@@ -24,6 +24,7 @@ class NavBarScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => NavBarBloc(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: BlocBuilder<NavBarBloc, NavBarState>(
           builder: (context, state) {

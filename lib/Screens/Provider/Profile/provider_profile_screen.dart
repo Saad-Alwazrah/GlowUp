@@ -21,6 +21,11 @@ class ProviderProfileScreen extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final bloc = context.read<ProviderProfileBloc>();
+          if (context.locale == Locale("en")) {
+                bloc.languageSwitchValue = 1;
+              } else {
+                bloc.languageSwitchValue = 0;
+              }
           return BlocBuilder<ProviderProfileBloc, ProviderProfileState>(
             builder: (context, state) {
               return Scaffold(
@@ -142,7 +147,7 @@ class ProviderProfileScreen extends StatelessWidget {
                             ),
                             Divider(),
                             ListTile(
-                              leading: Icon(Icons.help),
+                              leading: Icon(Icons.email_outlined),
                               title: Text("Email".tr()),
                               onTap: () {
                                 showDialog(
@@ -162,7 +167,7 @@ class ProviderProfileScreen extends StatelessWidget {
                             Divider(),
                             // Navigate to Help Screen
                             ListTile(
-                              leading: Icon(Icons.language),
+                              leading: Icon(Icons.help),
                               title: Text("Help".tr()),
                             ),
                             Divider(),
