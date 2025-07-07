@@ -5,7 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
 import 'package:glowup/CustomWidgets/shared/profile/profile_dialog.dart';
 import 'package:glowup/Screens/Provider/Profile/bloc/provider_profile_bloc.dart';
+import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
+import 'package:glowup/Utilities/extensions/screen_size.dart';
 
 class ProviderProfileScreen extends StatelessWidget {
   const ProviderProfileScreen({super.key});
@@ -21,12 +23,48 @@ class ProviderProfileScreen extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             body: Column(
               children: [
-                SizedBox(height: 120.h),
-                CircleAvatar(radius: 58),
-                SizedBox(height: 24.h),
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.backgroundDark,
+                      ),
+                      width: context.getScreenWidth(size: 1),
+                      height: 150.h,
+                      // child: Image.asset("PROVIDER_IMAGE"), The provider image is here
+                    ),
+                    // Need to be tested
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: -54.h,
+                      child: CircleAvatar(radius: 58),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 100.h),
 
                 // The provider name
-                Text("Khalid Sultan", style: AppFonts.semiBold24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // Need to put the text in the center
+                    SizedBox(width: 105.w,),
+                    Text("PROVIDER NAME", style: AppFonts.semiBold24),
+                    Spacer(),
+                    Column(
+                      children: [
+                        Text(""),
+                      ],
+                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 48),
+                    //   // child: Image.asset("RATING STAR"),
+                    // ),
+                  ],
+                ),
                 SizedBox(height: 20.h),
                 CustomBackgroundContainer(
                   childWidget: Column(

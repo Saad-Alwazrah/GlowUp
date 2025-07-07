@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
+import 'package:glowup/Repositories/api/supabase_connect.dart';
 import 'package:meta/meta.dart';
 
 part 'provider_profile_event.dart';
@@ -13,6 +15,7 @@ class ProviderProfileBloc
   final usernameKey = GlobalKey<FormState>();
   final phoneNumberKey = GlobalKey<FormState>();
   final emailKey = GlobalKey<FormState>();
+  final supabase = GetIt.I.get<SupabaseConnect>();
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();

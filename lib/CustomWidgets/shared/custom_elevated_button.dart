@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glowup/Styles/app_colors.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
@@ -19,8 +20,8 @@ class CustomElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          backgroundColor: const Color(0xFFDFA878),
-          foregroundColor: Colors.white,
+          backgroundColor: AppColors.goldenPeach,
+          foregroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
             
@@ -32,7 +33,7 @@ class CustomElevatedButton extends StatelessWidget {
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.white,
+            color: AppColors.white,
           ),
         ),
       ),
