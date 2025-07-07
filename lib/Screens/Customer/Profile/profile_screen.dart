@@ -105,6 +105,27 @@ class ProfileScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Divider(color: Colors.amber),
                         ),
+
+                         ListTile(
+                              leading: Icon(Icons.phone),
+                              title: Text("Number".tr()),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => ProfileDialog(
+                                    containerHeight: 200,
+                                    formKey: bloc.phoneNumberKey,
+                                    textFieldController:
+                                        bloc.phoneNumberController,
+                                    controllerValidation: (value) =>
+                                        bloc.phoneValidation(text: value),
+                                    textFieldHint: "New Phone Number",
+                                    submitMethod: bloc.validationMethod,
+                                  ),
+                                );
+                              },
+                            ),
+                            Divider(),
                         ListTile(
                           leading: Icon(Icons.email_outlined),
                           title: Text("Email".tr()),
@@ -219,7 +240,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    height: 450.h,
+                    height: 520.h,
                     paddingSize: false,
                   ),
                 ],

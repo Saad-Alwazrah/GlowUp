@@ -12,9 +12,11 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final usernameKey = GlobalKey<FormState>();
+  final phoneNumberKey = GlobalKey<FormState>();
   final emailKey = GlobalKey<FormState>();
 
   TextEditingController usernameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
   final supabase = GetIt.I.get<SupabaseConnect>();
@@ -96,6 +98,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
+  // Need to check if phone alraedy exist in Supabase
+  String? phoneValidation({String? text}) {
+    if (text == null || text.isEmpty) {
+      return "This field is required";
+    } else if (!text.startsWith('05')) {
+      return "The number must start with 05";
+    } else if (text.length != 10) {
+      return "the number you enterd is Inavlid";
+    } else {
+      return null;
+    }
+  }
+
   FutureOr<void> updateLanguage(
     LanguageSwitchToggleEvent event,
     Emitter<ProfileState> emit,
@@ -108,7 +123,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(UpdateLanguageState());
     }
   }
-  
+
   FutureOr<void> updateTheme(
     ThemeSwitchToggleEvent event,
     Emitter<ProfileState> emit,
@@ -122,10 +137,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  FutureOr<void> updateUI(
-    UpdateUIEvent event,
-    Emitter<ProfileState> emit,
-  ) {
+  FutureOr<void> updateUI(UpdateUIEvent event, Emitter<ProfileState> emit) {
     emit(SuccessState());
   }
 }
