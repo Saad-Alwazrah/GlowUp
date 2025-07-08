@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glowup/Repositories/models/appointment.dart';
 import 'package:glowup/Styles/app_colors.dart';
 
@@ -32,22 +31,22 @@ class BookingCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               _InfoRow(
-                iconPath: 'assets/svgs/calendar.svg',
+                icon: Icons.calendar_today_outlined,
                 text: appointment.appointmentDate,
               ),
               const SizedBox(height: 8),
               _InfoRow(
-                iconPath: 'assets/svgs/clock.svg',
+                icon: Icons.access_time_rounded,
                 text: "${appointment.appointmentStart} - ${appointment.appointmentEnd}",
               ),
               const SizedBox(height: 8),
               _InfoRow(
-                iconPath: 'assets/svgs/user.svg',
+                icon: Icons.person_outline,
                 text: appointment.stylist?.name ?? "Stylist",
               ),
               const SizedBox(height: 8),
               _InfoRow(
-                iconPath: 'assets/svgs/salon.svg',
+                icon: Icons.store_outlined,
                 text: appointment.provider?.name ?? "Salon",
               ),
             ],
@@ -64,11 +63,11 @@ class BookingCard extends StatelessWidget {
 }
 
 class _InfoRow extends StatelessWidget {
-  final String iconPath;
+  final IconData icon;
   final String text;
 
   const _InfoRow({
-    required this.iconPath,
+    required this.icon,
     required this.text,
   });
 
@@ -76,7 +75,7 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SvgPicture.asset(iconPath, width: 18, height: 18),
+        Icon(icon, size: 18, color: AppColors.darkText),
         const SizedBox(width: 8),
         Text(
           text,
@@ -131,3 +130,4 @@ class _StatusBadge extends StatelessWidget {
     );
   }
 }
+
