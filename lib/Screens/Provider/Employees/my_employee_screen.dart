@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,10 +40,10 @@ class MyEmployeeScreen extends StatelessWidget {
                     icon: Icon(Icons.arrow_back, color: AppColors.goldenPeach),
                   ),
                 ),
-                Text("My Employees", style: AppFonts.semiBold24),
+                Text(context.tr("My Employees") , style: AppFonts.semiBold24),
                 SizedBox(height: 48.h),
                 CustomElevatedButton(
-                  text: "+   Add new employee",
+                  text: context.tr("+  Add new employee") ,
                   onTap: () {},
                 ), // Need to add the function
 
@@ -58,7 +59,7 @@ class MyEmployeeScreen extends StatelessWidget {
                       itemCount: bloc.provider.stylists.length,
                       itemBuilder: (context, index) {
                         return EmployeeContainer(
-                          employeeName: bloc.provider.stylists[index].name,
+                          employeeName: context.tr(bloc.provider.stylists[index].name) ,
                           employeeRating:
                               bloc.provider.stylists[index].avgRating,
                           containerMethod: () => Navigator.push(

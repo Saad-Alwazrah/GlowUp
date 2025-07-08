@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
               if (state is ErrorState) {
                 ScaffoldMessenger.of(
                   listenerContext,
-                ).showSnackBar(SnackBar(content: Text("Login failed")));
+                ).showSnackBar(SnackBar(content: Text(context.tr("Login failed") )));
               }
             },
             child: Scaffold(
@@ -67,32 +67,36 @@ class LoginScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(),
-                            Text("Welcome Back", style: AppFonts.semiBold24),
+                            Text(context.tr("Welcome Back"), style: AppFonts.semiBold24),
                             SizedBox(),
                             Form(
                               key: bloc.loginFormKey,
                               child: Column(
                                 children: [
                                   CustomTextfield(
-                                    textFieldHint: "Email",
+                                    textFieldHint: context.tr("Email"),
                                     textFieldcontroller: bloc.emailController,
                                     validationMethod: (value) =>
-                                        bloc.emailValidation(text: value),
+                                       context.tr(
+                                        bloc.emailValidation(text: value)
+                                         ?? "") ,
                                   ),
                                   CustomTextfield(
-                                    textFieldHint: "Password",
+                                    textFieldHint: context.tr("Password"),
                                     isPassword: true,
                                     textFieldcontroller:
                                         bloc.passwordController,
                                     validationMethod: (value) =>
-                                        bloc.passwordValidation(text: value),
+                                       context.tr(
+                                        bloc.passwordValidation(text: value)
+                                         ?? "") ,
                                   ),
                                 ],
                               ),
                             ),
 
                             CustomElevatedButton(
-                              text: "Login".tr(),
+                              text: context.tr("Login"),
                               onTap: () {
                                 bloc.add(ValidateLogin(context: context));
                               },
@@ -100,7 +104,7 @@ class LoginScreen extends StatelessWidget {
 
                             // SizedBox(),
                             OntapText(
-                              text: "Don't have an account?  SignUp",
+                              text: context.tr("Don't have an account?  SignUp"),
                               pressedMethod: () {
                                 Navigator.pushNamed(context, '/signup');
                               },

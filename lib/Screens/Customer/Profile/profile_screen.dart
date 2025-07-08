@@ -44,6 +44,11 @@ class ProfileScreen extends StatelessWidget {
           body: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               final bloc = context.read<ProfileBloc>();
+              if (context.locale == Locale("en")) {
+            bloc.languageSwitchValue = 1;
+          } else {
+            bloc.languageSwitchValue = 0;
+          }
 
               return Center(
                 child: Column(
@@ -93,7 +98,7 @@ class ProfileScreen extends StatelessWidget {
                                   textFieldController: bloc.usernameController,
                                   controllerValidation: (value) =>
                                       bloc.userNameValidation(text: value),
-                                  textFieldHint: "New Username",
+                                  textFieldHint: context.tr("New Username"),
                                   submitMethod: bloc.validationMethod,
                                 ),
                               );
@@ -108,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
 
                           ListTile(
                             leading: Icon(Icons.phone),
-                            title: Text("Number".tr()),
+                            title: Text(context.tr("Number")),
                             onTap: () {
                               showDialog(
                                 context: context,
@@ -119,7 +124,7 @@ class ProfileScreen extends StatelessWidget {
                                       bloc.phoneNumberController,
                                   controllerValidation: (value) =>
                                       bloc.phoneValidation(text: value),
-                                  textFieldHint: "New Phone Number",
+                                  textFieldHint: context.tr("New Phone Number"),
                                   submitMethod: bloc.validationMethod,
                                 ),
                               );
@@ -128,7 +133,7 @@ class ProfileScreen extends StatelessWidget {
                           Divider(),
                           ListTile(
                             leading: Icon(Icons.email_outlined),
-                            title: Text("Email".tr()),
+                            title: Text(context.tr("Email")),
                             onTap: () {
                               showDialog(
                                 context: context,
@@ -138,7 +143,7 @@ class ProfileScreen extends StatelessWidget {
                                   textFieldController: bloc.emailController,
                                   controllerValidation: (value) =>
                                       bloc.emailValidation(text: value),
-                                  textFieldHint: "New Email",
+                                  textFieldHint: context.tr("New Email"),
                                   submitMethod: bloc.validationMethod,
                                 ),
                               );
@@ -148,14 +153,14 @@ class ProfileScreen extends StatelessWidget {
                           // Navigate to Help Screen
                           ListTile(
                             leading: Icon(Icons.help),
-                            title: Text("Help".tr()),
+                            title: Text(context.tr("Help")),
                           ),
                           Divider(),
 
                           // Navigate to the Settings Screen
                           ListTile(
                             leading: Icon(Icons.language),
-                            title: Text("Language".tr()),
+                            title: Text(context.tr("Language")),
                             trailing: AnimatedToggleSwitch<int>.size(
                               height: 40,
                               current: bloc.languageSwitchValue,
@@ -199,7 +204,7 @@ class ProfileScreen extends StatelessWidget {
                           Divider(),
                           ListTile(
                             leading: Icon(Icons.contrast),
-                            title: Text("Theme".tr()),
+                            title: Text(context.tr("Theme")),
                             trailing: AnimatedToggleSwitch.size(
                               height: 40,
                               current: bloc.themeSwitchValue,
@@ -232,7 +237,7 @@ class ProfileScreen extends StatelessWidget {
                           // Add the Logout function
                           ListTile(
                             leading: Icon(Icons.logout, color: Colors.red),
-                            title: Text("Logout".tr()),
+                            title: Text(context.tr("Logout")),
                             onTap: () {
                               bloc.supabase.signOut();
                               bloc.add(UpdateUIEvent());

@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:glowup/Repositories/api/supabase_connect.dart';
 import 'package:glowup/Screens/Customer/Help/help_screen.dart';
 import 'package:glowup/Screens/Customer/NavBar/nav_bar_screen.dart';
-import 'package:glowup/Screens/Provider/Employees/my_employee_screen.dart';
 import 'package:glowup/Screens/Provider/NavBar/provider_nav_bar_screen.dart';
 import 'package:glowup/Screens/Provider/SignUp/provider_sign_up_screen.dart';
 import 'package:glowup/Screens/Shared/Login/login_screen.dart';
@@ -58,7 +57,7 @@ class MyApp extends StatelessWidget {
           '/onboarding': (context) => const OnboardingScreen(),
           '/signup': (context) => const SignUpScreen(),
           '/login': (context) => const LoginScreen(),
-          '/navbar': (context) => const NavBarScreen(),
+          '/navbar': (context) =>  NavBarScreen(),
           '/providerSignup': (context) => const ProviderSignUpScreen(),
           '/providernavbar': (context) => const ProviderNavBarScreen(),
           '/help': (context) => const HelpScreen(),

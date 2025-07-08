@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,15 +40,25 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 100),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
-                      child: Text(
-                        "Hello, ${bloc.supabaseConnect.userProfile?.username ?? ""}",
-                        style: AppFonts.black32,
+                      child: Text.rich(
+                        TextSpan(
+                          text: context.tr("Hello"),
+                          style: AppFonts.black32,
+                          children: [
+                            TextSpan(
+                              text:
+                                  bloc.supabaseConnect.userProfile?.username ??
+                                  "",
+                              style: AppFonts.black32,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(left: 50, top: 10),
                       child: Text(
-                        "Are you ready for a Glow Up",
+                        context.tr("Are you ready for a Glow Up"),
                         style: AppFonts.light16,
                       ),
                     ),
@@ -57,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                         SizedBox(width: 32),
                         CustomSearchBar(
                           controller: bloc.searchController,
-                          hintText: "Search services",
+                          hintText: context.tr("Search services"),
                           onChanged: (value) {
                             bloc.add(SearchEvent(value));
                           },
@@ -105,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                               return Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
                                 child: Categories(
-                                  label: categories[index],
+                                  label: context.tr(categories[index]),
                                   svgIconPath: mainIcons[index],
                                   isSelected: bloc.selectedIndex == index,
                                   onTap: () {

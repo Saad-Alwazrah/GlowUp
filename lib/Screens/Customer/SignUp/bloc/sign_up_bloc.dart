@@ -94,7 +94,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   String? userNameValidation({String? text}) {
     if (text == null || text.isEmpty) {
-      return "This field is required";
+      return  "This field is required";
     } else if (text.length < 3) {
       return "the name should atleast be 4 charectars long";
     } else {

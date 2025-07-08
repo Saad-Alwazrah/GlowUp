@@ -32,7 +32,7 @@ class EmployeeContainer extends StatelessWidget {
               Row(
                 children: [
                   employeeRating == null
-                      ? Text("No Rating".tr())
+                      ? Text(context.tr("No Rating"))
                       : Text("$employeeRating"),
                   Icon(Icons.star, color: Colors.yellow.shade600),
                 ],

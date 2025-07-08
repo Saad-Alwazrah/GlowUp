@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,7 +9,7 @@ import 'package:glowup/Screens/Customer/Profile/profile_screen.dart';
 import 'package:glowup/Screens/Customer/Services/home_screen.dart';
 
 class NavBarScreen extends StatelessWidget {
-  const NavBarScreen({super.key});
+   NavBarScreen({super.key});
 
   final List<String> svgPaths = const [
     'assets/svgs/home.svg',
@@ -17,7 +18,7 @@ class NavBarScreen extends StatelessWidget {
     'assets/svgs/me.svg',
   ];
 
-  final List<String> labels = const ["Home", "Providers", "Bookings", "Me"];
+  List<String> labels =  ["Home", "Providers", "Bookings", "Me"];
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,7 @@ class NavBarScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                labels[index],
+                               context.tr(labels[index]),
                                 style: TextStyle(
                                   color: isActive
                                       ? const Color(0xFF8A766D)

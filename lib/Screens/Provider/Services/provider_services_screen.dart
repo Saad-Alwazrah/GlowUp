@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,12 +28,12 @@ class ProviderServicesScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(height: 100.h),
-                Text("Your Services", style: AppFonts.bold20),
+                Text(context.tr("Your Services") , style: AppFonts.bold20),
                 SizedBox(height: 16.h),
                 CustomElevatedButton(
                   radius: 10.r,
                   icon: Icon(Icons.add, size: 24.sp, color: Colors.white),
-                  text: "Add New Service",
+                  text: context.tr("Add New Service"),
                   onTap: () {},
                 ),
                 if (services.isNotEmpty)

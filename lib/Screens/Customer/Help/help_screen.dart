@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/Styles/app_colors.dart';
@@ -16,10 +17,10 @@ class HelpScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Need Help?", style: AppFonts.semiBold24),
+              Text("Need Help?".tr(), style: AppFonts.semiBold24),
               SizedBox(height: 16.h),
               Text(
-                "For support, contact us at:",
+                "For support, contact us at:".tr(),
                 style: AppFonts.light16,
                 textAlign: TextAlign.center,
               ),

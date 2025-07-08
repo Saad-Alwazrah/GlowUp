@@ -10,6 +10,7 @@ import 'package:glowup/Screens/Provider/Employees/my_employee_screen.dart';
 import 'package:glowup/Screens/Provider/Profile/bloc/provider_profile_bloc.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
+import 'package:glowup/Styles/theme.dart';
 import 'package:glowup/Utilities/extensions/screen_size.dart';
 
 class ProviderProfileScreen extends StatelessWidget {
@@ -27,9 +28,15 @@ class ProviderProfileScreen extends StatelessWidget {
           } else {
             bloc.languageSwitchValue = 0;
           }
+
+          if (bloc.themeManager.themeMode == ThemeMode.light) {
+            bloc.themeSwitchValue = 0;
+          } else {
+            bloc.themeSwitchValue = 1;
+          }
+
           return BlocBuilder<ProviderProfileBloc, ProviderProfileState>(
             builder: (context, state) {
-
               print(bloc.provider.avatarUrl);
               return BlocListener<ProviderProfileBloc, ProviderProfileState>(
                 listener: (listenerContext, state) {
@@ -54,7 +61,6 @@ class ProviderProfileScreen extends StatelessWidget {
                       context,
                     ).showSnackBar(SnackBar(content: Text(state.message)));
                   }
-
                 },
                 child: Scaffold(
                   resizeToAvoidBottomInset: false,
@@ -89,7 +95,8 @@ class ProviderProfileScreen extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(60),
                                     child: CachedNetworkImage(
-                                      imageUrl:'https://aypgfhaziqrnqmpupcji.supabase.co/storage/v1/object/public/assets/providers/74b6f0cd-85d7-4a77-a108-8b9bba142914/avatar.jpg',
+                                      imageUrl:
+                                          'https://aypgfhaziqrnqmpupcji.supabase.co/storage/v1/object/public/assets/providers/74b6f0cd-85d7-4a77-a108-8b9bba142914/avatar.jpg',
                                       height: 120.h,
                                       width: 120.w,
                                       fit: BoxFit.cover,
@@ -149,7 +156,10 @@ class ProviderProfileScreen extends StatelessWidget {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => BlocProvider.value(value: bloc,child: MyEmployeeScreen(),)
+                                      builder: (context) => BlocProvider.value(
+                                        value: bloc,
+                                        child: MyEmployeeScreen(),
+                                      ),
                                     ),
                                   );
                                 },
@@ -304,8 +314,10 @@ class ProviderProfileScreen extends StatelessWidget {
                                           : Colors.black,
                                     ),
                                   ],
-                                  onChanged: (_) =>
-                                      bloc.add(ThemeSwitchToggleEvent()),
+                                  onChanged: (_) async {
+                                    bloc.themeManager.toggleTheme();
+                                    bloc.add(ThemeSwitchToggleEvent());
+                                  },
                                 ),
                               ),
                               Divider(),

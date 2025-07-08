@@ -63,8 +63,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   String? passwordValidation({String? text}) {
     if (text == null || text.isEmpty) {
       return "This field is required";
-    } else if (text.length < 6) {
-      return "Password must atleast be 6 Charectars long";
+    } else if (text.length < 8) {
+      return "Password must atleast be 8 Charectars long";
     } else {
       return null;
     }
