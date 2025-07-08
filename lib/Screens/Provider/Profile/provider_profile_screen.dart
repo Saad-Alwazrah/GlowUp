@@ -22,15 +22,15 @@ class ProviderProfileScreen extends StatelessWidget {
         builder: (context) {
           final bloc = context.read<ProviderProfileBloc>();
           if (context.locale == Locale("en")) {
-                bloc.languageSwitchValue = 1;
-              } else {
-                bloc.languageSwitchValue = 0;
-              }
+            bloc.languageSwitchValue = 1;
+          } else {
+            bloc.languageSwitchValue = 0;
+          }
           return BlocBuilder<ProviderProfileBloc, ProviderProfileState>(
             builder: (context, state) {
               return Scaffold(
                 resizeToAvoidBottomInset: false,
-                body: SafeArea(
+                body: SingleChildScrollView(
                   child: Column(
                     children: [
                       Stack(
@@ -72,9 +72,9 @@ class ProviderProfileScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                  
+
                       SizedBox(height: 72.h),
-                  
+
                       // The provider name
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -90,10 +90,7 @@ class ProviderProfileScreen extends StatelessWidget {
                           Row(
                             children: [
                               Text("${bloc.provider.avgRating}"),
-                              Icon(
-                                Icons.star,
-                                color: Colors.yellow.shade600,
-                              ),
+                              Icon(Icons.star, color: Colors.yellow.shade600),
                             ],
                           ),
                         ],
@@ -103,6 +100,16 @@ class ProviderProfileScreen extends StatelessWidget {
                         childWidget: Column(
                           children: [
                             ListTile(
+                              dense: true,
+                              visualDensity: VisualDensity(vertical: -0.5),
+                              leading: Icon(Icons.person),
+                              title: Text("Employees".tr()),
+                              onTap: () {},
+                            ),
+                            Divider(),
+                            ListTile(
+                              dense: true,
+                              visualDensity: VisualDensity(vertical: -0.5),
                               leading: Icon(Icons.badge_outlined),
                               title: Text("Name".tr()),
                               onTap: () {
@@ -111,7 +118,8 @@ class ProviderProfileScreen extends StatelessWidget {
                                   builder: (context) => ProfileDialog(
                                     containerHeight: 200,
                                     formKey: bloc.usernameKey,
-                                    textFieldController: bloc.usernameController,
+                                    textFieldController:
+                                        bloc.usernameController,
                                     controllerValidation: (value) =>
                                         bloc.userNameValidation(text: value),
                                     textFieldHint: "New Username",
@@ -120,13 +128,10 @@ class ProviderProfileScreen extends StatelessWidget {
                                 );
                               },
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                              ),
-                              child: Divider(color: Colors.amber),
-                            ),
+                            Divider(),
                             ListTile(
+                              dense: true,
+                              visualDensity: VisualDensity(vertical: -0.5),
                               leading: Icon(Icons.phone),
                               title: Text("Number".tr()),
                               onTap: () {
@@ -147,6 +152,8 @@ class ProviderProfileScreen extends StatelessWidget {
                             ),
                             Divider(),
                             ListTile(
+                              dense: true,
+                              visualDensity: VisualDensity(vertical: -0.5),
                               leading: Icon(Icons.email_outlined),
                               title: Text("Email".tr()),
                               onTap: () {
@@ -167,13 +174,17 @@ class ProviderProfileScreen extends StatelessWidget {
                             Divider(),
                             // Navigate to Help Screen
                             ListTile(
+                              dense: true,
+                              visualDensity: VisualDensity(vertical: -0.5),
                               leading: Icon(Icons.help),
                               title: Text("Help".tr()),
                             ),
                             Divider(),
-                  
+
                             // Navigate to the Settings Screen
                             ListTile(
+                              dense: true,
+                              visualDensity: VisualDensity(vertical: -0.5),
                               leading: Icon(Icons.language),
                               title: Text("Language".tr()),
                               trailing: AnimatedToggleSwitch<int>.size(
@@ -185,7 +196,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                   backgroundColor: AppColors.background,
                                   indicatorColor: AppColors.goldenPeach,
                                 ),
-                  
+
                                 iconList: [
                                   Text(
                                     "العربية",
@@ -218,10 +229,12 @@ class ProviderProfileScreen extends StatelessWidget {
                             ),
                             Divider(),
                             ListTile(
+                              dense: true,
+                              visualDensity: VisualDensity(vertical: -0.5),
                               leading: Icon(Icons.contrast),
                               title: Text("Theme".tr()),
                               trailing: AnimatedToggleSwitch.size(
-                                height: 40,
+                                height: 30,
                                 current: bloc.themeSwitchValue,
                                 values: [0, 1],
                                 style: ToggleStyle(
@@ -243,13 +256,16 @@ class ProviderProfileScreen extends StatelessWidget {
                                         : Colors.black,
                                   ),
                                 ],
-                                onChanged: (_) => bloc.add(ThemeSwitchToggleEvent()),
+                                onChanged: (_) =>
+                                    bloc.add(ThemeSwitchToggleEvent()),
                               ),
                             ),
                             Divider(),
-                  
+
                             // Add the Logout function
                             ListTile(
+                              dense: true,
+                              visualDensity: VisualDensity(vertical: -0.5),
                               leading: Icon(Icons.logout, color: Colors.red),
                               title: Text("Logout".tr()),
                               onTap: () {
@@ -261,7 +277,7 @@ class ProviderProfileScreen extends StatelessWidget {
                         ),
                         height: 520.h,
                         paddingSize: false,
-                      )
+                      ),
                     ],
                   ),
                 ),
