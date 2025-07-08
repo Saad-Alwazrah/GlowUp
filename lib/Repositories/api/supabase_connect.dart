@@ -389,6 +389,7 @@ class SupabaseConnect {
     for (var provider in providers) {
       provider.services.clear();
     }
+
     // linking providers with stylists
     for (Stylist stylist in stylists) {
       for (Provider provider in providers) {
@@ -416,11 +417,24 @@ class SupabaseConnect {
         }
       }
     }
-    log(userProfile?.role ?? "No user profile found");
     if (userProfile!.role == "provider") {
+      theProvider!.stylists.clear();
+      theProvider!.services.clear();
+      theProvider!.appointments.clear();
+
       for (Services service in services) {
         if (service.providerId == theProvider?.id) {
           theProvider!.services.add(service);
+        }
+      }
+      for (Stylist stylist in stylists) {
+        if (stylist.providerId == theProvider?.id) {
+          theProvider!.stylists.add(stylist);
+        }
+      }
+      for (Appointment appointment in appointments) {
+        if (appointment.providerId == theProvider?.id) {
+          theProvider!.appointments.add(appointment);
         }
       }
     }

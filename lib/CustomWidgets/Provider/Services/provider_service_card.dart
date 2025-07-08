@@ -11,45 +11,65 @@ class ProviderServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 178.h,
+      height: 160.h,
       width: 398.w,
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CachedNetworkImage(
-            imageUrl: service.imageUrl,
-            fit: BoxFit.cover,
-            width: 140.w,
-            height: 140.h,
-            placeholder: (context, url) =>
-                const Center(child: CircularProgressIndicator()),
-            errorWidget: (context, url, error) =>
-                const Icon(Icons.error, color: AppColors.goldenPeach),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                service.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+          // LEFT: image with padding
+          Padding(
+            padding: EdgeInsets.all(8.h),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.r),
+              child: CachedNetworkImage(
+                imageUrl: service.imageUrl,
+                fit: BoxFit.cover,
+                width: 140.w,
+                height: double.infinity, // fill parent height
+                placeholder: (ctx, url) =>
+                    const Center(child: CircularProgressIndicator()),
+                errorWidget: (ctx, url, err) =>
+                    const Icon(Icons.error, color: AppColors.goldenPeach),
               ),
-              Text(service.price.toStringAsFixed(0)),
-            ],
+            ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              IconButton(
+          // MIDDLE: text centered vertically
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // hug content
+                children: [
+                  Text(
+                    service.name,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Text(
+                    "\$${service.price.toStringAsFixed(0)}",
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // RIGHT: delete button, pinned top
+          Padding(
+            padding: EdgeInsets.all(4.h),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
                 onPressed: () {},
                 icon: Icon(Icons.delete_outlined, color: AppColors.goldenPeach),
               ),
-            ],
+            ),
           ),
         ],
       ),
