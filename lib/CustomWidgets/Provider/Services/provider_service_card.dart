@@ -53,7 +53,7 @@ class ProviderServiceCard extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    "\$${service.price.toStringAsFixed(0)}",
+                    "SAR${service.price.toStringAsFixed(0)}",
                     textAlign: TextAlign.center,
                   ),
                 ],

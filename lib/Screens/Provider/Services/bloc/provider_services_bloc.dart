@@ -10,6 +10,7 @@ class ProviderServicesBloc
     extends Bloc<ProviderServicesEvent, ProviderServicesState> {
   final supabase = GetIt.I.get<SupabaseConnect>();
   ProviderServicesBloc() : super(ProviderServicesInitial()) {
+    emit(ProviderServicesInitial());
     on<ProviderServicesEvent>((event, emit) {
       // TODO: implement event handler
     });

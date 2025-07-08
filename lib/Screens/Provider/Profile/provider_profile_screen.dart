@@ -319,8 +319,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                 leading: Icon(Icons.logout, color: Colors.red),
                                 title: Text("Logout".tr()),
                                 onTap: () {
-                                  bloc.supabase.signOut();
-                                  bloc.add(UpdateUIEvent());
+                                  bloc.add(LogOutProvider());
                                 },
                               ),
                             ],

@@ -64,8 +64,8 @@ class BookingDetailsBloc
         appointmentEnd: selectedTime!
             .add(Duration(minutes: event.service.durationMinutes))
             .toIso8601String(),
-        stylistId: selectedStylist!.id,
-        serviceId: event.service.id,
+        stylistId: selectedStylist!.id!,
+        serviceId: event.service.id!,
         providerId: event.service.providerId,
         atHome: event.service.atHome,
       );

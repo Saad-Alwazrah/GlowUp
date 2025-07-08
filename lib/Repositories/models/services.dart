@@ -3,22 +3,23 @@ import 'package:glowup/Repositories/models/stylist.dart';
 
 class Services {
   Services({
-    required this.id,
+    this.id,
     required this.name,
     required this.description,
     required this.durationMinutes,
     required this.price,
+    required this.category,
     required this.providerId,
   });
-  late final int id;
-  late final String name;
-  late final String description;
-  late final int durationMinutes;
-  late final double price;
+  late final int? id;
+  late String name;
+  late String description;
+  late int durationMinutes;
+  late double price;
   late final String providerId;
-  late final String imageUrl;
+  late String imageUrl;
   late final String category;
-  late final bool atHome;
+  late bool atHome;
   List<Stylist> stylists = [];
   Provider? provider;
 
@@ -36,13 +37,11 @@ class Services {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['id'] = id;
     _data['name'] = name;
     _data['description'] = description;
     _data['duration_minutes'] = durationMinutes;
     _data['price'] = price;
     _data['provider_id'] = providerId;
-    _data['image_url'] = imageUrl;
     _data['category'] = category;
     _data['at_home'] = atHome;
     return _data;

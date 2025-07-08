@@ -37,6 +37,14 @@ class ProviderProfileBloc
     on<ThemeSwitchToggleEvent>(updateTheme);
     on<UpdateUIEvent>(updateUI);
     on<UpdateProviderAvatarEvent>(updateAvatarMethod);
+    on<LogOutProvider>((event, emit) async {
+      final signOutStatus = await supabase.signOut();
+      if (signOutStatus) {
+        emit(ProviderLoggedOut());
+      } else {
+        emit(LogOutError("Failed to log out"));
+      }
+    });
   }
 
   validationMethod(GlobalKey<FormState> validationKey) {
