@@ -775,6 +775,7 @@ class SupabaseConnect {
           .eq("id", user.id)
           .single();
       theProvider = Provider.fromJson(providerResponse);
+      linkData();
       // Fetch provider-specific data if needed
     }
     if (session != null) {

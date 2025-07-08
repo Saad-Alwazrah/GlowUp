@@ -28,21 +28,25 @@ class ProviderServicesScreen extends StatelessWidget {
           return Scaffold(
             body: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+
               children: [
                 SizedBox(height: 100.h),
                 Text("Your Services", style: AppFonts.bold20),
                 SizedBox(height: 16.h),
-                CustomElevatedButton(
-                  radius: 10.r,
-                  icon: Icon(Icons.add, size: 24.sp, color: Colors.white),
-                  text: "Add New Service",
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const AddingServicesScreen(),
-                      ),
-                    );
-                  },
+                Align(
+                  alignment: Alignment.center,
+                  child: CustomElevatedButton(
+                    radius: 10.r,
+                    icon: Icon(Icons.add, size: 24.sp, color: Colors.white),
+                    text: "Add New Service",
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const AddingServicesScreen(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
                 if (services.isNotEmpty)
                   SizedBox(
