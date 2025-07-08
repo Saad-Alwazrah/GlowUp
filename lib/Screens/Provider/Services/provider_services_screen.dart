@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/Provider/Services/provider_service_card.dart';
 import 'package:glowup/CustomWidgets/Shared/custom_elevated_button.dart';
+import 'package:glowup/Screens/Provider/AddingServices/adding_services_screen.dart';
 import 'package:glowup/Screens/Provider/Services/bloc/provider_services_bloc.dart';
 import 'package:glowup/Styles/app_font.dart';
 import 'package:glowup/Utilities/extensions/screen_size.dart';
@@ -21,6 +23,7 @@ class ProviderServicesScreen extends StatelessWidget {
           log("entered ProviderServicesScreen");
           final bloc = context.read<ProviderServicesBloc>();
           final services = bloc.supabase.theProvider?.services ?? [];
+          log(jsonEncode(services));
           log("services length: ${services.length}");
           return Scaffold(
             body: Column(
@@ -33,7 +36,13 @@ class ProviderServicesScreen extends StatelessWidget {
                   radius: 10.r,
                   icon: Icon(Icons.add, size: 24.sp, color: Colors.white),
                   text: "Add New Service",
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const AddingServicesScreen(),
+                      ),
+                    );
+                  },
                 ),
                 if (services.isNotEmpty)
                   SizedBox(
