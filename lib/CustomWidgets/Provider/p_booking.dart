@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:glowup/Repositories/models/appointment.dart';
 import 'package:glowup/Styles/app_colors.dart';
 
-class BookingCard extends StatelessWidget {
+class PBookingCard extends StatelessWidget {
   final Appointment appointment;
+  final VoidCallback? onAccept;
+  final VoidCallback? onDecline;
 
-  const BookingCard({super.key, required this.appointment});
+  const PBookingCard({
+    super.key,
+    required this.appointment,
+    this.onAccept,
+    this.onDecline,
+  });
+
+  bool get isPending => appointment.status.toLowerCase() == 'pending';
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +58,39 @@ class BookingCard extends StatelessWidget {
                 icon: Icons.store_outlined,
                 text: appointment.provider?.name ?? "Salon",
               ),
+              if (isPending) ...[
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: onDecline,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: const Text("Decline"),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: onAccept,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: const Text("Accept"),
+                    ),
+                  ],
+                ),
+              ],
             ],
           ),
           Positioned(
-            bottom: 0,
+            bottom: isPending ? 48 : 0,
             right: 0,
             child: _StatusBadge(status: appointment.status),
           ),

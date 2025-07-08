@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:glowup/Screens/Provider/Apppointments/provider_appointments_screen.dart';
+import 'package:glowup/Screens/Provider/p_booking/p_booking.dart';
 import 'package:glowup/Screens/Provider/NavBar/bloc/provider_nav_bar_bloc.dart';
 
 import 'package:glowup/Screens/Provider/Profile/provider_profile_screen.dart';
@@ -32,7 +32,7 @@ class ProviderNavBarScreen extends StatelessWidget {
                   index: state.selectedIndex,
                   children: const [
                     ProviderServicesScreen(),
-                    ProviderAppointmentsScreen(),
+                    PBookingsScreen(),
                     ProviderProfileScreen(),
                   ],
                 ),
