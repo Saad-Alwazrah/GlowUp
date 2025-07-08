@@ -61,7 +61,6 @@ class MyApp extends StatelessWidget {
           '/navbar': (context) => const NavBarScreen(),
           '/providerSignup': (context) => const ProviderSignUpScreen(),
           '/providernavbar': (context) => const ProviderNavBarScreen(),
-          '/employees': (context) => const MyEmployeeScreen(),
           '/help': (context) => const HelpScreen(),
         },
       ),

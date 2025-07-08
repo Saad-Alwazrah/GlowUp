@@ -29,6 +29,8 @@ class ProviderProfileScreen extends StatelessWidget {
           }
           return BlocBuilder<ProviderProfileBloc, ProviderProfileState>(
             builder: (context, state) {
+
+              print(bloc.provider.avatarUrl);
               return BlocListener<ProviderProfileBloc, ProviderProfileState>(
                 listener: (listenerContext, state) {
                   if (state is ProviderLoggedOut) {
@@ -52,6 +54,7 @@ class ProviderProfileScreen extends StatelessWidget {
                       context,
                     ).showSnackBar(SnackBar(content: Text(state.message)));
                   }
+
                 },
                 child: Scaffold(
                   resizeToAvoidBottomInset: false,
@@ -86,12 +89,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(60),
                                     child: CachedNetworkImage(
-                                      imageUrl:
-                                          bloc
-                                              .supabase
-                                              .theProvider
-                                              ?.avatarUrl ??
-                                          '',
+                                      imageUrl:'https://aypgfhaziqrnqmpupcji.supabase.co/storage/v1/object/public/assets/providers/74b6f0cd-85d7-4a77-a108-8b9bba142914/avatar.jpg',
                                       height: 120.h,
                                       width: 120.w,
                                       fit: BoxFit.cover,
@@ -148,10 +146,10 @@ class ProviderProfileScreen extends StatelessWidget {
                                 leading: Icon(Icons.person),
                                 title: Text("Employees".tr()),
                                 onTap: () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => MyEmployeeScreen(),
+                                      builder: (context) => BlocProvider.value(value: bloc,child: MyEmployeeScreen(),)
                                     ),
                                   );
                                 },

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
+import 'package:glowup/CustomWidgets/Provider/Employees/employee_container.dart';
 import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
+import 'package:glowup/Repositories/models/provider.dart';
+import 'package:glowup/Screens/Provider/EmployeeDetails/employee_details.dart';
 import 'package:glowup/Screens/Provider/Employees/bloc/employee_bloc.dart';
+import 'package:glowup/Screens/Provider/Profile/bloc/provider_profile_bloc.dart';
+import 'package:glowup/Screens/Provider/Profile/provider_profile_screen.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
 import 'package:glowup/Utilities/extensions/screen_size.dart';
@@ -13,18 +17,28 @@ class MyEmployeeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => EmployeeBloc(),
-      child: Builder(
-        builder: (context) {
-          final bloc = context.read<EmployeeBloc>();
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: AppColors.background,
-              actions: [BackButton(color: AppColors.goldenPeach)],
-            ),
-            body: Column(
+    return Builder(
+      builder: (context) {
+        final bloc = context.read<ProviderProfileBloc>();
+        return Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
               children: [
+                SizedBox(height: 48.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProviderProfileScreen(),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.arrow_back, color: AppColors.goldenPeach),
+                  ),
+                ),
                 Text("My Employees", style: AppFonts.semiBold24),
                 SizedBox(height: 48.h),
                 CustomElevatedButton(
@@ -32,8 +46,10 @@ class MyEmployeeScreen extends StatelessWidget {
                   onTap: () {},
                 ), // Need to add the function
 
+                SizedBox(height: 24.h),
+
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   child: SizedBox(
                     width: context.getScreenWidth(size: 1),
                     height: context.getScreenHeight(size: 0.6.h),
@@ -41,20 +57,17 @@ class MyEmployeeScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: bloc.provider.stylists.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: Row(
-                            children: [
-                              Text(
-                                "${bloc.provider.stylists[index].avgRating}",
-                              ),
-                              Icon(Icons.star, color: Colors.yellow.shade600),
-                            ],
-                          ),
-                          title: Text(bloc.provider.stylists[index].name),
-                          trailing: Icon(
-                            Icons.delete_outline,
-                            color: AppColors.goldenPeach,
-                          ),
+                        return EmployeeContainer(
+                          employeeName: bloc.provider.stylists[index].name,
+                          employeeRating:
+                              bloc.provider.stylists[index].avgRating,
+                          containerMethod: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  EmployeeDetails(stylist: bloc.provider.stylists[index]),
+                            ),
+                          ), // Need to make the transition good
                         );
                       },
                     ),
@@ -62,9 +75,9 @@ class MyEmployeeScreen extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

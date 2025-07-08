@@ -9,10 +9,7 @@ part 'employee_state.dart';
 
 class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
   Provider provider = GetIt.I.get<SupabaseConnect>().theProvider!;
-  
   EmployeeBloc() : super(EmployeeInitial()) {
-    on<EmployeeEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<EmployeeEvent>((event, emit) {});
   }
 }
