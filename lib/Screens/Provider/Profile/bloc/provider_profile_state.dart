@@ -14,11 +14,18 @@ class ErrorState extends ProviderProfileState {}
 final class ProviderAvatarSuccessState extends ProviderProfileState {}
 
 final class UpdateAvatarErrorState extends ProviderProfileState {
-
-    final String message;
+  final String message;
 
   UpdateAvatarErrorState(this.message);
 }
+
+final class LogOutError extends ProviderProfileState {
+  final String message;
+
+  LogOutError(this.message);
+}
+
+final class ProviderLoggedOut extends ProviderProfileState {}
 
 final class UpdateLanguageState extends ProviderProfileState {}
 

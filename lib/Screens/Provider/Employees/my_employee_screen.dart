@@ -6,6 +6,7 @@ import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
 import 'package:glowup/Screens/Provider/Employees/bloc/employee_bloc.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
+import 'package:glowup/Utilities/extensions/screen_size.dart';
 
 class MyEmployeeScreen extends StatelessWidget {
   const MyEmployeeScreen({super.key});
@@ -30,21 +31,34 @@ class MyEmployeeScreen extends StatelessWidget {
                   text: "+   Add new employee",
                   onTap: () {},
                 ), // Need to add the function
-                CustomBackgroundContainer(
-                  childWidget: Column(
-                    children: [
-                      // Replace it with a Listview Builder from the database
-                      ListTile(
-                        leading: Text("Employee Rating"),
-                        title: Text("Employee Name"),
-                        trailing: Icon(
-                          Icons.delete_outline,
-                          color: AppColors.goldenPeach,
-                        ),
-                      ),
-                    ],
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    width: context.getScreenWidth(size: 1),
+                    height: context.getScreenHeight(size: 0.6.h),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: bloc.provider.stylists.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: Row(
+                            children: [
+                              Text(
+                                "${bloc.provider.stylists[index].avgRating}",
+                              ),
+                              Icon(Icons.star, color: Colors.yellow.shade600),
+                            ],
+                          ),
+                          title: Text(bloc.provider.stylists[index].name),
+                          trailing: Icon(
+                            Icons.delete_outline,
+                            color: AppColors.goldenPeach,
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  height: 200,
                 ),
               ],
             ),

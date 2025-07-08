@@ -129,9 +129,9 @@ class ProviderProfileBloc
       source: ImageSource.gallery,
     );
     if (pickedAvatar != null) {
-      final updateStatus = await supabase.uploadUserAvatar(
+      final updateStatus = await supabase.uploadProviderAvatar(
         localFilePath: pickedAvatar.path,
-        userId: supabase.userProfile!.id,
+        providerId: supabase.theProvider!.id,
       );
       if (updateStatus) {
         emit(ProviderAvatarSuccessState());
