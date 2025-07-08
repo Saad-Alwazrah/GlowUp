@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:glowup/Repositories/api/supabase_connect.dart';
-import 'package:glowup/Screens/Customer/BookingConfirmation/booking_confirmation_screen.dart';
 import 'package:glowup/Screens/Customer/Help/help_screen.dart';
 import 'package:glowup/Screens/Customer/NavBar/nav_bar_screen.dart';
-import 'package:glowup/Screens/Provider/About/provider_about_screen.dart';
-
+import 'package:glowup/Screens/Provider/Employees/my_employee_screen.dart';
 import 'package:glowup/Screens/Provider/NavBar/provider_nav_bar_screen.dart';
 import 'package:glowup/Screens/Provider/SignUp/provider_sign_up_screen.dart';
 import 'package:glowup/Screens/Shared/Login/login_screen.dart';
@@ -63,6 +61,7 @@ class MyApp extends StatelessWidget {
           '/navbar': (context) => const NavBarScreen(),
           '/providerSignup': (context) => const ProviderSignUpScreen(),
           '/providernavbar': (context) => const ProviderNavBarScreen(),
+          '/employees': (context) => const MyEmployeeScreen(),
           '/help': (context) => const HelpScreen(),
         },
       ),

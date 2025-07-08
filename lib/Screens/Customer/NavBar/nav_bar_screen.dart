@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:glowup/Screens/Customer/BookingsScreen/Bookings_screen.dart';
 import 'package:glowup/Screens/Customer/Providers/providers_screen.dart';
 import 'package:glowup/Screens/Customer/NavBar/bloc/nav_bar_bloc.dart';
@@ -24,6 +24,7 @@ class NavBarScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => NavBarBloc(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: BlocBuilder<NavBarBloc, NavBarState>(
           builder: (context, state) {

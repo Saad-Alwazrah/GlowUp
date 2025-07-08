@@ -23,6 +23,7 @@ class ProviderNavBarScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => ProviderNavBarBloc(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: BlocBuilder<ProviderNavBarBloc, ProviderNavBarState>(
           builder: (context, state) {
@@ -30,7 +31,7 @@ class ProviderNavBarScreen extends StatelessWidget {
               children: [
                 IndexedStack(
                   index: state.selectedIndex,
-                  children: const [
+                  children:  [
                     ProviderServicesScreen(),
                     ProviderAppointmentsScreen(),
                     ProviderProfileScreen(),

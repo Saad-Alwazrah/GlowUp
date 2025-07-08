@@ -119,11 +119,17 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     }
   }
 
+  bool isPasswordValid(String? password) {
+    return RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])').hasMatch(password!);
+  }
+
   String? passwordValidation({String? text}) {
     if (text == null || text.isEmpty) {
       return "This field is required";
-    } else if (text.length < 6) {
-      return "Password must atleast be 6 Charectars long";
+    } else if (text.length < 8) {
+      return "Password must atleast be 8 Charectars long";
+    } else if (!isPasswordValid(text)) {
+      return "must contain A Number, An uppercase and a lowercase letter";
     } else {
       return null;
     }

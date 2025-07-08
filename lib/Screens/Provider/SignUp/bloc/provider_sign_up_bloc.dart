@@ -103,10 +103,13 @@ class ProviderSignUpBloc
     }
   }
 
-  // Need to add validation for the phone
   String? phoneValidation({String? text}) {
     if (text == null || text.isEmpty) {
       return "This field is required";
+    } else if (text.startsWith('05')) {
+      return "The number must start with 05";
+    } else if (text.length != 10) {
+      return "the number you enterd is Inavlid";
     } else {
       return null;
     }

@@ -48,7 +48,7 @@ class ProviderFirstPageviewSignUp extends StatelessWidget {
             children: [
               CustomTextfield(
                 textFieldcontroller: nameController,
-                textFieldHint: "Full Name".tr(),
+                textFieldHint: "Username".tr(),
                 validationMethod: nameValidation,
               ),
               CustomTextfield(

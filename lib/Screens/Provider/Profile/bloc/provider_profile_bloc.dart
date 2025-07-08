@@ -1,72 +1,42 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:glowup/Repositories/api/supabase_connect.dart';
-import 'package:glowup/Styles/theme.dart';
+import 'package:glowup/Repositories/models/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
-part 'profile_event.dart';
-part 'profile_state.dart';
+part 'provider_profile_event.dart';
+part 'provider_profile_state.dart';
 
-class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+class ProviderProfileBloc
+    extends Bloc<ProviderProfileEvent, ProviderProfileState> {
   final usernameKey = GlobalKey<FormState>();
   final phoneNumberKey = GlobalKey<FormState>();
   final emailKey = GlobalKey<FormState>();
+
+  // How to link them with the system
+  int languageSwitchValue = 0;
+  int themeSwitchValue = 0;
+
+  final supabase = GetIt.I.get<SupabaseConnect>();
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
-  final supabase = GetIt.I.get<SupabaseConnect>();
+  Provider provider = GetIt.I.get<SupabaseConnect>().theProvider!;
 
-  int languageSwitchValue = 0;
-  int themeSwitchValue = 0;
+  // final username = GetIt.I.get<SupabaseConnect>().userProfile.username;
 
-  bool isDarkMode = false;
-  ProfileBloc() : super(ProfileInitial()) {
-    on<ProfileEvent>((event, emit) {});
+  ProviderProfileBloc() : super(ProviderProfileInitial()) {
+    on<ProviderProfileEvent>((event, emit) {});
     on<LanguageSwitchToggleEvent>(updateLanguage);
     on<ThemeSwitchToggleEvent>(updateTheme);
-    on<LogOutUser>((event, emit) async {
-      final signOutStatus = await supabase.signOut();
-      if (signOutStatus) {
-        emit(UserLoggedOut());
-      } else {
-        emit(LogOutError("Failed to log out"));
-      }
-    });
-    on<UpdateUserAvatar>((event, emit) async {
-      XFile? pickedAvatar = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-      );
-      if (pickedAvatar != null) {
-        final updateStatus = await supabase.uploadUserAvatar(
-          localFilePath: pickedAvatar.path,
-          userId: supabase.userProfile!.id,
-        );
-        if (updateStatus) {
-          emit(UserAvatarUpdated());
-        } else {
-          emit(UpdateAvatarError("Failed to update avatar"));
-        }
-      }
-    });
-    on<LoadProfileAvatar>((event, emit) async {
-      final avatarUrl = supabase.userProfile?.avatarUrl;
-      if (avatarUrl != null) {
-        emit(UserAvatarLoaded());
-      } else {
-        emit(UpdateAvatarError("Failed to load avatar"));
-      }
-    });
-    on<ThemeModeChange>((event, emit) {
-      final themeManager = GetIt.I.get<ThemeManager>();
-      themeManager.toggleTheme();
-      emit(ThemeModeChanged());
-    });
+    on<UpdateUIEvent>(updateUI);
+    on<UpdateProviderAvatarEvent>(updateAvatarMethod);
   }
 
   validationMethod(GlobalKey<FormState> validationKey) {
@@ -120,7 +90,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   FutureOr<void> updateLanguage(
     LanguageSwitchToggleEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<ProviderProfileState> emit,
   ) {
     if (languageSwitchValue == 0) {
       languageSwitchValue = 1;
@@ -133,18 +103,41 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   FutureOr<void> updateTheme(
     ThemeSwitchToggleEvent event,
-    Emitter<ProfileState> emit,
+    Emitter<ProviderProfileState> emit,
   ) {
     if (themeSwitchValue == 0) {
       themeSwitchValue = 1;
-      emit(SuccessState());
+      emit(UpdateLanguageState());
     } else {
       themeSwitchValue = 0;
-      emit(SuccessState());
+      emit(UpdateLanguageState());
     }
   }
 
-  FutureOr<void> updateUI(UpdateUIEvent event, Emitter<ProfileState> emit) {
-    emit(SuccessState());
+  FutureOr<void> updateUI(
+    UpdateUIEvent event,
+    Emitter<ProviderProfileState> emit,
+  ) {
+    emit(UpdateState());
+  }
+
+  FutureOr<void> updateAvatarMethod(
+    event,
+    Emitter<ProviderProfileState> emit,
+  ) async {
+    XFile? pickedAvatar = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedAvatar != null) {
+      final updateStatus = await supabase.uploadProviderAvatar(
+        localFilePath: pickedAvatar.path,
+        providerId: supabase.theProvider!.id,
+      );
+      if (updateStatus) {
+        emit(ProviderAvatarSuccessState());
+      } else {
+        emit(UpdateAvatarErrorState("Failed to update avatar"));
+      }
+    }
   }
 }

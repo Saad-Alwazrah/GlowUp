@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glowup/CustomWidgets/shared/custom_auth_container.dart';
 import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
 import 'package:glowup/CustomWidgets/Customer/sign_up_widgets/sign_up_screens/first_page_view.dart';
 import 'package:glowup/CustomWidgets/Customer/sign_up_widgets/sign_up_screens/second_page_view.dart';
@@ -22,6 +23,7 @@ class SignUpScreen extends StatelessWidget {
         builder: (context) {
           final bloc = context.read<SignUpBloc>();
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
