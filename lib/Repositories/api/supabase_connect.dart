@@ -379,6 +379,9 @@ class SupabaseConnect {
     for (var stylist in stylists) {
       stylist.availabilitySlots.clear();
     }
+    for (var provider in providers) {
+      provider.services.clear();
+    }
     // linking providers with stylists
     for (Stylist stylist in stylists) {
       for (Provider provider in providers) {
@@ -393,6 +396,13 @@ class SupabaseConnect {
         if (provider.id == distance['provider_id']) {
           provider.distanceFromUser =
               "${(distance['distance_m'] / 1000).toStringAsFixed(2)} km";
+        }
+      }
+    }
+    for (Services service in services) {
+      for (Provider provider in providers) {
+        if (service.providerId == provider.id) {
+          provider.services.add(service);
         }
       }
     }
@@ -480,7 +490,7 @@ class SupabaseConnect {
   /// Deletes the authenticated user’s avatar.
   /// Returns true if deletion succeeded.
   Future<bool> deleteUserAvatar({required String userId}) async {
-    final bucket = supabase.client.storage.from('public-assets');
+    final bucket = supabase.client.storage.from('assets');
     final remotePath = 'users/$userId/avatar.jpg';
 
     try {
@@ -497,25 +507,72 @@ class SupabaseConnect {
     return true;
   }
 
+  Future<bool> uploadProviderAvatar({
+    required String localFilePath,
+    required String providerId,
+  }) async {
+    final bucket = supabase.client.storage.from('assets');
+    final remotePath = 'providers/$providerId/avatar.jpg';
+
+    // Delete existing avatar (if any)
+    await bucket.remove([remotePath]).catchError((_) {});
+
+    try {
+      await bucket.upload(remotePath, File(localFilePath));
+
+      final bustedUrl =
+          '${bucket.getPublicUrl(remotePath)}?updated=${DateTime.now().millisecondsSinceEpoch}';
+      await supabase.client
+          .from('providers')
+          .update({'avatar_url': bustedUrl})
+          .eq('id', providerId);
+      theProvider!.avatarUrl = bustedUrl;
+    } catch (e) {
+      log('Avatar upload error: $e');
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> deleteProviderAvatar({required String providerId}) async {
+    final bucket = supabase.client.storage.from('assets');
+    final remotePath = 'providers/$providerId/avatar.jpg';
+
+    try {
+      await bucket.remove([remotePath]).catchError((_) {});
+      await supabase.client
+          .from('providers')
+          .update({'avatar_url': null})
+          .eq('id', providerId);
+      theProvider!.avatarUrl = null;
+      return true;
+    } catch (e) {
+      log('Avatar deletion error: $e');
+      return false;
+    }
+  }
+
   /// Uploads or replaces a provider’s banner image.
   /// Returns the public URL of the uploaded banner.
   Future<bool?> uploadProviderBanner({
     required String localFilePath,
     required String providerId,
   }) async {
-    final bucket = supabase.client.storage.from('public-assets');
+    final bucket = supabase.client.storage.from('assets');
     final remotePath = 'providers/$providerId/banner.jpg';
 
     // Delete existing banner (if any)
     await bucket.remove([remotePath]).catchError((_) {});
 
     try {
+      await bucket.upload(remotePath, File(localFilePath));
+      final bustedUrl =
+          '${bucket.getPublicUrl(remotePath)}?updated=${DateTime.now().millisecondsSinceEpoch}';
       await supabase.client
           .from('providers')
-          .update({'banner_url': remotePath})
+          .update({'banner_url': bustedUrl})
           .eq('id', providerId);
-      providers.firstWhere((p) => p.id == providerId).bannerUrl = bucket
-          .getPublicUrl(remotePath);
+      theProvider!.bannerUrl = bustedUrl;
     } catch (e) {
       log('Banner upload error: $e');
       return false;
@@ -527,7 +584,7 @@ class SupabaseConnect {
   /// Deletes a provider’s banner image.
   /// Returns true if deletion succeeded.
   Future<bool> deleteProviderBanner({required String providerId}) async {
-    final bucket = supabase.client.storage.from('public-assets');
+    final bucket = supabase.client.storage.from('assets');
     final remotePath = 'providers/$providerId/banner.jpg';
 
     try {
@@ -551,19 +608,21 @@ class SupabaseConnect {
     required int providerId,
     required int serviceId,
   }) async {
-    final bucket = supabase.client.storage.from('public-assets');
+    final bucket = supabase.client.storage.from('assets');
     final remotePath = 'providers/$providerId/services/$serviceId.jpg';
 
     // Delete existing service image (if any)
     await bucket.remove([remotePath]).catchError((_) {});
 
     try {
+      final bustedUrl =
+          '${bucket.getPublicUrl(remotePath)}?updated=${DateTime.now().millisecondsSinceEpoch}';
       await supabase.client
           .from('services')
-          .update({'image_url': remotePath})
+          .update({'image_url': bustedUrl})
           .eq('id', serviceId);
-      services.firstWhere((s) => s.id == serviceId).imageUrl = bucket
-          .getPublicUrl(remotePath);
+      theProvider!.services.firstWhere((s) => s.id == serviceId).imageUrl =
+          bustedUrl;
     } catch (e) {
       log('Service image upload error: $e');
       return false;
