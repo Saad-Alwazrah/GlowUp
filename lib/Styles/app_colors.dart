@@ -17,6 +17,12 @@ class AppColors {
   static const Color ratingStars = Color(0xFFF2D267);
   static const Color white = Color(0xFFFFFFFF);
 
+    static const Color orange = Color(0xFFFFB74D);     // Pending
+  static const Color green = Color(0xFF66BB6A);      // Confirmed
+  static const Color purple = Color(0xFF9575CD);     // Paid
+  static const Color blue = Color(0xFF64B5F6);        // Completed
+  static const Color red = Color(0xFFE57373);        // Cancelled
+
   //dark mode
   static const Color backgroundDark = Color(0xFF1A1A1A);
   static const Color cardDark = Color(0xFF2E2E2E);
