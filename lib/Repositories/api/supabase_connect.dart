@@ -41,8 +41,9 @@ class SupabaseConnect {
         url: dotenv.env['SUPABASE_URL']!,
         anonKey: dotenv.env['ANON_KEY']!,
       );
-      await fetchData();
       await isLoggedIn();
+
+      await fetchData();
     } catch (e) {
       log("Supabase initialization failed: $e");
     }
@@ -69,7 +70,12 @@ class SupabaseConnect {
             .eq("id", user!.id)
             .single();
         theProvider = Provider.fromJson(providerResponse);
-        // Fetch provider-specific data if needed
+        final userProfileRes = await resClient
+            .from("profiles")
+            .select("*")
+            .eq("id", user!.id)
+            .single();
+        userProfile = Profile.fromJson(userProfileRes);
       }
     } else {
       log("No user is currently authenticated");
@@ -123,6 +129,7 @@ class SupabaseConnect {
         getDistancesFromUser(),
         getAvailabilitySlots(),
       ]).then((_) {
+        log("Waiting to link data...");
         linkData();
         log("Data fetched successfully");
       });
@@ -382,6 +389,7 @@ class SupabaseConnect {
     for (var provider in providers) {
       provider.services.clear();
     }
+
     // linking providers with stylists
     for (Stylist stylist in stylists) {
       for (Provider provider in providers) {
@@ -390,19 +398,43 @@ class SupabaseConnect {
         }
       }
     }
-    //linking providers with distance from user
-    for (Map<String, dynamic> distance in distances) {
-      for (Provider provider in providers) {
-        if (provider.id == distance['provider_id']) {
-          provider.distanceFromUser =
-              "${(distance['distance_m'] / 1000).toStringAsFixed(2)} km";
+    if (userProfile!.role != "provider") {
+      //linking providers with distance from user
+      for (Map<String, dynamic> distance in distances) {
+        for (Provider provider in providers) {
+          if (provider.id == distance['provider_id']) {
+            provider.distanceFromUser =
+                "${(distance['distance_m'] / 1000).toStringAsFixed(2)} km";
+          }
         }
       }
     }
+    // linking services with their providers
     for (Services service in services) {
       for (Provider provider in providers) {
         if (service.providerId == provider.id) {
           provider.services.add(service);
+        }
+      }
+    }
+    if (userProfile!.role == "provider") {
+      theProvider!.stylists.clear();
+      theProvider!.services.clear();
+      theProvider!.appointments.clear();
+
+      for (Services service in services) {
+        if (service.providerId == theProvider?.id) {
+          theProvider!.services.add(service);
+        }
+      }
+      for (Stylist stylist in stylists) {
+        if (stylist.providerId == theProvider?.id) {
+          theProvider!.stylists.add(stylist);
+        }
+      }
+      for (Appointment appointment in appointments) {
+        if (appointment.providerId == theProvider?.id) {
+          theProvider!.appointments.add(appointment);
         }
       }
     }
