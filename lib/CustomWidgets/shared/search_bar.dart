@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:glowup/CustomWidgets/Shared/filter_pop_up.dart';
-
 class CustomSearchBar extends StatelessWidget {
   final TextEditingController controller;
   final IconData leftIcon;
@@ -44,4 +42,4 @@ class CustomSearchBar extends StatelessWidget {
       ),
     );
   }
-}
+} 
