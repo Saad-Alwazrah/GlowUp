@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,8 +50,8 @@ class ProfileScreen extends StatelessWidget {
                       onTap: () {
                         bloc.add(UpdateUserAvatar());
                       },
-                      child: ClipOval(
-                        clipBehavior: Clip.hardEdge,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(60.r),
                         child: CachedNetworkImage(
                           imageUrl: bloc.supabase.userProfile?.avatarUrl ?? '',
                           height: 120.h,

@@ -1,9 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glowup/CustomWidgets/Customer/Providers/provider_tag.dart';
 import 'package:glowup/CustomWidgets/Customer/Services/service_card.dart';
 import 'package:glowup/Repositories/models/provider.dart';
-import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Utilities/extensions/screen_size.dart';
 
 class ProviderCard extends StatelessWidget {
@@ -13,19 +12,29 @@ class ProviderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 310.h,
-          width: context.getScreenWidth(size: 1.w),
-          child: ListView.builder(
-            itemCount: provider.services.length,
-            itemBuilder: (context, index) {
-              return SizedBox(
-                height: 310.h,
-                width: 230.w,
-                child: ServiceCard(service: provider.services[index]),
-              );
-            },
+        Padding(
+          padding: EdgeInsets.only(left: 32.w),
+          child: ProviderTag(theProvider: provider),
+        ),
+        SizedBox(height: 20.h),
+        Padding(
+          padding: EdgeInsets.only(left: 32.w),
+          child: SizedBox(
+            height: 310.h,
+            width: context.getScreenWidth(size: 1.w),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: provider.services.length,
+              itemBuilder: (context, index) {
+                return SizedBox(
+                  height: 310.h,
+                  width: 230.w,
+                  child: ServiceCard(service: provider.services[index]),
+                );
+              },
+            ),
           ),
         ),
       ],
