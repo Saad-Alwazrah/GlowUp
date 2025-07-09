@@ -1,100 +1,109 @@
+# 📱 Project Summary
 
-## 📱 Project Summary
-
-The capstone project will be a mobile application developed using **Flutter** and **Dart** to address *[briefly describe the problem or value the app provides]*. It aims to offer *[key features or functionalities of the app]*.
-
----
-
-## 🧠 Problem Solving
-
-*[Explain how your app addresses the identified problem or provides value to its users]*
+The capstone project is **GlowUp** — a mobile booking application developed using **Flutter** and **Dart** to better the experience of discovering and booking beauty services. It aims to offer a smooth, user-friendly interface for browsing services, selecting stylists, and managing appointments.
 
 ---
 
-## 📝 Project Description
+# 🧠 Problem Solving
 
-The capstone project is an exciting opportunity for you to design and develop a real-world mobile application using the **Flutter** framework. You have the freedom to choose any app idea that interests you, be it a:
-
-- Social networking app  
-- Productivity tool  
-- Educational platform  
-- E-commerce solution  
-- Health tracker  
-
-...or anything else that demonstrates your creativity and technical abilities.
-
-Your project should:
-- Address a specific problem
-- Provide value to users
-- Explore innovative ideas
-- Have a polished and user-friendly UI
+GlowUp addresses the hassle users face when trying to find trusted beauty providers and book appointments efficiently. It also helps salons and beauty professionals reach a broader audience by offering a centralized, organized platform to showcase services and availability.
 
 ---
 
-## 🔧 Project Properties
+# 📝 Project Description
 
-- **Name**: *[Project Name]*
-- **Platform**: Mobile (Android and iOS)
-- **Language**: Dart
-- **Framework**: Flutter
+GlowUp is a mobile application built using the **Flutter** framework that connects users with beauty salons and independent professionals. From makeup and hair to nails and skincare, users can browse offerings, filter by category, and book in just a few taps.
 
----
+The app focuses on:
 
-## 🖼️ Pictures to Apply
+- Simplifying appointment booking  
+- Enhancing discoverability of beauty services  
+- Supporting both customers and providers with a seamless UI  
 
-*[Include relevant pictures or sketches that demonstrate the app's design and layout]*
+The project demonstrates:
 
----
-
-## ✅ Features That Will Be Added
-
-- *[Feature 1]*
-- *[Feature 2]*
-- *[Feature 3]*
+- Real-world user needs  
+- A clean, bilingual UI (Arabic & English)  
+- Organized flow and service filtering  
+- Integration of dark/light mode themes  
 
 ---
 
-## 🚀 Features That Will Be Added in the Future
+# 🔧 Project Properties
 
-- *[Future Feature 1]*
-- *[Future Feature 2]*
-- *[Future Feature 3]*
-
----
-
-## 👥 Tasks or Division of Members in the Project
-
-*[Outline how the project tasks are divided among team members, including specific responsibilities for each member]*
+- **Name**: GlowUp  
+- **Platform**: Mobile (Android and iOS)  
+- **Language**: Dart  
+- **Framework**: Flutter  
 
 ---
 
-## 📌 Minimum Requirements
+# 🖼️ Pictures to Apply
 
-*[Include the minimum requirements for the project, as mentioned in the earlier section]*
-
----
-
-## 👤 Project Members
-
-- **[Member 1 Name]** - *[Role/Responsibility]*
-- **[Member 2 Name]** - *[Role/Responsibility]*
-- **[Member 3 Name]** - *[Role/Responsibility]*
-- **[Member 4 Name]** - *[Role/Responsibility]*
-- **[Member 5 Name]** - *[Role/Responsibility]*
+*Add your app sketches, wireframes, or screenshots here*
 
 ---
 
-## 🔗 Project Member Accounts in GitHub
+# ✅ Features That Will Be Added
 
-- **[Member 1 GitHub Username]**: [GitHub Profile URL]  
-- **[Member 2 GitHub Username]**: [GitHub Profile URL]  
-- **[Member 3 GitHub Username]**: [GitHub Profile URL]  
-- **[Member 4 GitHub Username]**: [GitHub Profile URL]  
-- **[Member 5 GitHub Username]**: [GitHub Profile URL]
+- Booking services with date and time  
+- Filtering by service category  
+- Profile pages for customers and providers  
+- Light and dark mode toggle  
+- Bilingual support (Arabic & English)
 
 ---
 
-> 💡 Remember, this is an opportunity to showcase your skills and creativity, so feel free to explore innovative ideas and push your limits in creating a remarkable Flutter application!
+# 🚀 Features That Will Be Added in the Future
 
-**Good luck with your capstone project!**  
-Don't hesitate to seek guidance from your bootcamp instructors if needed.
+- Payment integration  
+- Loyalty program or coupons  
+- Notifications and reminders  
+- Reviews 
+
+---
+
+
+# 👥 Tasks or Division of Members in the Project
+
+- **Lamees Al Amri** – Led UI/UX design using Figma, designed user flow, styled and programed the light/dark theme.  
+- **Solaiman Al Dokhail** – Focused on backend logic, 
+- **Saad Al Wazrah** – Focused on the frontends of the application . 
+- **All Members** – Collaborated on Flutter development, building out core screens, connecting UI to logic, and refining the app's performance.
+
+
+---
+
+# 📌 Minimum Requirements
+
+The project meets the following minimum requirements set by the bootcamp:
+
+- Dark mode and light mode theme support  
+- Bilingual language support (Arabic & English)  
+- Input validation for forms and user data  
+- Functional navigation across all screens  
+- Organized folder structure and clean code architecture using BLoC
+
+---
+
+# 👤 Project Members
+
+- **[Saad Alwazrah]** - *[Leader/ frontend developer]*  
+- **[Solaiman Al Dokhail]** - *[backend developer/ frontend developer]*  
+- **[Lamees Al Amri]** - *[UI/UX designer/ frontend developer]]*  
+ 
+
+---
+
+# 🔗 Project Member Accounts in GitHub
+
+- **[Saad-Al Wazrah]**: [https://github.com/Saad-Alwazrah]  
+- **[Solaiman Al Dokhail]**: [https://github.com/Solaiman20]  
+- **[Lamees Al Amri]**: [https://github.com/Lamees56]  
+
+---
+
+> 💡 *This is your chance to shine — showcase your skills, creativity, and teamwork with GlowUp. Don't hesitate to explore new ideas or ask for support from instructors.*
+
+**Good luck with your capstone project!**
+
