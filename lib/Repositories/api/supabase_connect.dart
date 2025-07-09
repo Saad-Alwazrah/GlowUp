@@ -626,6 +626,7 @@ class SupabaseConnect {
 
   Future<bool> addStylist({
     required String name,
+    String? bio,
     required String providerId,
   }) async {
     final resClient = supabase.client;
@@ -633,6 +634,7 @@ class SupabaseConnect {
       final newStylist = Stylist(
         name: name,
         providerId: providerId,
+        bio: bio,
         createdAt: DateTime.now().toIso8601String(),
       );
       final newStylistRes = Stylist.fromJson(

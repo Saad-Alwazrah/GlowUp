@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -85,7 +86,7 @@ class AddingServicesScreen extends StatelessWidget {
                                     ),
                                     SizedBox(height: 8.h),
                                     Text(
-                                      "Press To Upload Service Image",
+                                      context.tr("Press To Upload Service Image"),
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         color: Colors.grey.withValues(
@@ -120,45 +121,45 @@ class AddingServicesScreen extends StatelessWidget {
                           ),
                         SizedBox(height: 20.h),
                         CustomTextfield(
-                          textFieldHint: "Service Name",
+                          textFieldHint: context.tr("Service Name"),
                           textFieldcontroller: bloc.nameController,
                           validationMethod: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Please enter a service name";
+                              return context.tr("Please enter a service name");
                             }
                             return null;
                           },
                         ),
                         CustomTextfield(
-                          textFieldHint: "Bio",
+                          textFieldHint: context.tr("Bio"),
                           textFieldcontroller: bloc.descriptionController,
                           validationMethod: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Please enter a bio";
+                              return context.tr("Please enter a bio");
                             }
                             return null;
                           },
                         ),
                         CustomTextfield(
-                          textFieldHint: "Duration (in minutes)",
+                          textFieldHint: context.tr("Duration (in minutes)"),
                           textFieldcontroller: bloc.durationController,
                           validationMethod: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Please enter a duration";
+                              return context.tr("Please enter a duration");
                             }
                             return null;
                           },
                         ),
                         CustomTextfield(
-                          textFieldHint: "Price",
+                          textFieldHint: context.tr("Price"),
                           textFieldcontroller: bloc.priceController,
                           validationMethod: (value) {
                             if (value == null ||
                                 value.isEmpty ||
                                 double.tryParse(value) == null) {
-                              return "Please enter a price";
+                              return context.tr("Please enter a price");
                             } else if (double.parse(value) <= 0) {
-                              return "Price must be greater than zero";
+                              return context.tr("Price must be greater than zero");
                             }
                             return null;
                           },
@@ -172,30 +173,28 @@ class AddingServicesScreen extends StatelessWidget {
                               child: DropdownButtonFormField<String>(
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return "Please select a category";
+                                    return context.tr("Please select a category");
                                   }
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                  labelText: "Category",
+                                  labelText: context.tr("Category"),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(50.r),
                                   ),
                                 ),
                                 value: bloc.slectedCategory,
                                 items:
-                                    <String>[
-                                      'Hair',
-                                      'Nails',
-                                      'Skin',
-                                      'Makeup',
-                                      'Other',
-                                    ].map<DropdownMenuItem<String>>((
+                                    <String>['Hair'.tr(),
+                                      'Nails'.tr(),
+                                      'Skin'.tr(),
+                                      'Makeup'.tr(),
+                                      'Other'.tr(),].map<DropdownMenuItem<String>>((
                                       String value,
                                     ) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-                                        child: Text(value),
+                                        child: Text(value.tr()),
                                       );
                                     }).toList(),
                                 onChanged: (String? newValue) {
@@ -208,7 +207,7 @@ class AddingServicesScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.w),
                           child: CheckboxListTile(
-                            title: const Text("At Home Service"),
+                            title: Text(context.tr("At Home Service")),
                             value: bloc.isAtHome,
                             onChanged: (value) {
                               bloc.add(AtHomeToggleEvent(value!));
@@ -219,7 +218,7 @@ class AddingServicesScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: Text(
-                            "Select Stylists",
+                            context.tr("Select Stylists"),
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
@@ -265,7 +264,7 @@ class AddingServicesScreen extends StatelessWidget {
                         SizedBox(height: 20.h),
 
                         CustomElevatedButton(
-                          text: "Add Service",
+                          text: context.tr("Add Service"),
                           onTap: () {
                             if (bloc.formKey.currentState!.validate() &&
                                 bloc.imagePath != null &&

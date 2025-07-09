@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/Provider/Employees/employee_container.dart';
 import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
+import 'package:glowup/Screens/Provider/AddEmployee/add_employee.dart';
 import 'package:glowup/Screens/Provider/EmployeeDetails/employee_details_screen.dart';
 import 'package:glowup/Screens/Provider/NavBar/provider_nav_bar_screen.dart';
 import 'package:glowup/Screens/Provider/Profile/bloc/provider_profile_bloc.dart';
@@ -38,12 +39,19 @@ class MyEmployeeScreen extends StatelessWidget {
                     icon: Icon(Icons.arrow_back, color: AppColors.goldenPeach),
                   ),
                 ),
-                Text(context.tr("My Employees") , style: AppFonts.semiBold24),
+                Text(context.tr("My Employees"), style: AppFonts.semiBold24),
                 SizedBox(height: 48.h),
                 CustomElevatedButton(
-                  text: context.tr("+  Add new employee") ,
-                  onTap: () {},
-                ), // Need to add the function
+                  text: context.tr("+  Add new employee"),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddEmployeeScreen(),
+                      ),
+                    );
+                  },
+                ),
 
                 SizedBox(height: 24.h),
 
@@ -57,10 +65,12 @@ class MyEmployeeScreen extends StatelessWidget {
                       itemCount: bloc.provider.stylists.length,
                       itemBuilder: (context, index) {
                         return EmployeeContainer(
-                          employeeName: context.tr(bloc.provider.stylists[index].name) ,
+                          employeeName: context.tr(
+                            bloc.provider.stylists[index].name,
+                          ),
                           employeeRating:
                               bloc.provider.stylists[index].avgRating,
-                          containerMethod: () => Navigator.push(
+                          containerMethod: () => Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => EmployeeDetails(
