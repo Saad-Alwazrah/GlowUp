@@ -136,8 +136,14 @@ class ProfileScreen extends StatelessWidget {
                                   containerHeight: 200,
                                   formKey: bloc.usernameKey,
                                   textFieldController: bloc.usernameController,
-                                  controllerValidation: (value) =>
-                                      bloc.userNameValidation(text: value),
+                                  controllerValidation: (value) {
+                                    final error = bloc.userNameValidation(
+                                        text: value,
+                                      );
+                                      return error == null
+                                          ? null
+                                          : context.tr(error);
+                                  },
                                   textFieldHint: context.tr("New Username"),
                                   submitMethod: () {
                                     if (bloc.usernameKey.currentState!
@@ -172,8 +178,14 @@ class ProfileScreen extends StatelessWidget {
                                   formKey: bloc.phoneNumberKey,
                                   textFieldController:
                                       bloc.phoneNumberController,
-                                  controllerValidation: (value) =>
-                                      bloc.phoneValidation(text: value),
+                                  controllerValidation: (value) {
+                                    final error = bloc.phoneValidation(
+                                        text: value,
+                                      );
+                                      return error == null
+                                          ? null
+                                          : context.tr(error);
+                                  },
                                   textFieldHint: context.tr("New Phone Number"),
                                   submitMethod: () {
                                     if (bloc.phoneNumberKey.currentState!
@@ -201,8 +213,14 @@ class ProfileScreen extends StatelessWidget {
                                   containerHeight: 200,
                                   formKey: bloc.emailKey,
                                   textFieldController: bloc.emailController,
-                                  controllerValidation: (value) =>
-                                      bloc.emailValidation(text: value),
+                                  controllerValidation: (value) {
+                                    final error = bloc.emailValidation(
+                                        text: value,
+                                      );
+                                      return error == null
+                                          ? null
+                                          : context.tr(error);
+                                  },
                                   textFieldHint: context.tr("New Email"),
                                   submitMethod: () {
                                     if (bloc.emailKey.currentState!
