@@ -11,7 +11,12 @@ class StatusToggle extends StatelessWidget {
     required this.onSelected,
   });
 
-  static const List<String> options = ['Pending', 'Status', 'Paid', 'Completed'];
+  static const List<String> options = [
+    'Pending',
+    'Status',
+    'Paid',
+    'Completed',
+  ];
   static const Color softBrown = Color(0xFFB8A493);
 
   @override
@@ -20,7 +25,7 @@ class StatusToggle extends StatelessWidget {
       height: 46,
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Colors.white, // Full background is white
+        color: Theme.of(context).cardColor, // Full background is white
         borderRadius: BorderRadius.circular(100),
       ),
       child: Row(
@@ -40,7 +45,7 @@ class StatusToggle extends StatelessWidget {
                 child: Text(
                   options[index],
                   style: TextStyle(
-                    color: isSelected ? Colors.white : AppColors.darkText,
+                    color: isSelected ? Colors.white : null,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -52,5 +57,3 @@ class StatusToggle extends StatelessWidget {
     );
   }
 }
-
-
