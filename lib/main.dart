@@ -36,33 +36,38 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeManager themeManager = GetIt.I.get<ThemeManager>();
 
-    return ScreenUtilInit(
-      designSize: const Size(402, 952),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) => MaterialApp(
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        themeMode: themeManager.themeMode,
-        initialRoute: loggedIn
-            ? (supabase.userProfile?.role == "customer"
-                  ? '/navbar'
-                  : '/providernavbar')
-            : '/splashscreen',
-        routes: {
-          '/splashscreen': (context) => const SplashScreen(),
-          '/onboarding': (context) => const OnboardingScreen(),
-          '/signup': (context) => const SignUpScreen(),
-          '/login': (context) => const LoginScreen(),
-          '/navbar': (context) =>  NavBarScreen(),
-          '/providerSignup': (context) => const ProviderSignUpScreen(),
-          '/providernavbar': (context) => const ProviderNavBarScreen(),
-          '/help': (context) => const HelpScreen(),
-        },
-      ),
+    return AnimatedBuilder(
+      animation: themeManager,
+      builder: (context, _) {
+        return ScreenUtilInit(
+          designSize: const Size(402, 952),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) => MaterialApp(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: themeManager.themeMode,
+            initialRoute: loggedIn
+                ? (supabase.userProfile?.role == "customer"
+                      ? '/navbar'
+                      : '/providernavbar')
+                : '/splashscreen',
+            routes: {
+              '/splashscreen': (context) => const SplashScreen(),
+              '/onboarding': (context) => const OnboardingScreen(),
+              '/signup': (context) => const SignUpScreen(),
+              '/login': (context) => const LoginScreen(),
+              '/navbar': (context) => NavBarScreen(),
+              '/providerSignup': (context) => const ProviderSignUpScreen(),
+              '/providernavbar': (context) => const ProviderNavBarScreen(),
+              '/help': (context) => const HelpScreen(),
+            },
+          ),
+        );
+      },
     );
   }
 }

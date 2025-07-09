@@ -21,8 +21,8 @@ class BookingCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Service",
+              Text(
+                appointment.service?.name ?? "Service",
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
@@ -37,7 +37,8 @@ class BookingCard extends StatelessWidget {
               const SizedBox(height: 8),
               _InfoRow(
                 icon: Icons.access_time_rounded,
-                text: "${appointment.appointmentStart} - ${appointment.appointmentEnd}",
+                text:
+                    "${appointment.appointmentStart} - ${appointment.appointmentEnd}",
               ),
               const SizedBox(height: 8),
               _InfoRow(
@@ -66,10 +67,7 @@ class _InfoRow extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const _InfoRow({
-    required this.icon,
-    required this.text,
-  });
+  const _InfoRow({required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -79,10 +77,7 @@ class _InfoRow extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           text,
-          style: const TextStyle(
-            fontSize: 14,
-            color: AppColors.darkText,
-          ),
+          style: const TextStyle(fontSize: 14, color: AppColors.darkText),
         ),
       ],
     );

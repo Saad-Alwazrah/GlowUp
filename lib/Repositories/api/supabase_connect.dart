@@ -371,6 +371,7 @@ class SupabaseConnect {
       );
       await resClient.from("appointments").insert(newAppointment.toJson());
       await fetchData();
+      linkData();
       log("Appointment booked successfully");
     } catch (e) {
       log("Error booking appointment: $e");
@@ -487,6 +488,76 @@ class SupabaseConnect {
       }
     }
     log("Data linked in ${stopwatch.elapsedMicroseconds} µs");
+  }
+
+  Map<int, List<Appointment>> getUserAppointments() {
+    List<Appointment> pendingAppointments = [];
+    List<Appointment> acceptedAppointments = [];
+    List<Appointment> completedAppointments = [];
+    List<Appointment> rejectedAppointments = [];
+    List<Appointment> paidAppointments = [];
+    Map<int, List<Appointment>> userAppointments = {
+      0: pendingAppointments,
+      1: acceptedAppointments,
+      2: completedAppointments,
+      3: rejectedAppointments,
+      4: paidAppointments,
+    };
+
+    for (var appointment in appointments) {
+      if (appointment.customerId == userProfile!.id) {
+        switch (appointment.status) {
+          case "Pending":
+            pendingAppointments.add(appointment);
+            break;
+          case "Accepted":
+            acceptedAppointments.add(appointment);
+            break;
+          case "Completed":
+            completedAppointments.add(appointment);
+            break;
+          case "Rejected":
+            rejectedAppointments.add(appointment);
+            break;
+          case "Paid":
+            paidAppointments.add(appointment);
+            break;
+        }
+      }
+    }
+    return userAppointments;
+  }
+
+  Map<int, List<Appointment>> getProviderAppointments() {
+    List<Appointment> pendingAppointments = [];
+    List<Appointment> statusAppointments = [];
+    List<Appointment> completedAppointments = [];
+    List<Appointment> paidAppointments = [];
+    Map<int, List<Appointment>> providerAppointments = {
+      0: pendingAppointments,
+      1: statusAppointments,
+      2: paidAppointments,
+      3: completedAppointments,
+    };
+
+    for (var appointment in theProvider!.appointments) {
+      switch (appointment.status) {
+        case "Pending" || "Rejected":
+          pendingAppointments.add(appointment);
+          break;
+        case "Accepted":
+          statusAppointments.add(appointment);
+          break;
+        case "Completed":
+          completedAppointments.add(appointment);
+          break;
+
+        case "Paid":
+          paidAppointments.add(appointment);
+          break;
+      }
+    }
+    return providerAppointments;
   }
 
   Future<bool> addService({
@@ -627,11 +698,13 @@ class SupabaseConnect {
   }) async {
     try {
       // batch delete in one query:
-      await supabase.client
-          .from("availability_slots")
-          .delete()
-          .eq("stylist_id", stylistId)
-          .eq("date", dates);
+      for (var date in dates) {
+        await supabase.client
+            .from("availability_slots")
+            .delete()
+            .eq("stylist_id", stylistId)
+            .eq("date", date);
+      }
       return true;
     } catch (e) {
       log("Error deleting availability slots: $e");

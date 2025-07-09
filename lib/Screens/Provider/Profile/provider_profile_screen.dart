@@ -435,7 +435,6 @@ class ProviderProfileScreen extends StatelessWidget {
                                     ),
                                   ],
                                   onChanged: (_) async {
-                                    bloc.themeManager.toggleTheme();
                                     bloc.add(ThemeSwitchToggleEvent());
                                   },
                                 ),

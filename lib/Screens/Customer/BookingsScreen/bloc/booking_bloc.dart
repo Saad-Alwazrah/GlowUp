@@ -1,12 +1,22 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'booking_event.dart';
-import 'booking_state.dart';
+import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:glowup/Repositories/api/supabase_connect.dart';
+import 'package:glowup/Repositories/models/appointment.dart';
+import 'package:meta/meta.dart';
+part 'booking_event.dart';
+part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
-  BookingBloc() : super(const BookingState(selectedIndex: 0)) {
-    on<StatusToggleChanged>((event, emit) {
-      emit(state.copyWith(selectedIndex: event.index));
+  final supabase = GetIt.I.get<SupabaseConnect>();
+  int selectedIndex = 0;
+
+  BookingBloc() : super(BookingInitial()) {
+    on<StatusToggleEvent>((event, emit) {
+      selectedIndex = event.index;
+      emit(StatusToggleChanged());
+    });
+    on<UpdateUIEvent>((event, emit) {
+      emit(UIUpdated());
     });
   }
 }
-

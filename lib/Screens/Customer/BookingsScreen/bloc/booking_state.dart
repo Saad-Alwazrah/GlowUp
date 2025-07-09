@@ -1,11 +1,10 @@
-class BookingState {
-  final int selectedIndex;
+part of 'booking_bloc.dart';
 
-  const BookingState({required this.selectedIndex});
+@immutable
+sealed class BookingState {}
 
-  BookingState copyWith({int? selectedIndex}) {
-    return BookingState(
-      selectedIndex: selectedIndex ?? this.selectedIndex,
-    );
-  }
-}
+final class BookingInitial extends BookingState {}
+
+final class StatusToggleChanged extends BookingState {}
+
+final class UIUpdated extends BookingState {}

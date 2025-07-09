@@ -25,7 +25,7 @@ class CustomBackgroundContainer extends StatelessWidget {
         width: context.getScreenWidth(size: 1),
         height: height,
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(12),
         ),
         child: childWidget,

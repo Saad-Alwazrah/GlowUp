@@ -1,63 +1,57 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:glowup/CustomWidgets/Shared/search_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glowup/CustomWidgets/Shared/booking_card.dart';
 import 'package:glowup/CustomWidgets/shared/status_toggle.dart';
 import 'package:glowup/Screens/Customer/BookingsScreen/bloc/booking_bloc.dart';
-import 'package:glowup/Screens/Customer/BookingsScreen/bloc/booking_event.dart';
-import 'package:glowup/Screens/Customer/BookingsScreen/bloc/booking_state.dart';
 
 class BookingsScreen extends StatelessWidget {
   const BookingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final searchController = TextEditingController();
-
     return BlocProvider(
-      create: (_) => BookingBloc(),
-      child: Scaffold(
+      create: (_) => BookingBloc()..add(UpdateUIEvent()),
+      child: BlocBuilder<BookingBloc, BookingState>(
+        builder: (context, state) {
+          final bloc = context.read<BookingBloc>();
+          final userAppointments = bloc.supabase.getUserAppointments();
+          return Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.all(20),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 80),
 
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-                 SizedBox(height: 80,),
-              CustomSearchBar(
-                controller: searchController,
-                hintText: "Search bookings...",
-                onChanged: (value) {
-        
-              
-                },
-              ),
-               SizedBox(height: 20,),
-              BlocBuilder<BookingBloc, BookingState>(
-                builder: (context, state) {
-                  return StatusToggle(
-                    selectedIndex: state.selectedIndex,
-                    onSelected: (int index) {
-                      context
-                          .read<BookingBloc>()
-                          .add(StatusToggleChanged(index));
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 24),
-              // You can add filtered list or content below here
-              Expanded(
-                child: Center(
-                  child: Text("Booking list goes here"),
+                    StatusToggle(
+                      selectedIndex: bloc.selectedIndex,
+                      onSelected: (int index) {
+                        context.read<BookingBloc>().add(
+                          StatusToggleEvent(index),
+                        );
+                      },
+                    ),
+
+                    const SizedBox(height: 24),
+                    // You can add filtered list or content below here
+                    ...List.generate(
+                      userAppointments[bloc.selectedIndex]!.length,
+                      (i) {
+                        final appointment =
+                            userAppointments[bloc.selectedIndex]![i];
+                        return BookingCard(appointment: appointment);
+                      },
+                    ),
+                    SizedBox(height: 80.h),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
 }
-
-
