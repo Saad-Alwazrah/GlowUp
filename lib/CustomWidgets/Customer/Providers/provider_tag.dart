@@ -22,17 +22,20 @@ class ProviderTag extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(60.r),
-            child: CachedNetworkImage(
-              imageUrl: theProvider.avatarUrl ?? "",
-              placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) =>
-                  Icon(Icons.error, color: AppColors.goldenPeach),
-              height: 35.h,
-              width: 35.w,
-              fit: BoxFit.cover,
+          Padding(
+            padding: EdgeInsets.only(left: 8.0.h),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(60.r),
+              child: CachedNetworkImage(
+                imageUrl: theProvider.avatarUrl ?? "",
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) =>
+                    Icon(Icons.error, color: AppColors.goldenPeach),
+                height: 35.h,
+                width: 35.w,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Text(theProvider.name, style: AppFonts.bold20),

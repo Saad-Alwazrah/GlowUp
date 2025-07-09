@@ -121,6 +121,11 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height: 20.h),
+                    Text(
+                      bloc.supabase.userProfile!.username!,
+                      style: AppFonts.semiBold24,
+                    ),
 
                     SizedBox(height: 20),
                     CustomBackgroundContainer(

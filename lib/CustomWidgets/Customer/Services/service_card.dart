@@ -23,7 +23,7 @@ class ServiceCard extends StatelessWidget {
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        color: AppColors.white,
+        color: Theme.of(context).cardColor,
 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

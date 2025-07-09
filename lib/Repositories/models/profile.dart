@@ -12,7 +12,7 @@ class Profile {
   late final String id;
   late String fullName;
   late String? phone;
-  late final String? username;
+  late String? username;
   late final String role;
   late double? latitude;
   late double? longitude;
