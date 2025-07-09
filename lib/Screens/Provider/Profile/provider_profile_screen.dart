@@ -257,7 +257,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                             ? null
                                             : context.tr(error);
                                       },
-                                      textFieldHint: "New Username",
+                                      textFieldHint: context.tr("New Username"),
                                       submitMethod: () {
                                         if (bloc.usernameKey.currentState!
                                             .validate()) {
@@ -279,7 +279,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.image_outlined),
-                                title: Text("Banner"),
+                                title: Text(context.tr("Banner")),
                                 onTap: () {
                                   bloc.add(UpdateProviderBannerEvent());
                                 },
@@ -289,7 +289,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.phone),
-                                title: Text("Number".tr()),
+                                title: Text(context.tr("Number")),
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -306,7 +306,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                             ? null
                                             : context.tr(error);
                                       },
-                                      textFieldHint: "New Phone Number",
+                                      textFieldHint: context.tr("New Phone Number"),
                                       submitMethod: () {
                                         if (bloc.phoneNumberKey.currentState!
                                             .validate()) {
@@ -323,12 +323,14 @@ class ProviderProfileScreen extends StatelessWidget {
                                   );
                                 },
                               ),
+
+                              
                               Divider(),
                               ListTile(
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.email_outlined),
-                                title: Text("Email".tr()),
+                                title: Text(context.tr("Email")),
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -344,7 +346,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                           ? null
                                           : context.tr(error);
                                       },
-                                      textFieldHint: "New Email",
+                                      textFieldHint: context.tr("New Email"),
                                       submitMethod: () {
                                         if (bloc.emailKey.currentState!
                                             .validate()) {
@@ -366,7 +368,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.help),
-                                title: Text("Help".tr()),
+                                title: Text(context.tr("Help")),
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(

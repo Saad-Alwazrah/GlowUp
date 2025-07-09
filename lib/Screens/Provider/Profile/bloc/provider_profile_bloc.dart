@@ -100,6 +100,10 @@ class ProviderProfileBloc
     }
   }
 
+  swtich () {
+
+  }
+
   // The regular Expression for the email  (true = email is valid ---- false = email is invalid)
   bool isEmailValid(String? email) {
     return RegExp(

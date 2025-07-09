@@ -128,7 +128,7 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           ListTile(
                             leading: Icon(Icons.badge_outlined),
-                            title: Text("Name".tr()),
+                            title: Text(context.tr("Name")),
                             onTap: () {
                               showDialog(
                                 context: context,
