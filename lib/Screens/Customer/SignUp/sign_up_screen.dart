@@ -20,107 +20,122 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignUpBloc(),
-      child:  Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 48.h),
-            
-                Image.asset(
-                  "assets/images/logo1.png",
-                  height: 200.h,
-                  width: 200.w,
-                  fit: BoxFit.cover,
-                ),
-                SizedBox(height: 8.h,),
-                BlocBuilder<SignUpBloc, SignUpState>(
-                  builder: (context, state) {
-                    final bloc = context.read<SignUpBloc>();
-                    return BackgroundContainer(
-                      heightSize: 0.75,
-                      childWidget: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 24),
-                          Text(
-                           context.tr(bloc.titleText[bloc.currentPage]) ,
-                            style: AppFonts.semiBold24,
-                          ),
-                          SizedBox(height: 24),
-                          SmoothPageIndicator(
-                            controller: bloc.pageController,
-                            count: 3,
-                            effect: ExpandingDotsEffect(
-                              radius: 16,
-                              dotWidth: 58,
-                              dotHeight: 8,
-                              dotColor: Colors.grey,
-                              activeDotColor: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: 24),
-                          SizedBox(
-                            height: 450.h,
-                            width: context.getScreenWidth(size: 0.9.w),
-                            child: PageView(
-                              physics: NeverScrollableScrollPhysics(),
-                              controller: bloc.pageController,
-                              children: [
-                                FirstPageView(
-                                  formKey: bloc.signUpformKey,
-                                  nameController: bloc.nameController,
-                                  nameValidation: (value) =>
-                                      context.tr(bloc.userNameValidation(text: value)!) ,
-                                  emailController: bloc.emailController,
-                                  emailValidation: (value) =>
-                                      context.tr(bloc.emailValidation(text: value)!) ,
-                                  passwordController: bloc.passwordController,
-                                  passwordValidation: (value) =>
-                                      context.tr(bloc.passwordValidation(text: value)!) ,
-                                  confirmPasswordController:
-                                      bloc.confirmPasswordController,
-                                  confirmPasswordValidation: (value) => context.tr(bloc
-                                      .confrimPasswordValidation(text: value)!) ,
-                                  pressedMethod: () =>
-                                      bloc.add(CreateAccountEvent()),
-                                ),
-                                SecondPageView(
-                                  formKey: bloc.locationFormKey,
-                                  controller: bloc.addressController,
-                                  pressedMethod: () =>
-                                      bloc.add(SendConfermationEvent()),
-                                  addressValidation: (value) =>
-                                     context.tr(bloc.addressValidation(text: value)!) ,
-                                ),
-                                ThirdPageView(),
-                              ],
-                            ),
-                          ),
-                      
-                          OntapText(
-                            text: context.tr("Already have an account?  Login"),
-                            pressedMethod: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(height: 24),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 48.h),
+            Image.asset(
+              "assets/images/logo1.png",
+              height: 200.h,
+              width: 200.w,
+              fit: BoxFit.cover,
             ),
-          ),
-
+            SizedBox(height: 8.h),
+            BlocBuilder<SignUpBloc, SignUpState>(
+              builder: (context, state) {
+                final bloc = context.read<SignUpBloc>();
+                return BackgroundContainer(
+                  heightSize: 0.75,
+                  childWidget: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 24),
+                      Text(
+                        context.tr(bloc.titleText[bloc.currentPage]),
+                        style: AppFonts.semiBold24,
+                      ),
+                      SizedBox(height: 24),
+                      SmoothPageIndicator(
+                        controller: bloc.pageController,
+                        count: 3,
+                        effect: ExpandingDotsEffect(
+                          radius: 16,
+                          dotWidth: 58,
+                          dotHeight: 8,
+                          dotColor: Colors.grey,
+                          activeDotColor: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                      SizedBox(
+                        height: 450.h,
+                        width: context.getScreenWidth(size: 0.9.w),
+                        child: PageView(
+                          physics: NeverScrollableScrollPhysics(),
+                          controller: bloc.pageController,
+                          children: [
+                            FirstPageView(
+                              formKey: bloc.signUpformKey,
+                              nameController: bloc.nameController,
+                              nameValidation: (value) {
+                                final error = bloc.userNameValidation(
+                                  text: value,
+                                );
+                                return error == null ? null : context.tr(error);
+                              },
+                              emailController: bloc.emailController,
+                              emailValidation: (value) {
+                                final error = bloc.emailValidation(text: value);
+                                return error == null ? null : context.tr(error);
+                              },
+                              passwordController: bloc.passwordController,
+                              passwordValidation: (value) {
+                                final error = bloc.passwordValidation(
+                                  text: value,
+                                );
+                                return error == null ? null : context.tr(error);
+                              },
+                              confirmPasswordController:
+                                  bloc.confirmPasswordController,
+                              confirmPasswordValidation: (value) {
+                                final error = bloc.confrimPasswordValidation(
+                                  text: value,
+                                );
+                                return error == null ? null : context.tr(error);
+                              },
+                              pressedMethod: () =>
+                                  bloc.add(CreateAccountEvent()),
+                            ),
+                            SecondPageView(
+                              formKey: bloc.locationFormKey,
+                              controller: bloc.addressController,
+                              pressedMethod: () =>
+                                  bloc.add(SendConfermationEvent()),
+                              addressValidation: (value) {
+                                final error = bloc.addressValidation(
+                                  text: value,
+                                );
+                                return error == null ? null : context.tr(error);
+                              },
+                            ),
+                            ThirdPageView(),
+                          ],
+                        ),
+                      ),
+                      OntapText(
+                        text: context.tr("Already have an account?  Login"),
+                        pressedMethod: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 24),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -25,7 +25,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   int languageSwitchValue = 0;
   int themeSwitchValue = 0;
-  
 
   bool isDarkMode = false;
   ProfileBloc() : super(ProfileInitial()) {
@@ -33,6 +32,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<LanguageSwitchToggleEvent>(updateLanguage);
     on<ThemeSwitchToggleEvent>(updateTheme);
     on<LogOutUser>((event, emit) async {
+      emit(UserLoggingOut());
       final signOutStatus = await supabase.signOut();
       if (signOutStatus) {
         emit(UserLoggedOut());
@@ -68,6 +68,30 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final themeManager = GetIt.I.get<ThemeManager>();
       themeManager.toggleTheme();
       emit(ThemeModeChanged());
+    });
+    on<UpdateUsernameEvent>((event, emit) async {
+      final updateStatus = await supabase.updateUsername(event.username);
+      if (updateStatus) {
+        emit(UsernameUpdatedState());
+      } else {
+        emit(UsernameUpdateErrorState("Failed to update username"));
+      }
+    });
+    on<UpdatePhoneEvent>((event, emit) async {
+      final updateStatus = await supabase.updatePhone(event.phone);
+      if (updateStatus) {
+        emit(PhoneNumberUpdatedState());
+      } else {
+        emit(PhoneNumberUpdateErrorState("Failed to update phone number"));
+      }
+    });
+    on<UpdateEmailEvent>((event, emit) async {
+      final updateStatus = await supabase.updateEmail(event.email);
+      if (updateStatus) {
+        emit(EmailUpdatedState());
+      } else {
+        emit(EmailUpdateErrorState("Failed to update email"));
+      }
     });
   }
 

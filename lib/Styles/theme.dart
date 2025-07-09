@@ -19,6 +19,13 @@ ThemeData lightTheme = ThemeData(
   primaryColor: AppColors.goldenPeach,
   scaffoldBackgroundColor: AppColors.background,
   cardColor: AppColors.softBrown,
+  timePickerTheme: const TimePickerThemeData(
+    backgroundColor: AppColors.background,
+    hourMinuteTextColor: AppColors.darkText,
+    dayPeriodTextColor: AppColors.darkText,
+    dialBackgroundColor: AppColors.calendarDay,
+    entryModeIconColor: AppColors.darkText,
+  ),
   textTheme: const TextTheme(
     bodyLarge: TextStyle(color: AppColors.darkText),
     bodyMedium: TextStyle(color: AppColors.darkText),
@@ -32,6 +39,13 @@ ThemeData darkTheme = ThemeData(
   primaryColor: AppColors.goldenPeachDark,
   scaffoldBackgroundColor: AppColors.backgroundDark,
   cardColor: AppColors.cardDark,
+  timePickerTheme: TimePickerThemeData(
+    backgroundColor: AppColors.backgroundDark,
+    hourMinuteTextColor: AppColors.lightTextDark,
+    dayPeriodTextColor: AppColors.lightTextDark,
+    dialBackgroundColor: AppColors.calendarDay,
+    entryModeIconColor: AppColors.lightTextDark,
+  ),
   textTheme: const TextTheme(
     bodyLarge: TextStyle(color: AppColors.lightTextDark),
     bodyMedium: TextStyle(color: AppColors.mutedTextDark),

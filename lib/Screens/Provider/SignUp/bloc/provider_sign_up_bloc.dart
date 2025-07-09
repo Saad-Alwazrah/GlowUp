@@ -106,7 +106,7 @@ class ProviderSignUpBloc
   String? phoneValidation({String? text}) {
     if (text == null || text.isEmpty) {
       return "This field is required";
-    } else if (text.startsWith('05')) {
+    } else if (!text.startsWith('05')) {
       return "The number must start with 05";
     } else if (text.length != 10) {
       return "the phone number you enterd is Inavlid";

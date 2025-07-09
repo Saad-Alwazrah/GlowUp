@@ -4,11 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/Provider/Employees/employee_container.dart';
 import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
-import 'package:glowup/Repositories/models/provider.dart';
-import 'package:glowup/Screens/Provider/EmployeeDetails/employee_details.dart';
-import 'package:glowup/Screens/Provider/Employees/bloc/employee_bloc.dart';
+import 'package:glowup/Screens/Provider/EmployeeDetails/employee_details_screen.dart';
+import 'package:glowup/Screens/Provider/NavBar/provider_nav_bar_screen.dart';
 import 'package:glowup/Screens/Provider/Profile/bloc/provider_profile_bloc.dart';
-import 'package:glowup/Screens/Provider/Profile/provider_profile_screen.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
 import 'package:glowup/Utilities/extensions/screen_size.dart';
@@ -33,7 +31,7 @@ class MyEmployeeScreen extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProviderProfileScreen(),
+                          builder: (context) => ProviderNavBarScreen(),
                         ),
                       );
                     },
@@ -65,8 +63,9 @@ class MyEmployeeScreen extends StatelessWidget {
                           containerMethod: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  EmployeeDetails(stylist: bloc.provider.stylists[index]),
+                              builder: (context) => EmployeeDetails(
+                                stylist: bloc.provider.stylists[index],
+                              ),
                             ),
                           ), // Need to make the transition good
                         );

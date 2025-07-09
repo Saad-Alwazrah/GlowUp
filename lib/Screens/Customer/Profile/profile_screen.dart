@@ -6,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
 import 'package:glowup/CustomWidgets/shared/profile/profile_dialog.dart';
+import 'package:glowup/Screens/Customer/Help/help_screen.dart';
 import 'package:glowup/Screens/Customer/Profile/bloc/profile_bloc.dart';
+import 'package:glowup/Screens/Shared/splash/splash.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
 
@@ -20,6 +22,12 @@ class ProfileScreen extends StatelessWidget {
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (listenerContext, state) {
           final bloc = listenerContext.read<ProfileBloc>();
+          if (state is UserLoggingOut) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => SplashScreen()),
+            );
+          }
           if (state is UserLoggedOut) {
             Navigator.pushReplacementNamed(context, '/onboarding');
           }
@@ -39,16 +47,48 @@ class ProfileScreen extends StatelessWidget {
               context,
             ).showSnackBar(SnackBar(content: Text(state.message)));
           }
+          if (state is UsernameUpdatedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Username updated successfully!")),
+            );
+          }
+          if (state is UsernameUpdateErrorState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          }
+          if (state is PhoneNumberUpdatedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Phone number updated successfully!"),
+              ),
+            );
+          }
+          if (state is PhoneNumberUpdateErrorState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          }
+          if (state is EmailUpdatedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Email updated successfully!")),
+            );
+          }
+          if (state is EmailUpdateErrorState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          }
         },
         child: Scaffold(
           body: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               final bloc = context.read<ProfileBloc>();
               if (context.locale == Locale("en")) {
-            bloc.languageSwitchValue = 1;
-          } else {
-            bloc.languageSwitchValue = 0;
-          }
+                bloc.languageSwitchValue = 1;
+              } else {
+                bloc.languageSwitchValue = 0;
+              }
 
               return Center(
                 child: Column(
@@ -61,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(60.r),
                         child: CachedNetworkImage(
-                          imageUrl: bloc.supabase.userProfile?.avatarUrl ?? '',
+                          imageUrl: bloc.supabase.userProfile!.avatarUrl!,
                           height: 120.h,
                           width: 120.w,
                           fit: BoxFit.cover,
@@ -99,7 +139,17 @@ class ProfileScreen extends StatelessWidget {
                                   controllerValidation: (value) =>
                                       bloc.userNameValidation(text: value),
                                   textFieldHint: context.tr("New Username"),
-                                  submitMethod: bloc.validationMethod,
+                                  submitMethod: () {
+                                    if (bloc.usernameKey.currentState!
+                                        .validate()) {
+                                      bloc.add(
+                                        UpdateUsernameEvent(
+                                          bloc.usernameController.text,
+                                        ),
+                                      );
+                                      Navigator.pop(context);
+                                    }
+                                  },
                                 ),
                               );
                             },
@@ -125,7 +175,17 @@ class ProfileScreen extends StatelessWidget {
                                   controllerValidation: (value) =>
                                       bloc.phoneValidation(text: value),
                                   textFieldHint: context.tr("New Phone Number"),
-                                  submitMethod: bloc.validationMethod,
+                                  submitMethod: () {
+                                    if (bloc.phoneNumberKey.currentState!
+                                        .validate()) {
+                                      bloc.add(
+                                        UpdatePhoneEvent(
+                                          bloc.phoneNumberController.text,
+                                        ),
+                                      );
+                                      Navigator.pop(context);
+                                    }
+                                  },
                                 ),
                               );
                             },
@@ -144,7 +204,17 @@ class ProfileScreen extends StatelessWidget {
                                   controllerValidation: (value) =>
                                       bloc.emailValidation(text: value),
                                   textFieldHint: context.tr("New Email"),
-                                  submitMethod: bloc.validationMethod,
+                                  submitMethod: () {
+                                    if (bloc.emailKey.currentState!
+                                        .validate()) {
+                                      bloc.add(
+                                        UpdateEmailEvent(
+                                          bloc.emailController.text,
+                                        ),
+                                      );
+                                      Navigator.pop(context);
+                                    }
+                                  },
                                 ),
                               );
                             },
@@ -154,6 +224,13 @@ class ProfileScreen extends StatelessWidget {
                           ListTile(
                             leading: Icon(Icons.help),
                             title: Text(context.tr("Help")),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const HelpScreen(),
+                                ),
+                              );
+                            },
                           ),
                           Divider(),
 
@@ -239,8 +316,7 @@ class ProfileScreen extends StatelessWidget {
                             leading: Icon(Icons.logout, color: Colors.red),
                             title: Text(context.tr("Logout")),
                             onTap: () {
-                              bloc.supabase.signOut();
-                              bloc.add(UpdateUIEvent());
+                              bloc.add(LogOutUser());
                             },
                           ),
                         ],

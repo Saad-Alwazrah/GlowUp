@@ -6,8 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
 import 'package:glowup/CustomWidgets/shared/profile/profile_dialog.dart';
+import 'package:glowup/Screens/Customer/Help/help_screen.dart';
 import 'package:glowup/Screens/Provider/Employees/my_employee_screen.dart';
 import 'package:glowup/Screens/Provider/Profile/bloc/provider_profile_bloc.dart';
+import 'package:glowup/Screens/Shared/splash/splash.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
 import 'package:glowup/Styles/theme.dart';
@@ -40,6 +42,12 @@ class ProviderProfileScreen extends StatelessWidget {
               print(bloc.provider.avatarUrl);
               return BlocListener<ProviderProfileBloc, ProviderProfileState>(
                 listener: (listenerContext, state) {
+                  if (state is ProviderLoggingOut) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => SplashScreen()),
+                    );
+                  }
                   if (state is ProviderLoggedOut) {
                     Navigator.pushReplacementNamed(context, '/onboarding');
                   }
@@ -61,6 +69,54 @@ class ProviderProfileScreen extends StatelessWidget {
                       context,
                     ).showSnackBar(SnackBar(content: Text(state.message)));
                   }
+                  if (state is ProviderBannerSuccessState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Banner updated successfully!"),
+                      ),
+                    );
+                  }
+                  if (state is UpdateBannerErrorState) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                  if (state is UsernameUpdatedState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Username updated successfully!"),
+                      ),
+                    );
+                  }
+                  if (state is UsernameUpdateErrorState) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                  if (state is PhoneNumberUpdatedState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Phone number updated successfully!"),
+                      ),
+                    );
+                  }
+                  if (state is PhoneNumberUpdateErrorState) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                  if (state is EmailUpdatedState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Email updated successfully!"),
+                      ),
+                    );
+                  }
+                  if (state is EmailUpdateErrorState) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
                 },
                 child: Scaffold(
                   resizeToAvoidBottomInset: false, // May change
@@ -78,8 +134,16 @@ class ProviderProfileScreen extends StatelessWidget {
                               height: 150.h,
                               child: CachedNetworkImage(
                                 imageUrl: "${bloc.provider.bannerUrl}",
+                                placeholder: (context, url) => Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.calendarDay,
+                                  ),
+                                ),
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.image, color: AppColors.white),
+                                height: 150.h,
+                                width: context.getScreenWidth(size: 1),
+                                fit: BoxFit.cover,
                               ),
                             ),
                             // Need to be tested
@@ -96,7 +160,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(60),
                                     child: CachedNetworkImage(
                                       imageUrl:
-                                          'https://aypgfhaziqrnqmpupcji.supabase.co/storage/v1/object/public/assets/providers/74b6f0cd-85d7-4a77-a108-8b9bba142914/avatar.jpg',
+                                          bloc.supabase.theProvider!.avatarUrl!,
                                       height: 120.h,
                                       width: 120.w,
                                       fit: BoxFit.cover,
@@ -118,6 +182,16 @@ class ProviderProfileScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            Positioned(
+                              right: 0,
+                              left: 85.w,
+                              top: 75.h,
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                                size: 30.sp,
+                              ),
+                            ),
                           ],
                         ),
 
@@ -128,12 +202,9 @@ class ProviderProfileScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             SizedBox(),
-                            Container(
-                              decoration: BoxDecoration(color: Colors.amber),
-                              child: Text(
-                                bloc.provider.name,
-                                style: AppFonts.semiBold24,
-                              ),
+                            Text(
+                              bloc.provider.name,
+                              style: AppFonts.semiBold24,
                             ),
                             Row(
                               children: [
@@ -180,10 +251,31 @@ class ProviderProfileScreen extends StatelessWidget {
                                           bloc.usernameController,
                                       controllerValidation: (value) =>
                                           bloc.userNameValidation(text: value),
-                                      textFieldHint: context.tr("New Username"),
-                                      submitMethod: bloc.validationMethod,
+                                      textFieldHint: "New Username",
+                                      submitMethod: () {
+                                        if (bloc.usernameKey.currentState!
+                                            .validate()) {
+                                          bloc.add(
+                                            UpdateProviderUsernameEvent(
+                                              bloc.usernameController.text
+                                                  .trim(),
+                                            ),
+                                          );
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
                                     ),
                                   );
+                                },
+                              ),
+                              Divider(),
+                              ListTile(
+                                dense: true,
+                                visualDensity: VisualDensity(vertical: -0.5),
+                                leading: Icon(Icons.image_outlined),
+                                title: Text("Banner"),
+                                onTap: () {
+                                  bloc.add(UpdateProviderBannerEvent());
                                 },
                               ),
                               Divider(),
@@ -202,8 +294,19 @@ class ProviderProfileScreen extends StatelessWidget {
                                           bloc.phoneNumberController,
                                       controllerValidation: (value) =>
                                           bloc.phoneValidation(text: value),
-                                      textFieldHint: context.tr("New Phone Number"),
-                                      submitMethod: bloc.validationMethod,
+                                      textFieldHint: "New Phone Number",
+                                      submitMethod: () {
+                                        if (bloc.phoneNumberKey.currentState!
+                                            .validate()) {
+                                          bloc.add(
+                                            UpdateProviderPhoneEvent(
+                                              bloc.phoneNumberController.text
+                                                  .trim(),
+                                            ),
+                                          );
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
                                     ),
                                   );
                                 },
@@ -223,8 +326,18 @@ class ProviderProfileScreen extends StatelessWidget {
                                       textFieldController: bloc.emailController,
                                       controllerValidation: (value) =>
                                           bloc.emailValidation(text: value),
-                                      textFieldHint: context.tr("New Email"),
-                                      submitMethod: bloc.validationMethod,
+                                      textFieldHint: "New Email",
+                                      submitMethod: () {
+                                        if (bloc.emailKey.currentState!
+                                            .validate()) {
+                                          bloc.add(
+                                            UpdateProviderEmailEvent(
+                                              bloc.emailController.text.trim(),
+                                            ),
+                                          );
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
                                     ),
                                   );
                                 },
@@ -235,7 +348,14 @@ class ProviderProfileScreen extends StatelessWidget {
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.help),
-                                title: Text(context.tr("Help")),
+                                title: Text("Help".tr()),
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const HelpScreen(),
+                                    ),
+                                  );
+                                },
                               ),
                               Divider(),
 
@@ -329,13 +449,12 @@ class ProviderProfileScreen extends StatelessWidget {
                                 leading: Icon(Icons.logout, color: Colors.red),
                                 title: Text(context.tr("Logout")),
                                 onTap: () {
-                                  bloc.supabase.signOut();
-                                  bloc.add(UpdateUIEvent());
+                                  bloc.add(LogOutProvider());
                                 },
                               ),
                             ],
                           ),
-                          height: 520.h,
+                          height: 550.h,
                           paddingSize: false,
                         ),
                       ],

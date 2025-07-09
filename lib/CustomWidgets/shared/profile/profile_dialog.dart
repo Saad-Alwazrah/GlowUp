@@ -12,7 +12,6 @@ class ProfileDialog extends StatelessWidget {
   final Function submitMethod;
   final double containerHeight;
 
-
   ProfileDialog({
     super.key,
     required this.formKey,
@@ -20,7 +19,7 @@ class ProfileDialog extends StatelessWidget {
     required this.controllerValidation,
     required this.textFieldHint,
     required this.submitMethod,
-    required this.containerHeight
+    required this.containerHeight,
   });
 
   @override
@@ -28,7 +27,10 @@ class ProfileDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.transparent,
       child: Container(
-        decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(15)),
+        decoration: BoxDecoration(
+          color: AppColors.background,
+          borderRadius: BorderRadius.circular(15),
+        ),
         height: containerHeight.h,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -36,16 +38,26 @@ class ProfileDialog extends StatelessWidget {
             Form(
               key: formKey,
               child: CustomTextfield(
-                initialText: "Khalid Sultan", //User profile name from the database  
+                initialText:
+                    "Khalid Sultan", //User profile name from the database
                 textFieldHint: textFieldHint,
                 textFieldcontroller: textFieldController,
                 validationMethod: controllerValidation,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 24.0),
-              child: CustomElevatedButton(text: "Submit", onTap:() {submitMethod(formKey);}),
-            )
+              padding: const EdgeInsets.only(
+                left: 16.0,
+                right: 16.0,
+                bottom: 24.0,
+              ),
+              child: CustomElevatedButton(
+                text: "Submit",
+                onTap: () {
+                  submitMethod();
+                },
+              ),
+            ),
           ],
         ),
       ),

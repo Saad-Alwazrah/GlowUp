@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
 
 import 'package:glowup/CustomWidgets/shared/custom_auth_container.dart';
 import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
@@ -42,7 +41,7 @@ class LoginScreen extends StatelessWidget {
               if (state is ErrorState) {
                 ScaffoldMessenger.of(
                   listenerContext,
-                ).showSnackBar(SnackBar(content: Text(context.tr("Login failed") )));
+                ).showSnackBar(SnackBar(content: Text(state.message)));
               }
             },
             child: Scaffold(
@@ -67,7 +66,10 @@ class LoginScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(),
-                            Text(context.tr("Welcome Back"), style: AppFonts.semiBold24),
+                            Text(
+                              context.tr("Welcome Back"),
+                              style: AppFonts.semiBold24,
+                            ),
                             SizedBox(),
                             Form(
                               key: bloc.loginFormKey,
@@ -76,20 +78,28 @@ class LoginScreen extends StatelessWidget {
                                   CustomTextfield(
                                     textFieldHint: context.tr("Email"),
                                     textFieldcontroller: bloc.emailController,
-                                    validationMethod: (value) =>
-                                       context.tr(
-                                        bloc.emailValidation(text: value)
-                                         ?? "") ,
+                                    validationMethod: (value) {
+                                      final error = bloc.emailValidation(
+                                        text: value,
+                                      );
+                                      return error == null
+                                          ? null
+                                          : context.tr(error);
+                                    },
                                   ),
                                   CustomTextfield(
                                     textFieldHint: context.tr("Password"),
                                     isPassword: true,
                                     textFieldcontroller:
                                         bloc.passwordController,
-                                    validationMethod: (value) =>
-                                       context.tr(
-                                        bloc.passwordValidation(text: value)
-                                         ?? "") ,
+                                    validationMethod: (value) {
+                                      final error = bloc.passwordValidation(
+                                        text: value,
+                                      );
+                                      return error == null
+                                          ? null
+                                          : context.tr(error);
+                                    },
                                   ),
                                 ],
                               ),
@@ -102,9 +112,10 @@ class LoginScreen extends StatelessWidget {
                               },
                             ),
 
-                            // SizedBox(),
                             OntapText(
-                              text: context.tr("Don't have an account?  SignUp"),
+                              text: context.tr(
+                                "Don't have an account?  SignUp",
+                              ),
                               pressedMethod: () {
                                 Navigator.pushNamed(context, '/signup');
                               },

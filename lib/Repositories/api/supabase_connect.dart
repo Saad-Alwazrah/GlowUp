@@ -134,7 +134,6 @@ class SupabaseConnect {
         log("Data fetched successfully");
       });
       log("Data fetched in ${stopwatch.elapsedMilliseconds} ms");
-      log("Services: ${jsonEncode(services)}");
     } catch (e) {
       log("Error fetching data: $e");
     }
@@ -257,7 +256,7 @@ class SupabaseConnect {
     }
   }
 
-  Future<void> updateEmail(String newEmail) async {
+  Future<bool> updateEmail(String newEmail) async {
     final resClient = supabase.client;
     try {
       final userRes = await resClient.auth.updateUser(
@@ -269,12 +268,14 @@ class SupabaseConnect {
           .update({'email': newEmail})
           .eq("id", userProfile!.id);
       log("Email updated successfully");
+      return true;
     } catch (e) {
       log("Error updating email: $e");
+      return false;
     }
   }
 
-  Future<void> updatePhone(String newPhone) async {
+  Future<bool> updatePhone(String newPhone) async {
     final resClient = supabase.client;
     try {
       await resClient
@@ -283,12 +284,14 @@ class SupabaseConnect {
           .eq("id", userProfile!.id);
       userProfile?.phone = newPhone;
       log("Phone updated successfully");
+      return true;
     } catch (e) {
       log("Error updating phone: $e");
+      return false;
     }
   }
 
-  Future<void> updateUsername(String newUsername) async {
+  Future<bool> updateUsername(String newUsername) async {
     final resClient = supabase.client;
     try {
       await resClient
@@ -297,12 +300,14 @@ class SupabaseConnect {
           .eq("id", userProfile!.id);
       userProfile?.username = newUsername;
       log("Username updated successfully");
+      return true;
     } catch (e) {
       log("Error updating username: $e");
+      return false;
     }
   }
 
-  Future<void> updateProviderName(String newName) async {
+  Future<bool> updateProviderName(String newName) async {
     final resClient = supabase.client;
     try {
       await resClient
@@ -311,12 +316,14 @@ class SupabaseConnect {
           .eq("id", theProvider!.id);
       theProvider?.name = newName;
       log("Provider name updated successfully");
+      return true;
     } catch (e) {
       log("Error updating provider name: $e");
+      return false;
     }
   }
 
-  Future<void> updateProviderPhone(String newPhone) async {
+  Future<bool> updateProviderPhone(String newPhone) async {
     final resClient = supabase.client;
     try {
       await resClient
@@ -325,8 +332,10 @@ class SupabaseConnect {
           .eq("id", theProvider!.id);
       theProvider?.phone = newPhone;
       log("Provider phone updated successfully");
+      return true;
     } catch (e) {
       log("Error updating provider phone: $e");
+      return false;
     }
   }
 
@@ -347,13 +356,6 @@ class SupabaseConnect {
           "${DateTime.parse(appointmentStart).hour.toString().padLeft(2, '0')}:${DateTime.parse(appointmentStart).minute.toString().padLeft(2, '0')}";
       appointmentEnd =
           "${DateTime.parse(appointmentEnd).hour.toString().padLeft(2, '0')}:${DateTime.parse(appointmentEnd).minute.toString().padLeft(2, '0')}";
-      log("Booking appointment for user: ${userProfile?.id}");
-      log("Appointment date: $appointmentDate");
-      log("Appointment start: $appointmentStart");
-      log("Appointment end: $appointmentEnd");
-      log("Stylist ID: $stylistId");
-      log("Service ID: $serviceId");
-      log("Provider ID: $providerId");
 
       final newAppointment = Appointment(
         customerId: userProfile!.id,
@@ -487,6 +489,156 @@ class SupabaseConnect {
     log("Data linked in ${stopwatch.elapsedMicroseconds} µs");
   }
 
+  Future<bool> addService({
+    required String name,
+    required String description,
+    required double price,
+    required String filePath,
+    required int durationMinutes,
+    required String category,
+    required List<Stylist> selectedStylists,
+    bool atHome = false,
+  }) async {
+    final resClient = supabase.client;
+    try {
+      final newService = Services(
+        name: name,
+        description: description,
+        price: price,
+        category: category,
+        durationMinutes: durationMinutes,
+        providerId: theProvider!.id,
+      );
+      newService.atHome = atHome;
+      final newServiceRes = Services.fromJson(
+        await resClient
+            .from("services")
+            .insert(newService.toJson())
+            .select("*")
+            .single(),
+      );
+      log(jsonEncode(newServiceRes));
+
+      uploadServiceImage(
+        localFilePath: filePath,
+        providerId: theProvider!.id,
+        serviceId: newServiceRes.id!,
+      );
+      for (Stylist stylist in selectedStylists) {
+        final serviceStylist = {
+          "service_id": newServiceRes.id,
+          "stylist_id": stylist.id,
+        };
+        await resClient.from("service_stylists").insert(serviceStylist);
+        await fetchData();
+        linkData();
+      }
+      log("Service added successfully");
+      return true;
+    } catch (e) {
+      log("Error adding service: $e");
+      return false;
+    }
+  }
+
+  Future<void> deleteService(int serviceId) async {
+    final resClient = supabase.client;
+    try {
+      await resClient.from("services").delete().eq("id", serviceId);
+      await getServices();
+      linkData();
+      log("Service deleted successfully");
+    } catch (e) {
+      log("Error deleting service: $e");
+    }
+  }
+
+  Future<bool> addStylist({
+    required String name,
+    required String providerId,
+  }) async {
+    final resClient = supabase.client;
+    try {
+      final newStylist = Stylist(
+        name: name,
+        providerId: providerId,
+        createdAt: DateTime.now().toIso8601String(),
+      );
+      final newStylistRes = Stylist.fromJson(
+        await resClient
+            .from("stylists")
+            .insert(newStylist.toJson())
+            .select("*")
+            .single(),
+      );
+      log(jsonEncode(newStylistRes));
+
+      await getStylists();
+      linkData();
+      log("Stylist added successfully");
+      return true;
+    } catch (e) {
+      log("Error adding stylist: $e");
+      return false;
+    }
+  }
+
+  Future<bool> editStylistSchedule({
+    required Stylist stylist,
+    required List<AvailabilitySlot> availabilityDatesAndTimes,
+  }) async {
+    final resClient = supabase.client;
+    try {
+      for (AvailabilitySlot availableDateAndTime in availabilityDatesAndTimes) {
+        await resClient.from("availability_slots").upsert({
+          "stylist_id": stylist.id,
+          "start_time": availableDateAndTime.startTime,
+          "end_time": availableDateAndTime.endTime,
+          "date": availableDateAndTime.date,
+        }, onConflict: "stylist_id, date");
+      }
+
+      await getStylists();
+      await getAvailabilitySlots();
+      linkData();
+      log("Stylist schedule edited successfully");
+      return true;
+    } catch (e) {
+      log("Error editing stylist schedule: $e");
+      return false;
+    }
+  }
+
+  Future<void> deleteStylist(int stylistId) async {
+    final resClient = supabase.client;
+    try {
+      await resClient.from("stylists").delete().eq("id", stylistId);
+      await getStylists();
+      linkData();
+      log("Stylist deleted successfully");
+    } catch (e) {
+      log("Error deleting stylist: $e");
+    }
+  }
+
+  Future<bool> deleteAvailabilitySlots({
+    required String stylistId,
+    required List<String> dates,
+  }) async {
+    try {
+      // batch delete in one query:
+      await supabase.client
+          .from("availability_slots")
+          .delete()
+          .eq("stylist_id", stylistId)
+          .eq("date", dates);
+      return true;
+    } catch (e) {
+      log("Error deleting availability slots: $e");
+      return false;
+    }
+  }
+
   /// Uploads or replaces the authenticated user’s avatar.
   /// Returns true if the upload was successful.
   Future<bool> uploadUserAvatar({
@@ -504,7 +656,6 @@ class SupabaseConnect {
       await bucket.upload(remotePath, File(localFilePath));
       final bustedUrl =
           '${bucket.getPublicUrl(remotePath)}?updated=${DateTime.now().millisecondsSinceEpoch}';
-
       userProfile?.avatarUrl = bustedUrl;
 
       await supabase.client
@@ -539,12 +690,9 @@ class SupabaseConnect {
     return true;
   }
 
-  Future<bool> uploadProviderAvatar({
-    required String localFilePath,
-    required String providerId,
-  }) async {
+  Future<bool> uploadProviderAvatar({required String localFilePath}) async {
     final bucket = supabase.client.storage.from('assets');
-    final remotePath = 'providers/$providerId/avatar.jpg';
+    final remotePath = 'providers/${theProvider!.id}/avatar.jpg';
 
     // Delete existing avatar (if any)
     await bucket.remove([remotePath]).catchError((_) {});
@@ -557,8 +705,9 @@ class SupabaseConnect {
       await supabase.client
           .from('providers')
           .update({'avatar_url': bustedUrl})
-          .eq('id', providerId);
+          .eq('id', theProvider!.id);
       theProvider!.avatarUrl = bustedUrl;
+      log("Avatar uploaded: ${theProvider!.avatarUrl}");
     } catch (e) {
       log('Avatar upload error: $e');
       return false;
@@ -586,12 +735,9 @@ class SupabaseConnect {
 
   /// Uploads or replaces a provider’s banner image.
   /// Returns the public URL of the uploaded banner.
-  Future<bool?> uploadProviderBanner({
-    required String localFilePath,
-    required String providerId,
-  }) async {
+  Future<bool?> uploadProviderBanner({required String localFilePath}) async {
     final bucket = supabase.client.storage.from('assets');
-    final remotePath = 'providers/$providerId/banner.jpg';
+    final remotePath = 'providers/${theProvider!.id}/banner.jpg';
 
     // Delete existing banner (if any)
     await bucket.remove([remotePath]).catchError((_) {});
@@ -603,7 +749,7 @@ class SupabaseConnect {
       await supabase.client
           .from('providers')
           .update({'banner_url': bustedUrl})
-          .eq('id', providerId);
+          .eq('id', theProvider!.id);
       theProvider!.bannerUrl = bustedUrl;
     } catch (e) {
       log('Banner upload error: $e');
@@ -637,7 +783,7 @@ class SupabaseConnect {
   /// Returns the public URL of the uploaded service image.
   Future<bool?> uploadServiceImage({
     required String localFilePath,
-    required int providerId,
+    required String providerId,
     required int serviceId,
   }) async {
     final bucket = supabase.client.storage.from('assets');
@@ -647,6 +793,7 @@ class SupabaseConnect {
     await bucket.remove([remotePath]).catchError((_) {});
 
     try {
+      await bucket.upload(remotePath, File(localFilePath));
       final bustedUrl =
           '${bucket.getPublicUrl(remotePath)}?updated=${DateTime.now().millisecondsSinceEpoch}';
       await supabase.client
@@ -726,7 +873,7 @@ class SupabaseConnect {
       );
       final newProvider = Provider(
         id: user.id,
-        name: "",
+        name: username,
         phone: number,
         address: address,
         latitude: position.latitude,
@@ -775,6 +922,7 @@ class SupabaseConnect {
           .eq("id", user.id)
           .single();
       theProvider = Provider.fromJson(providerResponse);
+      linkData();
       // Fetch provider-specific data if needed
     }
     if (session != null) {

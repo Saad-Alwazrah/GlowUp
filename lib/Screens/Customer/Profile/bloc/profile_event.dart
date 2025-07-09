@@ -18,3 +18,20 @@ final class ThemeSwitchToggleEvent extends ProfileEvent {}
 final class LoadProfileAvatar extends ProfileEvent {}
 
 final class ThemeModeChange extends ProfileEvent {}
+
+final class UpdateUsernameEvent extends ProfileEvent {
+  final String username;
+
+  UpdateUsernameEvent(this.username);
+}
+
+final class UpdatePhoneEvent extends ProfileEvent {
+  final String phone;
+
+  UpdatePhoneEvent(this.phone);
+}
+
+final class UpdateEmailEvent extends ProfileEvent {
+  final String email;
+  UpdateEmailEvent(this.email);
+}

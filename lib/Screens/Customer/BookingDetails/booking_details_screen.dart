@@ -11,6 +11,7 @@ import 'package:glowup/Repositories/models/services.dart';
 import 'package:glowup/Screens/Customer/BookingDetails/bloc/booking_details_bloc.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class BookingDetailsScreen extends StatelessWidget {
   const BookingDetailsScreen({super.key, required this.service});
@@ -140,6 +141,8 @@ class BookingDetailsScreen extends StatelessWidget {
                           onDaySelected: (day, focusedDay) {
                             bloc.add(SelectDateEvent(day, focusedDay));
                           },
+                          selectedDayPredicate: (day) =>
+                              isSameDay(day, bloc.selectedDate),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(

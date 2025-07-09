@@ -39,7 +39,10 @@ class ProvidersScreen extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: providers.length,
                     itemBuilder: (context, index) {
-                      return ProviderCard(provider: providers[index]);
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 16.h),
+                        child: ProviderCard(provider: providers[index]),
+                      );
                     },
                   ),
                 ),

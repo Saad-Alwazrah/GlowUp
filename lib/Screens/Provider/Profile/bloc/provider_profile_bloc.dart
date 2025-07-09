@@ -18,8 +18,6 @@ class ProviderProfileBloc
   final phoneNumberKey = GlobalKey<FormState>();
   final emailKey = GlobalKey<FormState>();
 
-
-
   // How to link them with the system
   int languageSwitchValue = 0;
   int themeSwitchValue = 0;
@@ -41,6 +39,47 @@ class ProviderProfileBloc
     on<ThemeSwitchToggleEvent>(updateTheme);
     on<UpdateUIEvent>(updateUI);
     on<UpdateProviderAvatarEvent>(updateAvatarMethod);
+    on<LogOutProvider>((event, emit) async {
+      emit(ProviderLoggingOut());
+      final signOutStatus = await supabase.signOut();
+      if (signOutStatus) {
+        emit(ProviderLoggedOut());
+      } else {
+        emit(LogOutError("Failed to log out"));
+      }
+    });
+    on<UpdateProviderBannerEvent>((event, emit) async {
+      XFile? pickedBanner = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
+      if (pickedBanner != null) {
+        final updateStatus = await supabase.uploadProviderBanner(
+          localFilePath: pickedBanner.path,
+        );
+
+        if (updateStatus!) {
+          emit(ProviderBannerSuccessState());
+        } else {
+          emit(UpdateBannerErrorState("Failed to update banner"));
+        }
+      }
+    });
+    on<UpdateProviderUsernameEvent>((event, emit) async {
+      final updateStatus = await supabase.updateProviderName(event.username);
+      if (updateStatus) {
+        emit(UsernameUpdatedState());
+      } else {
+        emit(UsernameUpdateErrorState("Failed to update username"));
+      }
+    });
+    on<UpdateProviderPhoneEvent>((event, emit) async {
+      final updateStatus = await supabase.updateProviderPhone(event.phone);
+      if (updateStatus) {
+        emit(PhoneNumberUpdatedState());
+      } else {
+        emit(PhoneNumberUpdateErrorState("Failed to update phone number"));
+      }
+    });
   }
 
   validationMethod(GlobalKey<FormState> validationKey) {
@@ -137,7 +176,6 @@ class ProviderProfileBloc
     if (pickedAvatar != null) {
       final updateStatus = await supabase.uploadProviderAvatar(
         localFilePath: pickedAvatar.path,
-        providerId: supabase.theProvider!.id,
       );
       if (updateStatus) {
         emit(ProviderAvatarSuccessState());
