@@ -42,13 +42,12 @@ class HomeScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       child: Text.rich(
                         TextSpan(
-                          text: context.tr("Hello"),
+                          text: context.tr("Hello,"),
                           style: AppFonts.black32,
                           children: [
                             TextSpan(
                               text:
-                                  bloc.supabaseConnect.userProfile?.username ??
-                                  "",
+                                  " ${bloc.supabaseConnect.userProfile?.username ?? ""}",
                               style: AppFonts.black32,
                             ),
                           ],
@@ -164,50 +163,7 @@ class HomeScreen extends StatelessWidget {
                           },
                         ),
                       ),
-                      // SizedBox(height: 16),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Text(
-                      //     "Most Rated Salons Services",
-                      //     style: AppFonts.regular22.copyWith(
-                      //       fontWeight: FontWeight.w600,
-                      //     ),
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: 300.h,
-                      //   width: context.getScreenWidth(size: 1.w),
-                      //   child: ListView.builder(
-                      //     shrinkWrap: true,
-                      //     scrollDirection: Axis.horizontal,
-                      //     padding: const EdgeInsets.symmetric(horizontal: 32),
-                      //     itemCount: 4,
-                      //     itemBuilder: (context, index) {
-                      //       var filteredServices = List.from(
-                      //         bloc.supabaseConnect.services,
-                      //       );
-                      //       filteredServices.sort((a, b) {
-                      //         if (a.provider!.ratingCount! >=
-                      //             b.provider!.ratingCount!) {
-                      //           return 1; // b comes before a
-                      //         } else {
-                      //           return -1; // a comes before b
-                      //         }
-                      //       });
-                      //       filteredServices = filteredServices.sublist(0, 4);
 
-                      //       final service = filteredServices[index];
-                      //       return SizedBox(
-                      //         width: 230.w,
-                      //         height: 300.h,
-                      //         child: Padding(
-                      //           padding: const EdgeInsets.only(bottom: 16),
-                      //           child: ServiceCard(service: service),
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
                       SizedBox(height: 100.h),
                     ],
                   ],

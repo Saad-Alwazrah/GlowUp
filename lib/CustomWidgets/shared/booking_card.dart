@@ -13,7 +13,7 @@ class BookingCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Stack(
@@ -21,13 +21,9 @@ class BookingCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Service",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  color: AppColors.darkText,
-                ),
+              Text(
+                appointment.service?.name ?? "Service",
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
               const SizedBox(height: 12),
               _InfoRow(
@@ -37,7 +33,8 @@ class BookingCard extends StatelessWidget {
               const SizedBox(height: 8),
               _InfoRow(
                 icon: Icons.access_time_rounded,
-                text: "${appointment.appointmentStart} - ${appointment.appointmentEnd}",
+                text:
+                    "${appointment.appointmentStart} - ${appointment.appointmentEnd}",
               ),
               const SizedBox(height: 8),
               _InfoRow(
@@ -66,24 +63,15 @@ class _InfoRow extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const _InfoRow({
-    required this.icon,
-    required this.text,
-  });
+  const _InfoRow({required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: AppColors.darkText),
+        Icon(icon, size: 18),
         const SizedBox(width: 8),
-        Text(
-          text,
-          style: const TextStyle(
-            fontSize: 14,
-            color: AppColors.darkText,
-          ),
-        ),
+        Text(text, style: const TextStyle(fontSize: 14)),
       ],
     );
   }

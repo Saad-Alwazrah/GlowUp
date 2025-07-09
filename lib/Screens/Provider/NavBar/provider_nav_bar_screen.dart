@@ -25,14 +25,14 @@ class ProviderNavBarScreen extends StatelessWidget {
       create: (_) => ProviderNavBarBloc(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFF2E3C6),
         body: BlocBuilder<ProviderNavBarBloc, ProviderNavBarState>(
           builder: (context, state) {
             return Stack(
               children: [
                 IndexedStack(
                   index: state.selectedIndex,
-                  children:  [
+                  children: [
                     ProviderServicesScreen(),
                     PBookingsScreen(),
                     ProviderProfileScreen(),
@@ -45,7 +45,7 @@ class ProviderNavBarScreen extends StatelessWidget {
                     height: 70,
                     margin: const EdgeInsets.only(bottom: 20),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF2E3C6),
+                      color: Theme.of(context).highlightColor,
                       borderRadius: BorderRadius.circular(35),
                     ),
                     child: Row(

@@ -152,6 +152,8 @@ class ProviderProfileBloc
     ThemeSwitchToggleEvent event,
     Emitter<ProviderProfileState> emit,
   ) {
+    themeManager.toggleTheme();
+
     if (themeSwitchValue == 0) {
       print(1);
       themeSwitchValue = 1;

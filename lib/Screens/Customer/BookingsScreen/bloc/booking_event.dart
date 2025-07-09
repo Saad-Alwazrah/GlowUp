@@ -1,6 +1,10 @@
+part of 'booking_bloc.dart';
+
 abstract class BookingEvent {}
 
-class StatusToggleChanged extends BookingEvent {
+final class UpdateUIEvent extends BookingEvent {}
+
+final class StatusToggleEvent extends BookingEvent {
   final int index;
-  StatusToggleChanged(this.index);
+  StatusToggleEvent(this.index);
 }

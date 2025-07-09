@@ -79,13 +79,12 @@
     "Are you a Provider? Register here" : "هل أنتي مقدمة للخدمات؟ سجلي من هنا",
     "The number must start with 05" : "لابد من أن يبدأ",
     "the phone number you enterd is Inavlid" : "the phone number you enterd is Inavlid",
-
     "Employees" : "الموظفين",
     "Your Services" : "خدماتي",
     "Add New Service" : "أضف خدمة جديدة",
     "My Employees" : "موظفيني",
     "+ Add new employee" : " أضف موظف جديد +",
     "No Rating" : "لا يوجد تقييم",
-        "Banner" : "Banner"
+    "Banner" : "الخلفية"
 
 }

@@ -10,7 +10,7 @@ import 'package:glowup/Screens/Customer/Profile/profile_screen.dart';
 import 'package:glowup/Screens/Customer/Services/home_screen.dart';
 
 class NavBarScreen extends StatelessWidget {
-   NavBarScreen({super.key});
+  NavBarScreen({super.key});
 
   final List<String> svgPaths = const [
     'assets/svgs/home.svg',
@@ -19,7 +19,7 @@ class NavBarScreen extends StatelessWidget {
     'assets/svgs/me.svg',
   ];
 
-  List<String> labels =  ["Home", "Providers", "Bookings", "Me"];
+  List<String> labels = ["Home", "Providers", "Bookings", "Me"];
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class NavBarScreen extends StatelessWidget {
                     height: 70,
                     margin: const EdgeInsets.only(bottom: 20),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF2E3C6),
+                      color: Theme.of(context).highlightColor,
                       borderRadius: BorderRadius.circular(35),
                     ),
                     child: Row(
@@ -79,7 +79,7 @@ class NavBarScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                               context.tr(labels[index]),
+                                context.tr(labels[index]),
                                 style: TextStyle(
                                   color: isActive
                                       ? const Color(0xFF8A766D)

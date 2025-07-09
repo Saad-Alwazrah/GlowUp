@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class CustomSearchBar extends StatelessWidget {
   final TextEditingController controller;
   final IconData leftIcon;
@@ -20,13 +21,13 @@ class CustomSearchBar extends StatelessWidget {
       height: 49,
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(100),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Row(
         children: [
-          Icon(leftIcon, color: Color(0xFF2E2E2E)),
+          Icon(leftIcon, color: Theme.of(context).iconTheme.color),
           const SizedBox(width: 8),
           Expanded(
             child: TextField(
@@ -42,4 +43,4 @@ class CustomSearchBar extends StatelessWidget {
       ),
     );
   }
-} 
+}

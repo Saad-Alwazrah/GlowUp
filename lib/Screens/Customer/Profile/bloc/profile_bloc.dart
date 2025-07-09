@@ -161,6 +161,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ThemeSwitchToggleEvent event,
     Emitter<ProfileState> emit,
   ) {
+    themeManager.toggleTheme();
     if (themeSwitchValue == 0) {
       themeSwitchValue = 1;
       emit(SuccessState());
