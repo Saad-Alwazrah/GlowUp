@@ -31,6 +31,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<LanguageSwitchToggleEvent>(updateLanguage);
     on<ThemeSwitchToggleEvent>(updateTheme);
     on<LogOutUser>((event, emit) async {
+      emit(UserLoggingOut());
       final signOutStatus = await supabase.signOut();
       if (signOutStatus) {
         emit(UserLoggedOut());

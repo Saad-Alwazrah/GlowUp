@@ -11,4 +11,8 @@ final class ProviderLoggedIn extends LoginState {}
 
 class SuccessState extends LoginState {}
 
-class ErrorState extends LoginState {}
+class ErrorState extends LoginState {
+  final String message;
+
+  ErrorState(this.message);
+}

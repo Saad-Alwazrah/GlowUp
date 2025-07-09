@@ -26,20 +26,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     ValidateLogin event,
     Emitter<LoginState> emit,
   ) async {
-    if (loginFormKey.currentState!.validate()) {
-      final loginStatus = await supabase.signInWithEmail(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      if (loginStatus) {
-        if (supabase.userProfile?.role == "customer") {
-          emit(CustomerLoggedIn());
-        } else if (supabase.userProfile?.role == "provider") {
-          emit(ProviderLoggedIn());
+    try {
+      if (loginFormKey.currentState!.validate()) {
+        final loginStatus = await supabase.signInWithEmail(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        if (loginStatus) {
+          if (supabase.userProfile?.role == "customer") {
+            emit(CustomerLoggedIn());
+          } else if (supabase.userProfile?.role == "provider") {
+            emit(ProviderLoggedIn());
+          }
         }
       }
-    } else {
-      emit(ErrorState());
+    } catch (e) {
+      emit(ErrorState(e.toString()));
     }
   }
 

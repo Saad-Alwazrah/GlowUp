@@ -5,8 +5,9 @@ import 'package:glowup/Repositories/models/services.dart';
 import 'package:glowup/Styles/app_colors.dart';
 
 class ProviderServiceCard extends StatelessWidget {
-  const ProviderServiceCard({super.key, required this.service});
+  const ProviderServiceCard({super.key, required this.service, this.onDelete});
   final Services service;
+  final void Function()? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,7 @@ class ProviderServiceCard extends StatelessWidget {
             child: Align(
               alignment: Alignment.topRight,
               child: IconButton(
-                onPressed: () {},
+                onPressed: onDelete,
                 icon: Icon(Icons.delete_outlined, color: AppColors.goldenPeach),
               ),
             ),

@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
               if (state is ErrorState) {
                 ScaffoldMessenger.of(
                   listenerContext,
-                ).showSnackBar(SnackBar(content: Text("Login failed")));
+                ).showSnackBar(SnackBar(content: Text(state.message)));
               }
             },
             child: Scaffold(

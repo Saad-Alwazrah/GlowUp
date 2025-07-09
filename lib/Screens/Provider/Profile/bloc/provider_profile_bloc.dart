@@ -38,11 +38,28 @@ class ProviderProfileBloc
     on<UpdateUIEvent>(updateUI);
     on<UpdateProviderAvatarEvent>(updateAvatarMethod);
     on<LogOutProvider>((event, emit) async {
+      emit(ProviderLoggingOut());
       final signOutStatus = await supabase.signOut();
       if (signOutStatus) {
         emit(ProviderLoggedOut());
       } else {
         emit(LogOutError("Failed to log out"));
+      }
+    });
+    on<UpdateProviderBannerEvent>((event, emit) async {
+      XFile? pickedBanner = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
+      if (pickedBanner != null) {
+        final updateStatus = await supabase.uploadProviderBanner(
+          localFilePath: pickedBanner.path,
+        );
+
+        if (updateStatus!) {
+          emit(ProviderBannerSuccessState());
+        } else {
+          emit(UpdateBannerErrorState("Failed to update banner"));
+        }
       }
     });
   }
@@ -139,7 +156,6 @@ class ProviderProfileBloc
     if (pickedAvatar != null) {
       final updateStatus = await supabase.uploadProviderAvatar(
         localFilePath: pickedAvatar.path,
-        providerId: supabase.theProvider!.id,
       );
       if (updateStatus) {
         emit(ProviderAvatarSuccessState());

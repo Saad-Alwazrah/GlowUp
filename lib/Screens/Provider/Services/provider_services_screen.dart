@@ -25,46 +25,74 @@ class ProviderServicesScreen extends StatelessWidget {
           final services = bloc.supabase.theProvider?.services ?? [];
           log(jsonEncode(services));
           log("services length: ${services.length}");
-          return Scaffold(
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-
-              children: [
-                SizedBox(height: 100.h),
-                Text("Your Services", style: AppFonts.bold20),
-                SizedBox(height: 16.h),
-                Align(
-                  alignment: Alignment.center,
-                  child: CustomElevatedButton(
-                    radius: 10.r,
-                    icon: Icon(Icons.add, size: 24.sp, color: Colors.white),
-                    text: "Add New Service",
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const AddingServicesScreen(),
-                        ),
-                      );
-                    },
+          return BlocListener<ProviderServicesBloc, ProviderServicesState>(
+            listener: (context, state) {
+              if (state is ServiceDeletedState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Service deleted successfully"),
+                    duration: Duration(seconds: 1),
                   ),
-                ),
-                if (services.isNotEmpty)
-                  SizedBox(
-                    height: context.getScreenHeight(size: 0.75.h),
-                    width: context.getScreenWidth(size: 1.w),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: services.length,
-                      itemBuilder: (context, index) {
-                        final service = services[index];
-                        return Padding(
-                          padding: EdgeInsets.all(16.h),
-                          child: ProviderServiceCard(service: service),
+                );
+              } else if (state is ServiceDeletionErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "Error deleting service: ${state.errorMessage}",
+                    ),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
+              }
+            },
+            child: Scaffold(
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+
+                children: [
+                  SizedBox(height: 100.h),
+                  Text("Your Services", style: AppFonts.bold20),
+                  SizedBox(height: 16.h),
+                  Align(
+                    alignment: Alignment.center,
+                    child: CustomElevatedButton(
+                      radius: 10.r,
+                      icon: Icon(Icons.add, size: 24.sp, color: Colors.white),
+                      text: "Add New Service",
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const AddingServicesScreen(),
+                          ),
                         );
                       },
                     ),
                   ),
-              ],
+                  if (services.isNotEmpty)
+                    SizedBox(
+                      height: context.getScreenHeight(size: 0.75.h),
+                      width: context.getScreenWidth(size: 1.w),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: services.length,
+                        itemBuilder: (context, index) {
+                          final service = services[index];
+                          return Padding(
+                            padding: EdgeInsets.all(16.h),
+                            child: ProviderServiceCard(
+                              service: service,
+                              onDelete: () {
+                                bloc.add(
+                                  DeleteServiceEvent(serviceId: service.id!),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                ],
+              ),
             ),
           );
         },

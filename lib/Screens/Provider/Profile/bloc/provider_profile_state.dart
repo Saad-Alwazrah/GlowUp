@@ -19,6 +19,14 @@ final class UpdateAvatarErrorState extends ProviderProfileState {
   UpdateAvatarErrorState(this.message);
 }
 
+final class ProviderBannerSuccessState extends ProviderProfileState {}
+
+final class UpdateBannerErrorState extends ProviderProfileState {
+  final String message;
+
+  UpdateBannerErrorState(this.message);
+}
+
 final class LogOutError extends ProviderProfileState {
   final String message;
 
@@ -26,6 +34,8 @@ final class LogOutError extends ProviderProfileState {
 }
 
 final class ProviderLoggedOut extends ProviderProfileState {}
+
+final class ProviderLoggingOut extends ProviderProfileState {}
 
 final class UpdateLanguageState extends ProviderProfileState {}
 

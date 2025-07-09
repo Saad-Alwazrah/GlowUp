@@ -35,8 +35,8 @@ class AddingServicesBloc
         );
         if (pickedAvatar != null) {
           imagePath = pickedAvatar.path;
+          emit(ImageChosenState());
         }
-        emit(ImageChosenState());
       } catch (e) {
         emit(ImagePickingErrorState(e.toString()));
       }

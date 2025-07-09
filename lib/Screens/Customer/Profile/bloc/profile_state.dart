@@ -17,6 +17,8 @@ final class LogOutError extends ProfileState {
   LogOutError(this.message);
 }
 
+final class UserLoggingOut extends ProfileState {}
+
 final class UserAvatarUpdated extends ProfileState {}
 
 final class UserAvatarLoaded extends ProfileState {}
@@ -30,4 +32,5 @@ final class UpdateAvatarError extends ProfileState {
 final class UpdateLanguageState extends ProfileState {}
 
 final class LanguageSwitchToggled extends ProfileState {}
+
 final class ThemeModeChanged extends ProfileState {}

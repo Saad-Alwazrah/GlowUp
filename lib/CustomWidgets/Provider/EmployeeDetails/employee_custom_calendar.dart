@@ -6,8 +6,8 @@ import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CustomCalendar extends StatelessWidget {
-  CustomCalendar({
+class EmployeeCustomCalendar extends StatelessWidget {
+  EmployeeCustomCalendar({
     super.key,
     required this.stylist,
     required this.onDaySelected,
@@ -146,8 +146,11 @@ class CustomCalendar extends StatelessWidget {
         currentDay: DateTime.now(),
         selectedDayPredicate: selectedDayPredicate,
         enabledDayPredicate: (day) {
-          final d = DateTime(day.year, day.month, day.day);
-          return availableDays.contains(d);
+          if (day.isAfter(DateTime.now()) &&
+              day.isBefore(DateTime.now().add(const Duration(days: 30)))) {
+            return true;
+          }
+          return false;
         },
         onDaySelected: onDaySelected,
       ),

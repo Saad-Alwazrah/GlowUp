@@ -1,12 +1,12 @@
 class AvailabilitySlot {
   AvailabilitySlot({
-    required this.id,
+    this.id,
     required this.stylistId,
     required this.startTime,
     required this.endTime,
     required this.date,
   });
-  late final int id;
+  late final int? id;
   late final String stylistId;
   late String startTime;
   late String endTime;

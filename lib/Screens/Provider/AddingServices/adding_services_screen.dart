@@ -55,225 +55,229 @@ class AddingServicesScreen extends StatelessWidget {
               body: SafeArea(
                 child: Form(
                   key: bloc.formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20.h),
-                      if (bloc.imagePath == null)
-                        DottedBorder(
-                          options: RoundedRectDottedBorderOptions(
-                            radius: Radius.circular(10.r),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20.h),
+                        if (bloc.imagePath == null)
+                          DottedBorder(
+                            options: RoundedRectDottedBorderOptions(
+                              radius: Radius.circular(10.r),
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                bloc.add(ChoosingAnImageEvent());
+                              },
+                              child: Container(
+                                height: 207.h,
+                                width: 230.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.withValues(alpha: 0.25),
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.upload_file,
+                                      size: 50.sp,
+                                      color: Colors.grey.withValues(alpha: 0.5),
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    Text(
+                                      "Press To Upload Service Image",
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        color: Colors.grey.withValues(
+                                          alpha: 0.5,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                          child: GestureDetector(
+                        if (bloc.imagePath != null)
+                          GestureDetector(
                             onTap: () {
                               bloc.add(ChoosingAnImageEvent());
                             },
                             child: Container(
                               height: 207.h,
                               width: 230.w,
+                              clipBehavior: Clip.hardEdge,
                               decoration: BoxDecoration(
-                                color: Colors.grey.withValues(alpha: 0.25),
                                 borderRadius: BorderRadius.circular(10.r),
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.upload_file,
-                                    size: 50.sp,
-                                    color: Colors.grey.withValues(alpha: 0.5),
-                                  ),
-                                  SizedBox(height: 8.h),
-                                  Text(
-                                    "Press To Upload Service Image",
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      color: Colors.grey.withValues(alpha: 0.5),
-                                    ),
-                                  ),
-                                ],
+                              child: Image.file(
+                                File(bloc.imagePath!),
+                                height: 143.h,
+                                width: 335.w,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
-                        ),
-                      if (bloc.imagePath != null)
-                        GestureDetector(
-                          onTap: () {
-                            bloc.add(ChoosingAnImageEvent());
-                          },
-                          child: Container(
-                            height: 207.h,
-                            width: 230.w,
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            child: Image.file(
-                              File(bloc.imagePath!),
-                              height: 143.h,
-                              width: 335.w,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      SizedBox(height: 20.h),
-                      CustomTextfield(
-                        textFieldHint: "Service Name",
-                        textFieldcontroller: bloc.nameController,
-                        validationMethod: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please enter a service name";
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomTextfield(
-                        textFieldHint: "Bio",
-                        textFieldcontroller: bloc.descriptionController,
-                        validationMethod: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please enter a bio";
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomTextfield(
-                        textFieldHint: "Duration (in minutes)",
-                        textFieldcontroller: bloc.durationController,
-                        validationMethod: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please enter a duration";
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomTextfield(
-                        textFieldHint: "Price",
-                        textFieldcontroller: bloc.priceController,
-                        validationMethod: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              double.tryParse(value) == null) {
-                            return "Please enter a price";
-                          } else if (double.parse(value) <= 0) {
-                            return "Price must be greater than zero";
-                          }
-                          return null;
-                        },
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: SizedBox(
-                          width: 250.w,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 32.w),
-                            child: DropdownButtonFormField<String>(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please select a category";
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                labelText: "Category",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50.r),
-                                ),
-                              ),
-                              value: bloc.slectedCategory,
-                              items:
-                                  <String>[
-                                    'Hair',
-                                    'Nails',
-                                    'Skin',
-                                    'Makeup',
-                                    'Other',
-                                  ].map<DropdownMenuItem<String>>((
-                                    String value,
-                                  ) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                              onChanged: (String? newValue) {
-                                bloc.slectedCategory = newValue;
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w),
-                        child: CheckboxListTile(
-                          title: const Text("At Home Service"),
-                          value: bloc.isAtHome,
-                          onChanged: (value) {
-                            bloc.add(AtHomeToggleEvent(value!));
+                        SizedBox(height: 20.h),
+                        CustomTextfield(
+                          textFieldHint: "Service Name",
+                          textFieldcontroller: bloc.nameController,
+                          validationMethod: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter a service name";
+                            }
+                            return null;
                           },
                         ),
-                      ),
-                      SizedBox(height: 20.h),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: Text(
-                          "Select Stylists",
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        CustomTextfield(
+                          textFieldHint: "Bio",
+                          textFieldcontroller: bloc.descriptionController,
+                          validationMethod: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter a bio";
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                      SizedBox(height: 8.h),
-                      // Add your stylist selection widget here
-                      ...List.generate(
-                        bloc.supabase.theProvider!.stylists.length,
-                        (index) {
-                          final stylist =
-                              bloc.supabase.theProvider!.stylists[index];
-                          return Padding(
-                            padding: EdgeInsets.only(left: 8.w),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: ChoiceChip(
-                                label: Text(stylist.name),
-                                selectedColor: AppColors.goldenPeach,
-                                backgroundColor: AppColors.calendarDay,
-                                selected: bloc.selectedStylists.contains(
-                                  stylist,
-                                ),
-                                onSelected: (selected) {
-                                  if (!bloc.selectedStylists.contains(
-                                    stylist,
-                                  )) {
-                                    bloc.selectedStylists.add(stylist);
-                                    bloc.add(ChoosingAStylistEvent());
-                                    log("selected");
-                                  } else {
-                                    bloc.selectedStylists.remove(stylist);
-                                    log("unselected");
-                                    bloc.add(ChoosingAStylistEvent());
+                        CustomTextfield(
+                          textFieldHint: "Duration (in minutes)",
+                          textFieldcontroller: bloc.durationController,
+                          validationMethod: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter a duration";
+                            }
+                            return null;
+                          },
+                        ),
+                        CustomTextfield(
+                          textFieldHint: "Price",
+                          textFieldcontroller: bloc.priceController,
+                          validationMethod: (value) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                double.tryParse(value) == null) {
+                              return "Please enter a price";
+                            } else if (double.parse(value) <= 0) {
+                              return "Price must be greater than zero";
+                            }
+                            return null;
+                          },
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: SizedBox(
+                            width: 250.w,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 32.w),
+                              child: DropdownButtonFormField<String>(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please select a category";
                                   }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  labelText: "Category",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(50.r),
+                                  ),
+                                ),
+                                value: bloc.slectedCategory,
+                                items:
+                                    <String>[
+                                      'Hair',
+                                      'Nails',
+                                      'Skin',
+                                      'Makeup',
+                                      'Other',
+                                    ].map<DropdownMenuItem<String>>((
+                                      String value,
+                                    ) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                onChanged: (String? newValue) {
+                                  bloc.slectedCategory = newValue;
                                 },
                               ),
                             ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 20.h),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.w),
+                          child: CheckboxListTile(
+                            title: const Text("At Home Service"),
+                            value: bloc.isAtHome,
+                            onChanged: (value) {
+                              bloc.add(AtHomeToggleEvent(value!));
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: Text(
+                            "Select Stylists",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        // Add your stylist selection widget here
+                        ...List.generate(
+                          bloc.supabase.theProvider!.stylists.length,
+                          (index) {
+                            final stylist =
+                                bloc.supabase.theProvider!.stylists[index];
+                            return Padding(
+                              padding: EdgeInsets.only(left: 8.w),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: ChoiceChip(
+                                  label: Text(stylist.name),
+                                  selectedColor: AppColors.goldenPeach,
+                                  backgroundColor: AppColors.calendarDay,
+                                  selected: bloc.selectedStylists.contains(
+                                    stylist,
+                                  ),
+                                  onSelected: (selected) {
+                                    if (!bloc.selectedStylists.contains(
+                                      stylist,
+                                    )) {
+                                      bloc.selectedStylists.add(stylist);
+                                      bloc.add(ChoosingAStylistEvent());
+                                      log("selected");
+                                    } else {
+                                      bloc.selectedStylists.remove(stylist);
+                                      log("unselected");
+                                      bloc.add(ChoosingAStylistEvent());
+                                    }
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 20.h),
 
-                      CustomElevatedButton(
-                        text: "Add Service",
-                        onTap: () {
-                          if (bloc.formKey.currentState!.validate() &&
-                              bloc.imagePath != null &&
-                              bloc.slectedCategory != null &&
-                              bloc.selectedStylists.isNotEmpty) {
-                            // Handle form submission
-                            bloc.add(AddingServiceEvent());
-                          }
-                        },
-                      ),
-                    ],
+                        CustomElevatedButton(
+                          text: "Add Service",
+                          onTap: () {
+                            if (bloc.formKey.currentState!.validate() &&
+                                bloc.imagePath != null &&
+                                bloc.slectedCategory != null &&
+                                bloc.selectedStylists.isNotEmpty) {
+                              // Handle form submission
+                              bloc.add(AddingServiceEvent());
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

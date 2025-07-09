@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
 import 'package:glowup/CustomWidgets/shared/profile/profile_dialog.dart';
 import 'package:glowup/Screens/Customer/Profile/bloc/profile_bloc.dart';
+import 'package:glowup/Screens/Shared/splash/splash.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
 
@@ -20,6 +21,12 @@ class ProfileScreen extends StatelessWidget {
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (listenerContext, state) {
           final bloc = listenerContext.read<ProfileBloc>();
+          if (state is UserLoggingOut) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => SplashScreen()),
+            );
+          }
           if (state is UserLoggedOut) {
             Navigator.pushReplacementNamed(context, '/onboarding');
           }
@@ -56,7 +63,7 @@ class ProfileScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(60.r),
                         child: CachedNetworkImage(
-                          imageUrl: bloc.supabase.userProfile?.avatarUrl ?? '',
+                          imageUrl: bloc.supabase.userProfile!.avatarUrl!,
                           height: 120.h,
                           width: 120.w,
                           fit: BoxFit.cover,

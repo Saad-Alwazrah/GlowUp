@@ -14,5 +14,13 @@ class ProviderServicesBloc
     on<ProviderServicesEvent>((event, emit) {
       // TODO: implement event handler
     });
+    on<DeleteServiceEvent>((event, emit) async {
+      try {
+        await supabase.deleteService(event.serviceId);
+        emit(ServiceDeletedState());
+      } catch (e) {
+        emit(ServiceDeletionErrorState(e.toString()));
+      }
+    });
   }
 }
