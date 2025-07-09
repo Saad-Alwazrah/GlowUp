@@ -63,7 +63,7 @@ class ProviderProfileScreen extends StatelessWidget {
                   }
                 },
                 child: Scaffold(
-                  resizeToAvoidBottomInset: false,
+                  resizeToAvoidBottomInset: false, // May change
                   body: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -151,7 +151,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.person),
-                                title: Text("Employees".tr()),
+                                title: Text(context.tr("Employees")),
                                 onTap: () {
                                   Navigator.pushReplacement(
                                     context,
@@ -169,7 +169,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.badge_outlined),
-                                title: Text("Name".tr()),
+                                title: Text(context.tr("Name")),
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -180,7 +180,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                           bloc.usernameController,
                                       controllerValidation: (value) =>
                                           bloc.userNameValidation(text: value),
-                                      textFieldHint: "New Username",
+                                      textFieldHint: context.tr("New Username"),
                                       submitMethod: bloc.validationMethod,
                                     ),
                                   );
@@ -202,7 +202,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                           bloc.phoneNumberController,
                                       controllerValidation: (value) =>
                                           bloc.phoneValidation(text: value),
-                                      textFieldHint: "New Phone Number",
+                                      textFieldHint: context.tr("New Phone Number"),
                                       submitMethod: bloc.validationMethod,
                                     ),
                                   );
@@ -223,7 +223,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                       textFieldController: bloc.emailController,
                                       controllerValidation: (value) =>
                                           bloc.emailValidation(text: value),
-                                      textFieldHint: "New Email",
+                                      textFieldHint: context.tr("New Email"),
                                       submitMethod: bloc.validationMethod,
                                     ),
                                   );
@@ -235,7 +235,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.help),
-                                title: Text("Help".tr()),
+                                title: Text(context.tr("Help")),
                               ),
                               Divider(),
 
@@ -244,7 +244,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.language),
-                                title: Text("Language".tr()),
+                                title: Text(context.tr("Language")),
                                 trailing: AnimatedToggleSwitch<int>.size(
                                   height: 35,
                                   current: bloc.languageSwitchValue,
@@ -290,7 +290,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.contrast),
-                                title: Text("Theme".tr()),
+                                title: Text(context.tr("Theme")),
                                 trailing: AnimatedToggleSwitch.size(
                                   height: 35,
                                   current: bloc.themeSwitchValue,
@@ -315,7 +315,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                     ),
                                   ],
                                   onChanged: (_) async {
-                                    bloc.themeManager.toggleTheme();
+                                    await bloc.themeManager.toggleTheme();
                                     bloc.add(ThemeSwitchToggleEvent());
                                   },
                                 ),
@@ -327,7 +327,7 @@ class ProviderProfileScreen extends StatelessWidget {
                                 dense: true,
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.logout, color: Colors.red),
-                                title: Text("Logout".tr()),
+                                title: Text(context.tr("Logout")),
                                 onTap: () {
                                   bloc.supabase.signOut();
                                   bloc.add(UpdateUIEvent());
