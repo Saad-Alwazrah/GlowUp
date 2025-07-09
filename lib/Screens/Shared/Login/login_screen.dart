@@ -78,19 +78,28 @@ class LoginScreen extends StatelessWidget {
                                   CustomTextfield(
                                     textFieldHint: context.tr("Email"),
                                     textFieldcontroller: bloc.emailController,
-                                    validationMethod: (value) => context.tr(
-                                      bloc.emailValidation(text: value) ?? "",
-                                    ),
+                                    validationMethod: (value) {
+                                      final error = bloc.emailValidation(
+                                        text: value,
+                                      );
+                                      return error == null
+                                          ? null
+                                          : context.tr(error);
+                                    },
                                   ),
                                   CustomTextfield(
                                     textFieldHint: context.tr("Password"),
                                     isPassword: true,
                                     textFieldcontroller:
                                         bloc.passwordController,
-                                    validationMethod: (value) => context.tr(
-                                      bloc.passwordValidation(text: value) ??
-                                          "",
-                                    ),
+                                    validationMethod: (value) {
+                                      final error = bloc.passwordValidation(
+                                        text: value,
+                                      );
+                                      return error == null
+                                          ? null
+                                          : context.tr(error);
+                                    },
                                   ),
                                 ],
                               ),
@@ -103,7 +112,6 @@ class LoginScreen extends StatelessWidget {
                               },
                             ),
 
-                            // SizedBox(),
                             OntapText(
                               text: context.tr(
                                 "Don't have an account?  SignUp",

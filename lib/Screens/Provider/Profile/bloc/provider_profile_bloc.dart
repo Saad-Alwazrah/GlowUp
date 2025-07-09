@@ -18,8 +18,6 @@ class ProviderProfileBloc
   final phoneNumberKey = GlobalKey<FormState>();
   final emailKey = GlobalKey<FormState>();
 
-
-
   // How to link them with the system
   int languageSwitchValue = 0;
   int themeSwitchValue = 0;
@@ -64,6 +62,22 @@ class ProviderProfileBloc
         } else {
           emit(UpdateBannerErrorState("Failed to update banner"));
         }
+      }
+    });
+    on<UpdateProviderUsernameEvent>((event, emit) async {
+      final updateStatus = await supabase.updateProviderName(event.username);
+      if (updateStatus) {
+        emit(UsernameUpdatedState());
+      } else {
+        emit(UsernameUpdateErrorState("Failed to update username"));
+      }
+    });
+    on<UpdateProviderPhoneEvent>((event, emit) async {
+      final updateStatus = await supabase.updateProviderPhone(event.phone);
+      if (updateStatus) {
+        emit(PhoneNumberUpdatedState());
+      } else {
+        emit(PhoneNumberUpdateErrorState("Failed to update phone number"));
       }
     });
   }

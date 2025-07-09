@@ -256,7 +256,7 @@ class SupabaseConnect {
     }
   }
 
-  Future<void> updateEmail(String newEmail) async {
+  Future<bool> updateEmail(String newEmail) async {
     final resClient = supabase.client;
     try {
       final userRes = await resClient.auth.updateUser(
@@ -268,12 +268,14 @@ class SupabaseConnect {
           .update({'email': newEmail})
           .eq("id", userProfile!.id);
       log("Email updated successfully");
+      return true;
     } catch (e) {
       log("Error updating email: $e");
+      return false;
     }
   }
 
-  Future<void> updatePhone(String newPhone) async {
+  Future<bool> updatePhone(String newPhone) async {
     final resClient = supabase.client;
     try {
       await resClient
@@ -282,12 +284,14 @@ class SupabaseConnect {
           .eq("id", userProfile!.id);
       userProfile?.phone = newPhone;
       log("Phone updated successfully");
+      return true;
     } catch (e) {
       log("Error updating phone: $e");
+      return false;
     }
   }
 
-  Future<void> updateUsername(String newUsername) async {
+  Future<bool> updateUsername(String newUsername) async {
     final resClient = supabase.client;
     try {
       await resClient
@@ -296,12 +300,14 @@ class SupabaseConnect {
           .eq("id", userProfile!.id);
       userProfile?.username = newUsername;
       log("Username updated successfully");
+      return true;
     } catch (e) {
       log("Error updating username: $e");
+      return false;
     }
   }
 
-  Future<void> updateProviderName(String newName) async {
+  Future<bool> updateProviderName(String newName) async {
     final resClient = supabase.client;
     try {
       await resClient
@@ -310,12 +316,14 @@ class SupabaseConnect {
           .eq("id", theProvider!.id);
       theProvider?.name = newName;
       log("Provider name updated successfully");
+      return true;
     } catch (e) {
       log("Error updating provider name: $e");
+      return false;
     }
   }
 
-  Future<void> updateProviderPhone(String newPhone) async {
+  Future<bool> updateProviderPhone(String newPhone) async {
     final resClient = supabase.client;
     try {
       await resClient
@@ -324,8 +332,10 @@ class SupabaseConnect {
           .eq("id", theProvider!.id);
       theProvider?.phone = newPhone;
       log("Provider phone updated successfully");
+      return true;
     } catch (e) {
       log("Error updating provider phone: $e");
+      return false;
     }
   }
 
@@ -508,8 +518,7 @@ class SupabaseConnect {
             .single(),
       );
       log(jsonEncode(newServiceRes));
-      await fetchData();
-      linkData();
+
       uploadServiceImage(
         localFilePath: filePath,
         providerId: theProvider!.id,
@@ -521,6 +530,8 @@ class SupabaseConnect {
           "stylist_id": stylist.id,
         };
         await resClient.from("service_stylists").insert(serviceStylist);
+        await fetchData();
+        linkData();
       }
       log("Service added successfully");
       return true;
@@ -862,7 +873,7 @@ class SupabaseConnect {
       );
       final newProvider = Provider(
         id: user.id,
-        name: "",
+        name: username,
         phone: number,
         address: address,
         latitude: position.latitude,

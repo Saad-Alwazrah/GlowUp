@@ -34,3 +34,25 @@ final class UpdateLanguageState extends ProfileState {}
 final class LanguageSwitchToggled extends ProfileState {}
 
 final class ThemeModeChanged extends ProfileState {}
+
+final class UsernameUpdatedState extends ProfileState {}
+
+final class UsernameUpdateErrorState extends ProfileState {
+  final String message;
+
+  UsernameUpdateErrorState(this.message);
+}
+
+final class PhoneNumberUpdatedState extends ProfileState {}
+
+final class PhoneNumberUpdateErrorState extends ProfileState {
+  final String message;
+  PhoneNumberUpdateErrorState(this.message);
+}
+
+final class EmailUpdatedState extends ProfileState {}
+
+final class EmailUpdateErrorState extends ProfileState {
+  final String message;
+  EmailUpdateErrorState(this.message);
+}

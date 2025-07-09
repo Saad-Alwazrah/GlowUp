@@ -43,7 +43,7 @@ class ProviderSignUpScreen extends StatelessWidget {
                         children: [
                           SizedBox(height: 24),
                           Text(
-                            context.tr(bloc.titleText[bloc.currentPage]) ,
+                            context.tr(bloc.titleText[bloc.currentPage]),
                             style: AppFonts.semiBold24,
                           ),
                           SizedBox(height: 24),
@@ -67,21 +67,50 @@ class ProviderSignUpScreen extends StatelessWidget {
                                 ProviderFirstPageviewSignUp(
                                   formKey: bloc.signUpformKey,
                                   nameController: bloc.nameController,
-                                  nameValidation: (value) =>
-                                     context.tr(bloc.userNameValidation(text: value) ?? "") ,
+                                  nameValidation: (value) {
+                                    final error = bloc.userNameValidation(
+                                      text: value,
+                                    );
+                                    return error == null
+                                        ? null
+                                        : context.tr(error);
+                                  },
                                   phoneController: bloc.phoneController,
-                                  phoneValidation: (value) =>
-                                     context.tr(bloc.phoneValidation(text: value) ?? "") ,
+                                  phoneValidation: (value) {
+                                    final error = bloc.phoneValidation(
+                                      text: value,
+                                    );
+                                    return error == null
+                                        ? null
+                                        : context.tr(error);
+                                  },
                                   emailController: bloc.emailController,
-                                  emailValidation: (value) =>
-                                     context.tr(bloc.emailValidation(text: value) ?? "") ,
+                                  emailValidation: (value) {
+                                    final error = bloc.emailValidation(
+                                      text: value,
+                                    );
+                                    return error == null
+                                        ? null
+                                        : context.tr(error);
+                                  },
                                   passwordController: bloc.passwordController,
-                                  passwordValidation: (value) =>
-                                     context.tr(bloc.passwordValidation(text: value) ?? "") ,
+                                  passwordValidation: (value) {
+                                    final error = bloc.passwordValidation(
+                                      text: value,
+                                    );
+                                    return error == null
+                                        ? null
+                                        : context.tr(error);
+                                  },
                                   confirmPasswordController:
                                       bloc.confirmPasswordController,
-                                  confirmPasswordValidation: (value) =>context.tr(bloc
-                                      .confrimPasswordValidation(text: value) ?? "") ,
+                                  confirmPasswordValidation: (value) {
+                                    final error = bloc
+                                        .confrimPasswordValidation(text: value);
+                                    return error == null
+                                        ? null
+                                        : context.tr(error);
+                                  },
                                   pressedMethod: () =>
                                       bloc.add(CreateProviderAccountEvent()),
                                 ),
@@ -89,9 +118,15 @@ class ProviderSignUpScreen extends StatelessWidget {
                                   formKey: bloc.locationFormKey,
                                   controller: bloc.addressController,
                                   pressedMethod: () =>
-                                     bloc.add(SendConfermationEvent()) ,
-                                  addressValidation: (value) =>
-                                     context.tr(bloc.addressValidation(text: value) ?? "") ,
+                                      bloc.add(SendConfermationEvent()),
+                                  addressValidation: (value) {
+                                    final error = bloc.addressValidation(
+                                      text: value,
+                                    );
+                                    return error == null
+                                        ? null
+                                        : context.tr(error);
+                                  },
                                 ),
                                 ProviderThirdPageviewSignUp(),
                               ],

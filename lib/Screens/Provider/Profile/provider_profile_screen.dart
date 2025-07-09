@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
 import 'package:glowup/CustomWidgets/shared/profile/profile_dialog.dart';
+import 'package:glowup/Screens/Customer/Help/help_screen.dart';
 import 'package:glowup/Screens/Provider/Employees/my_employee_screen.dart';
 import 'package:glowup/Screens/Provider/Profile/bloc/provider_profile_bloc.dart';
 import 'package:glowup/Screens/Shared/splash/splash.dart';
@@ -76,6 +77,42 @@ class ProviderProfileScreen extends StatelessWidget {
                     );
                   }
                   if (state is UpdateBannerErrorState) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                  if (state is UsernameUpdatedState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Username updated successfully!"),
+                      ),
+                    );
+                  }
+                  if (state is UsernameUpdateErrorState) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                  if (state is PhoneNumberUpdatedState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Phone number updated successfully!"),
+                      ),
+                    );
+                  }
+                  if (state is PhoneNumberUpdateErrorState) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                  if (state is EmailUpdatedState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Email updated successfully!"),
+                      ),
+                    );
+                  }
+                  if (state is EmailUpdateErrorState) {
                     ScaffoldMessenger.of(
                       context,
                     ).showSnackBar(SnackBar(content: Text(state.message)));
@@ -215,7 +252,18 @@ class ProviderProfileScreen extends StatelessWidget {
                                       controllerValidation: (value) =>
                                           bloc.userNameValidation(text: value),
                                       textFieldHint: "New Username",
-                                      submitMethod: bloc.validationMethod,
+                                      submitMethod: () {
+                                        if (bloc.usernameKey.currentState!
+                                            .validate()) {
+                                          bloc.add(
+                                            UpdateProviderUsernameEvent(
+                                              bloc.usernameController.text
+                                                  .trim(),
+                                            ),
+                                          );
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
                                     ),
                                   );
                                 },
@@ -247,7 +295,18 @@ class ProviderProfileScreen extends StatelessWidget {
                                       controllerValidation: (value) =>
                                           bloc.phoneValidation(text: value),
                                       textFieldHint: "New Phone Number",
-                                      submitMethod: bloc.validationMethod,
+                                      submitMethod: () {
+                                        if (bloc.phoneNumberKey.currentState!
+                                            .validate()) {
+                                          bloc.add(
+                                            UpdateProviderPhoneEvent(
+                                              bloc.phoneNumberController.text
+                                                  .trim(),
+                                            ),
+                                          );
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
                                     ),
                                   );
                                 },
@@ -268,7 +327,17 @@ class ProviderProfileScreen extends StatelessWidget {
                                       controllerValidation: (value) =>
                                           bloc.emailValidation(text: value),
                                       textFieldHint: "New Email",
-                                      submitMethod: bloc.validationMethod,
+                                      submitMethod: () {
+                                        if (bloc.emailKey.currentState!
+                                            .validate()) {
+                                          bloc.add(
+                                            UpdateProviderEmailEvent(
+                                              bloc.emailController.text.trim(),
+                                            ),
+                                          );
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
                                     ),
                                   );
                                 },
@@ -280,6 +349,13 @@ class ProviderProfileScreen extends StatelessWidget {
                                 visualDensity: VisualDensity(vertical: -0.5),
                                 leading: Icon(Icons.help),
                                 title: Text("Help".tr()),
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const HelpScreen(),
+                                    ),
+                                  );
+                                },
                               ),
                               Divider(),
 

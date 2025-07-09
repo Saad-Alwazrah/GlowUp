@@ -16,3 +16,21 @@ final class UpdateUIEvent extends ProviderProfileEvent {}
 final class LogOutProvider extends ProviderProfileEvent {}
 
 final class UpdateProviderBannerEvent extends ProviderProfileEvent {}
+
+final class UpdateProviderUsernameEvent extends ProviderProfileEvent {
+  final String username;
+
+  UpdateProviderUsernameEvent(this.username);
+}
+
+final class UpdateProviderPhoneEvent extends ProviderProfileEvent {
+  final String phone;
+
+  UpdateProviderPhoneEvent(this.phone);
+}
+
+final class UpdateProviderEmailEvent extends ProviderProfileEvent {
+  final String email;
+
+  UpdateProviderEmailEvent(this.email);
+}
