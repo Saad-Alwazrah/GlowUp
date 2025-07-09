@@ -66,9 +66,9 @@ The project demonstrates:
 
 # 👥 Tasks or Division of Members in the Project
 
-- **Lamees Al-Amri** – Led UI/UX design using Figma, designed user flow, styled and programed the light/dark theme.  
-- **Solaiman Al-Dokhail** – Focused on backend logic, 
-- **Saad Al-Mutairi** – Login, sign in and form validation. 
+- **Lamees Al Amri** – Led UI/UX design using Figma, designed user flow, styled and programed the light/dark theme.  
+- **Solaiman Al Dokhail** – Focused on backend logic, 
+- **Saad Al Wazrah** – Focused on the frontends of the application . 
 - **All Members** – Collaborated on Flutter development, building out core screens, connecting UI to logic, and refining the app's performance.
 
 
@@ -88,20 +88,18 @@ The project meets the following minimum requirements set by the bootcamp:
 
 # 👤 Project Members
 
-- **Saad]** - *[Leader/ frontend developer]*  
-- **[Solaiman]** - *[backend developer/ frontend developer]*  
-- **[Lamees Al-Amri]** - *[UI/UX designer/ frontend developer]]*  
+- **[Saad Alwazrah]** - *[Leader/ frontend developer]*  
+- **[Solaiman Al Dokhail]** - *[backend developer/ frontend developer]*  
+- **[Lamees Al Amri]** - *[UI/UX designer/ frontend developer]]*  
  
 
 ---
 
 # 🔗 Project Member Accounts in GitHub
 
-- **[GitHub Username 1]**: [GitHub URL]  
-- **[GitHub Username 2]**: [GitHub URL]  
-- **[GitHub Username 3]**: [GitHub URL]  
-- **[GitHub Username 4]**: [GitHub URL]  
-- **[GitHub Username 5]**: [GitHub URL]  
+- **[Saad-Al Wazrah]**: [https://github.com/Saad-Alwazrah]  
+- **[Solaiman Al Dokhail]**: [https://github.com/Solaiman20]  
+- **[Lamees Al Amri]**: [https://github.com/Lamees56]  
 
 ---
 
