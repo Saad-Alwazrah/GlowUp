@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glowup/CustomWidgets/shared/custom_background_container.dart';
 
 import 'package:glowup/CustomWidgets/shared/custom_auth_container.dart';
 import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
@@ -67,32 +66,38 @@ class LoginScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(),
-                            Text("Welcome Back", style: AppFonts.semiBold24),
+                            Text(
+                              context.tr("Welcome Back"),
+                              style: AppFonts.semiBold24,
+                            ),
                             SizedBox(),
                             Form(
                               key: bloc.loginFormKey,
                               child: Column(
                                 children: [
                                   CustomTextfield(
-                                    textFieldHint: "Email",
+                                    textFieldHint: context.tr("Email"),
                                     textFieldcontroller: bloc.emailController,
-                                    validationMethod: (value) =>
-                                        bloc.emailValidation(text: value),
+                                    validationMethod: (value) => context.tr(
+                                      bloc.emailValidation(text: value) ?? "",
+                                    ),
                                   ),
                                   CustomTextfield(
-                                    textFieldHint: "Password",
+                                    textFieldHint: context.tr("Password"),
                                     isPassword: true,
                                     textFieldcontroller:
                                         bloc.passwordController,
-                                    validationMethod: (value) =>
-                                        bloc.passwordValidation(text: value),
+                                    validationMethod: (value) => context.tr(
+                                      bloc.passwordValidation(text: value) ??
+                                          "",
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
 
                             CustomElevatedButton(
-                              text: "Login".tr(),
+                              text: context.tr("Login"),
                               onTap: () {
                                 bloc.add(ValidateLogin(context: context));
                               },
@@ -100,7 +105,9 @@ class LoginScreen extends StatelessWidget {
 
                             // SizedBox(),
                             OntapText(
-                              text: "Don't have an account?  SignUp",
+                              text: context.tr(
+                                "Don't have an account?  SignUp",
+                              ),
                               pressedMethod: () {
                                 Navigator.pushNamed(context, '/signup');
                               },

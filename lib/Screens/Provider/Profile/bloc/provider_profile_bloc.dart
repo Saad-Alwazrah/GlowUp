@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:glowup/Repositories/api/supabase_connect.dart';
 import 'package:glowup/Repositories/models/provider.dart';
+import 'package:glowup/Styles/theme.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
@@ -17,11 +18,14 @@ class ProviderProfileBloc
   final phoneNumberKey = GlobalKey<FormState>();
   final emailKey = GlobalKey<FormState>();
 
+
+
   // How to link them with the system
   int languageSwitchValue = 0;
   int themeSwitchValue = 0;
 
   final supabase = GetIt.I.get<SupabaseConnect>();
+  var themeManager = GetIt.I.get<ThemeManager>();
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
@@ -131,11 +135,13 @@ class ProviderProfileBloc
     Emitter<ProviderProfileState> emit,
   ) {
     if (themeSwitchValue == 0) {
+      print(1);
       themeSwitchValue = 1;
-      emit(UpdateLanguageState());
+      emit(UpdateState());
     } else {
+      print(2);
       themeSwitchValue = 0;
-      emit(UpdateLanguageState());
+      emit(UpdateState());
     }
   }
 

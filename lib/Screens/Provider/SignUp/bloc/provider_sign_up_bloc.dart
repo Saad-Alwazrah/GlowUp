@@ -109,7 +109,7 @@ class ProviderSignUpBloc
     } else if (text.startsWith('05')) {
       return "The number must start with 05";
     } else if (text.length != 10) {
-      return "the number you enterd is Inavlid";
+      return "the phone number you enterd is Inavlid";
     } else {
       return null;
     }
@@ -132,11 +132,17 @@ class ProviderSignUpBloc
     }
   }
 
+  bool isPasswordValid(String? password) {
+    return RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])').hasMatch(password!);
+  }
+
   String? passwordValidation({String? text}) {
     if (text == null || text.isEmpty) {
       return "This field is required";
-    } else if (text.length < 6) {
-      return "Password must atleast be 6 Charectars long";
+    } else if (text.length < 8) {
+      return "Password must atleast be 8 Charectars long";
+    } else if (!isPasswordValid(text)) {
+      return "must contain A Number, An uppercase and a lowercase letter";
     } else {
       return null;
     }

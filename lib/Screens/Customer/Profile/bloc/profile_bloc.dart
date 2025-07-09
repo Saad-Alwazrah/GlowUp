@@ -21,9 +21,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   TextEditingController emailController = TextEditingController();
 
   final supabase = GetIt.I.get<SupabaseConnect>();
+  final themeManager = GetIt.I.get<ThemeManager>();
 
   int languageSwitchValue = 0;
   int themeSwitchValue = 0;
+  
 
   bool isDarkMode = false;
   ProfileBloc() : super(ProfileInitial()) {

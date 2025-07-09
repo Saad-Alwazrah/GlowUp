@@ -38,46 +38,48 @@ class ProviderFirstPageviewSignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 15,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Form(
-          key: formKey,
-          child: Column(
-            children: [
-              CustomTextfield(
-                textFieldcontroller: nameController,
-                textFieldHint: "Username".tr(),
-                validationMethod: nameValidation,
-              ),
-              CustomTextfield(
-                textFieldcontroller: phoneController,
-                textFieldHint: "Phone".tr(),
-                validationMethod: phoneValidation,
-              ),
-              CustomTextfield(
-                textFieldcontroller: emailController,
-                textFieldHint: "Email".tr(),
-                validationMethod: emailValidation,
-              ),
-              CustomTextfield(
-                textFieldcontroller: passwordController,
-                textFieldHint: "Password".tr(),
-                isPassword: true,
-                validationMethod: passwordValidation,
-              ),
-              CustomTextfield(
-                textFieldcontroller: confirmPasswordController,
-                textFieldHint: "Confirm Password".tr(),
-                isPassword: true,
-                validationMethod: confirmPasswordValidation,
-              ),
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        spacing: 15,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Form(
+            key: formKey,
+            child: Column(
+              children: [
+                CustomTextfield(
+                  textFieldcontroller: nameController,
+                  textFieldHint: "Username".tr(),
+                  validationMethod: nameValidation,
+                ),
+                CustomTextfield(
+                  textFieldcontroller: phoneController,
+                  textFieldHint: "Phone".tr(),
+                  validationMethod: phoneValidation,
+                ),
+                CustomTextfield(
+                  textFieldcontroller: emailController,
+                  textFieldHint: "Email".tr(),
+                  validationMethod: emailValidation,
+                ),
+                CustomTextfield(
+                  textFieldcontroller: passwordController,
+                  textFieldHint: "Password".tr(),
+                  isPassword: true,
+                  validationMethod: passwordValidation,
+                ),
+                CustomTextfield(
+                  textFieldcontroller: confirmPasswordController,
+                  textFieldHint: "Confirm Password".tr(),
+                  isPassword: true,
+                  validationMethod: confirmPasswordValidation,
+                ),
+              ],
+            ),
           ),
-        ),
-        CustomElevatedButton(text: "Next".tr(), onTap: pressedMethod),
-      ],
+          CustomElevatedButton(text: "Next".tr(), onTap: pressedMethod),
+        ],
+      ),
     );
   }
 }

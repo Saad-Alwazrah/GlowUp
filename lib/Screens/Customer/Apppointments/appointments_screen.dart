@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/Shared/search_bar.dart';
@@ -16,7 +17,7 @@ class AppointmentsScreen extends StatelessWidget {
               SizedBox(width: 32),
               CustomSearchBar(
                 controller: TextEditingController(),
-                hintText: "Search bookings",
+                hintText: "Search bookings".tr(),
                 onChanged: (value) {
                   // Implement search functionality here
                 },

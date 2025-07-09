@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,7 +43,7 @@ class ProviderSignUpScreen extends StatelessWidget {
                         children: [
                           SizedBox(height: 24),
                           Text(
-                            bloc.titleText[bloc.currentPage],
+                            context.tr(bloc.titleText[bloc.currentPage]) ,
                             style: AppFonts.semiBold24,
                           ),
                           SizedBox(height: 24),
@@ -67,20 +68,20 @@ class ProviderSignUpScreen extends StatelessWidget {
                                   formKey: bloc.signUpformKey,
                                   nameController: bloc.nameController,
                                   nameValidation: (value) =>
-                                      bloc.userNameValidation(text: value),
+                                     context.tr(bloc.userNameValidation(text: value) ?? "") ,
                                   phoneController: bloc.phoneController,
                                   phoneValidation: (value) =>
-                                      bloc.phoneValidation(text: value),
+                                     context.tr(bloc.phoneValidation(text: value) ?? "") ,
                                   emailController: bloc.emailController,
                                   emailValidation: (value) =>
-                                      bloc.emailValidation(text: value),
+                                     context.tr(bloc.emailValidation(text: value) ?? "") ,
                                   passwordController: bloc.passwordController,
                                   passwordValidation: (value) =>
-                                      bloc.passwordValidation(text: value),
+                                     context.tr(bloc.passwordValidation(text: value) ?? "") ,
                                   confirmPasswordController:
                                       bloc.confirmPasswordController,
-                                  confirmPasswordValidation: (value) => bloc
-                                      .confrimPasswordValidation(text: value),
+                                  confirmPasswordValidation: (value) =>context.tr(bloc
+                                      .confrimPasswordValidation(text: value) ?? "") ,
                                   pressedMethod: () =>
                                       bloc.add(CreateProviderAccountEvent()),
                                 ),
@@ -88,9 +89,9 @@ class ProviderSignUpScreen extends StatelessWidget {
                                   formKey: bloc.locationFormKey,
                                   controller: bloc.addressController,
                                   pressedMethod: () =>
-                                      bloc.add(SendConfermationEvent()),
+                                     bloc.add(SendConfermationEvent()) ,
                                   addressValidation: (value) =>
-                                      bloc.addressValidation(text: value),
+                                     context.tr(bloc.addressValidation(text: value) ?? "") ,
                                 ),
                                 ProviderThirdPageviewSignUp(),
                               ],

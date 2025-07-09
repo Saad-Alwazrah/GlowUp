@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,29 +26,30 @@ class OnboardingScreen extends StatelessWidget {
                   width: 200.w,
                   fit: BoxFit.cover,
                 ),
-                Text("Beauty at Your Fingertips", style: AppFonts.semiBold24),
+                Text(context.tr("Beauty at Your Fingertips") , style: AppFonts.semiBold24),
                 SizedBox(height: 10.h),
-                Text("Browse top-rated salons near", style: AppFonts.regular22),
+                Text(context.tr("Browse top-rated salons near") , style: AppFonts.regular22),
                 SizedBox(height: 5.h),
                 Text(
-                  "you and find services that fit ",
+                  context.tr("you and find services that fit ")
+                  ,
                   style: AppFonts.regular22,
                 ),
                 SizedBox(height: 5.h),
                 Text(
-                  "your style fast and very easy",
+                  context.tr("your style fast and very easy"),
                   style: AppFonts.regular22,
                 ),
                 SizedBox(height: 48.h),
                 CustomButton(
-                  text: "Login",
+                  text: context.tr("Login"),
                   onTap: () {
                     Navigator.pushNamed(context, '/login');
                   },
                 ),
                 SizedBox(height: 20.h),
                 CustomButton(
-                  text: "Sign Up",
+                  text: context.tr("Sign Up"),
                   onTap: () {
                     Navigator.pushNamed(context, '/signup');
                   },
@@ -58,7 +60,7 @@ class OnboardingScreen extends StatelessWidget {
                     Navigator.pushNamed(context, '/providerSignup');
                   },
                   child: Text(
-                    "Are you a Provider? Register here",
+                    context.tr("Are you a Provider? Register here"),
                     style: AppFonts.regular14,
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -74,7 +75,7 @@ class ProviderNavBarScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                labels[index],
+                                context.tr(labels[index]),
                                 style: TextStyle(
                                   color: isActive
                                       ? const Color(0xFF8A766D)

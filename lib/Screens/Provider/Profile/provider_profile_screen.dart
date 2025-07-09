@@ -11,6 +11,7 @@ import 'package:glowup/Screens/Provider/Profile/bloc/provider_profile_bloc.dart'
 import 'package:glowup/Screens/Shared/splash/splash.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
+import 'package:glowup/Styles/theme.dart';
 import 'package:glowup/Utilities/extensions/screen_size.dart';
 
 class ProviderProfileScreen extends StatelessWidget {
@@ -28,6 +29,13 @@ class ProviderProfileScreen extends StatelessWidget {
           } else {
             bloc.languageSwitchValue = 0;
           }
+
+          if (bloc.themeManager.themeMode == ThemeMode.light) {
+            bloc.themeSwitchValue = 0;
+          } else {
+            bloc.themeSwitchValue = 1;
+          }
+
           return BlocBuilder<ProviderProfileBloc, ProviderProfileState>(
             builder: (context, state) {
               print(bloc.provider.avatarUrl);
@@ -350,8 +358,10 @@ class ProviderProfileScreen extends StatelessWidget {
                                           : Colors.black,
                                     ),
                                   ],
-                                  onChanged: (_) =>
-                                      bloc.add(ThemeSwitchToggleEvent()),
+                                  onChanged: (_) async {
+                                    bloc.themeManager.toggleTheme();
+                                    bloc.add(ThemeSwitchToggleEvent());
+                                  },
                                 ),
                               ),
                               Divider(),
