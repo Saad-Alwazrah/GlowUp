@@ -18,12 +18,12 @@ class BackgroundContainer extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(36),
-            topRight: Radius.circular(36),
+            topLeft: Radius.circular(36.r),
+            topRight: Radius.circular(36.r),
           ),
         ),
-        height:  ScreenUtil().setHeight(context.getScreenHeight(size: heightSize)),
-        width: ScreenUtil().setWidth(context.getScreenWidth(size: 1)),
+        height: (952 * heightSize).h,
+        width: 402.w,
         child: childWidget,
       ),
     );

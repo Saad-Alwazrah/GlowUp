@@ -26,3 +26,5 @@ final class AtHomeToggleState extends AddingServicesState {
 }
 
 final class AStylistChosenState extends AddingServicesState {}
+
+final class UIUpdateState extends AddingServicesState {}

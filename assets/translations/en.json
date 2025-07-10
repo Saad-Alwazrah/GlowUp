@@ -79,12 +79,30 @@
     "Are you a Provider? Register here" : "Are you a Provider? Register here",
     "The number must start with 05" : "The number must start with 05",
     "the phone number you enterd is Inavlid" : "the phone number you enterd is Inavlid",
-
     "Employees" : "Employees",
     "Your Services" : "Your Services",
     "Add New Service" : "Add New Service",
     "My Employees" : "My Employees",
     "+ Add new employee " : "+ Add new employee",
-    "No Rating" : "No Rating"  
+    "No Rating" : "No Rating",
+    "Banner" : "Banner",
+    "the bio should atleast be 4 charectars long" : "the bio should atleast be 4 charectars long",
+    "Employee Name" : "Employee Name",
+    "Employee Bio" : "Employee Bio",
 
+    "Press To Upload Service Image" : "Press To Upload Service Image",
+    "Service Name" : "Service Name",
+    "Please enter a service name" : "Please enter a service name",
+    "Bio" : "Bio",
+    "Please enter a bio" : "Please enter a bio",
+    "Duration (in minutes)" : "Duration (in minutes)",
+    "Please enter a duration" : "Please enter a duration",
+    "Price" : "Price",
+    "Please enter a price" : "Please enter a price",
+    "Price must be greater than zero" : "Price must be greater than zero",
+    "Please select a category" : "Please select a category",
+    "Category" : "Category",
+    "At Home Service" : "At Home Service",
+    "Select Stylists" : "Select Stylists",
+    "Add Service" : "Add Service"
 }

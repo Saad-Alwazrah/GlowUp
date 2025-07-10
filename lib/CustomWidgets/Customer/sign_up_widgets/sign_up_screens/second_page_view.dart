@@ -24,10 +24,10 @@ class SecondPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        spacing: 15,
+        spacing: 15.h,
         children: [
           // Relpace the placeholder with googleMap instance
-      
+
           // The size of the instance
           CustomMaps(),
           Form(
@@ -38,8 +38,11 @@ class SecondPageView extends StatelessWidget {
               validationMethod: addressValidation,
             ),
           ),
-          CustomElevatedButton(text: context.tr("Sign Up"), onTap: pressedMethod),
-        SizedBox(height: 24.h,)
+          CustomElevatedButton(
+            text: context.tr("Sign Up"),
+            onTap: pressedMethod,
+          ),
+          SizedBox(height: 24.h),
         ],
       ),
     );

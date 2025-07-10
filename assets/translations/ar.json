@@ -78,12 +78,32 @@
     "your style fast and very easy": "",
     "Are you a Provider? Register here" : "هل أنتي مقدمة للخدمات؟ سجلي من هنا",
     "The number must start with 05" : "لابد من أن يبدأ",
-    "the phone number you enterd is Inavlid" : "the phone number you enterd is Inavlid",
-
+    "the phone number you enterd is Inavlid" : "رقم الجوال المدخل خاطئ",
     "Employees" : "الموظفين",
     "Your Services" : "خدماتي",
     "Add New Service" : "أضف خدمة جديدة",
     "My Employees" : "موظفيني",
     "+ Add new employee" : " أضف موظف جديد +",
-    "No Rating" : "لا يوجد تقييم"
+    "No Rating" : "لا يوجد تقييم",
+    "Banner" : "الخلفية",
+    "the bio should atleast be 4 charectars long" : "لابد أن يكون الوصف أربع أحرف على الأقل",
+    "Employee Name" : "اسم الموظف",
+    "Employee Bio" : "وصف الموظف",
+
+    "Press To Upload Service Image" : "إضافة صورة للخدمة",
+    "Service Name" : "اسم الخدمة",
+    "Please enter a service name" : "أدخل اسم الخدمة",
+    "Bio" : "الوصف",
+    "Please enter a bio" : "أدخل اسم الوصف",
+    "Duration (in minutes)" : "المدة (بالدقائق)",
+    "Please enter a duration" : "أدخل المدة",
+    "Price" : "السعر",
+    "Please enter a price" : "أدخل سعر الخدمة",
+    "Price must be greater than zero" : "لابد أن يكون سعر الخدمة أعلى من 0",
+    "Please select a category" : "اختر فئة",
+    "Category" : "الفئة",
+    "At Home Service" : "الخدمات المنزلية",
+    "Select Stylists" : "اختيار الموظفة",
+    "Add Service" : "أضف الخدمة"
+
 }

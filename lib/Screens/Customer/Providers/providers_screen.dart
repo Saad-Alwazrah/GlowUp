@@ -20,10 +20,10 @@ class ProvidersScreen extends StatelessWidget {
           return Scaffold(
             body: Column(
               children: [
-                SizedBox(height: 96),
+                SizedBox(height: 96.h),
                 Row(
                   children: [
-                    SizedBox(width: 32),
+                    SizedBox(width: 32.w),
                     CustomSearchBar(
                       controller: TextEditingController(),
                       hintText: "Search providers",
@@ -34,8 +34,8 @@ class ProvidersScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  width: context.getScreenWidth(size: 1.w),
-                  height: context.getScreenHeight(size: 0.7.h),
+                  width: 402.w,
+                  height: 720.h,
                   child: ListView.builder(
                     itemCount: providers.length,
                     itemBuilder: (context, index) {

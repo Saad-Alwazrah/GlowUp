@@ -14,3 +14,5 @@ final class AtHomeToggleEvent extends AddingServicesEvent {
 }
 
 final class ChoosingAStylistEvent extends AddingServicesEvent {}
+
+final class UpdateUIEvent extends AddingServicesEvent {}

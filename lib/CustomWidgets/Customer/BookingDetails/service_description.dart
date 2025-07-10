@@ -27,7 +27,7 @@ class ServiceDescription extends StatelessWidget {
               const Center(child: CircularProgressIndicator()),
           fit: BoxFit.cover,
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
           child: Row(

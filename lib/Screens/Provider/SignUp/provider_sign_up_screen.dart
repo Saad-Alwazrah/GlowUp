@@ -41,24 +41,24 @@ class ProviderSignUpScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(height: 24),
+                          SizedBox(height: 24.h),
                           Text(
                             context.tr(bloc.titleText[bloc.currentPage]),
                             style: AppFonts.semiBold24,
                           ),
-                          SizedBox(height: 24),
+                          SizedBox(height: 24.h),
                           SmoothPageIndicator(
                             controller: bloc.pageController,
                             count: 3,
                             effect: ExpandingDotsEffect(
-                              radius: 16,
-                              dotWidth: 58,
-                              dotHeight: 8,
+                              radius: 16.r,
+                              dotWidth: 58.w,
+                              dotHeight: 8.h,
                               dotColor: Colors.grey,
                               activeDotColor: Colors.black,
                             ),
                           ),
-                          SizedBox(height: 24),
+                          SizedBox(height: 24.h),
                           Expanded(
                             child: PageView(
                               physics: NeverScrollableScrollPhysics(),

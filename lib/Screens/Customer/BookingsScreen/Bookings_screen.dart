@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glowup/CustomWidgets/Shared/booking_card.dart';
+import 'package:glowup/CustomWidgets/Customer/Booking/booking_card.dart';
 import 'package:glowup/CustomWidgets/shared/status_toggle.dart';
 import 'package:glowup/Screens/Customer/BookingsScreen/bloc/booking_bloc.dart';
 
@@ -15,15 +15,15 @@ class BookingsScreen extends StatelessWidget {
       child: BlocBuilder<BookingBloc, BookingState>(
         builder: (context, state) {
           final bloc = context.read<BookingBloc>();
-          final userAppointments = bloc.supabase.getUserAppointments();
+          bloc.add(SubscribeToStreamEvent());
           return Scaffold(
             body: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.h),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 80),
+                    SizedBox(height: 80.h),
 
                     StatusToggle(
                       selectedIndex: bloc.selectedIndex,
@@ -34,17 +34,34 @@ class BookingsScreen extends StatelessWidget {
                       },
                     ),
 
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     // You can add filtered list or content below here
-                    ...List.generate(
-                      userAppointments[bloc.selectedIndex]!.length,
-                      (i) {
-                        final appointment =
-                            userAppointments[bloc.selectedIndex]![i];
-                        return BookingCard(appointment: appointment);
-                      },
-                    ),
-                    SizedBox(height: 80.h),
+                    if (bloc.appointmentsMap[bloc.selectedIndex] == null ||
+                        bloc.appointmentsMap[bloc.selectedIndex]!.isEmpty)
+                      Center(
+                        child: Text(
+                          "No bookings available",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    if (bloc.appointmentsMap[bloc.selectedIndex] != null &&
+                        bloc.appointmentsMap[bloc.selectedIndex]!.isNotEmpty)
+                      ...List.generate(
+                        bloc.appointmentsMap[bloc.selectedIndex]!.length,
+                        (index) {
+                          final appointments =
+                              bloc.appointmentsMap[bloc.selectedIndex] ?? [];
+                          return BookingCard(
+                            appointment: appointments[index],
+                            onPay: () {
+                              bloc.add(
+                                ServicePayEvent(appointments[index].id!),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    SizedBox(height: 60.h),
                   ],
                 ),
               ),

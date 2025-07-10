@@ -22,7 +22,9 @@ class ServiceCard extends StatelessWidget {
         );
       },
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
         color: Theme.of(context).cardColor,
 
         child: Column(
@@ -32,13 +34,13 @@ class ServiceCard extends StatelessWidget {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16.r),
+                    topRight: Radius.circular(16.r),
                   ),
                   child: CachedNetworkImage(
                     imageUrl: service.imageUrl,
-                    height: 160,
+                    height: 160.h,
                     width: double.infinity,
                     placeholder: (context, url) =>
                         const Center(child: CircularProgressIndicator()),
@@ -55,13 +57,13 @@ class ServiceCard extends StatelessWidget {
                   top: 8.w,
                   left: 8.w,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
                       service.provider!.name,
@@ -85,18 +87,18 @@ class ServiceCard extends StatelessWidget {
                       children: [
                         Text(
                           service.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                           ),
                           softWrap: false,
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Text(
                           'SAR ${service.price.toStringAsFixed(0)}',
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+                          style: TextStyle(fontWeight: FontWeight.w500),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Text(
                           service.provider!.address ?? "",
                           softWrap: true,
@@ -111,7 +113,7 @@ class ServiceCard extends StatelessWidget {
                   child: Text(
                     service.provider!.distanceFromUser!,
                     softWrap: true,
-                    style: const TextStyle(color: Colors.grey, fontSize: 12),
+                    style: TextStyle(color: Colors.grey, fontSize: 12.sp),
                   ),
                 ),
               ],

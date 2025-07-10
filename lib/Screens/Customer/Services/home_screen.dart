@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glowup/CustomWidgets/Customer/Categories/Categories_widget.dart';
+import 'package:glowup/CustomWidgets/Customer/Categories/categories_widget.dart';
 import 'package:glowup/CustomWidgets/Customer/Services/service_card.dart';
 import 'package:glowup/CustomWidgets/Shared/search_bar.dart';
 import 'package:glowup/Screens/Customer/Services/bloc/home_bloc.dart';
@@ -14,32 +14,31 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
-        create: (context) => HomeBloc(),
-        child: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            final bloc = context.read<HomeBloc>();
-            final categories = bloc.categories;
+    return BlocProvider(
+      create: (context) => HomeBloc()..add(UpdateUIEvent()),
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          final bloc = context.read<HomeBloc>();
+          final categories = bloc.categories;
 
-            final mainIcons = [
-              'assets/svgs/hair_comb 1.svg',
-              'assets/svgs/Make_up.svg',
-              'assets/svgs/Nail_polish.svg',
-              'assets/svgs/Make_up.svg',
-              'assets/svgs/Make_up.svg',
-            ];
-
-            return SizedBox(
+          final mainIcons = [
+            'assets/svgs/hair_comb 1.svg',
+            'assets/svgs/Make_up.svg',
+            'assets/svgs/Nail_polish.svg',
+            'assets/svgs/Make_up.svg',
+            'assets/svgs/Make_up.svg',
+          ];
+          return Scaffold(
+            body: SizedBox(
               height: context.getScreenHeight(size: 1.h),
               width: context.getScreenWidth(size: 1.w),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 100),
+                    SizedBox(height: 100.h),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      padding: EdgeInsets.symmetric(horizontal: 50.w),
                       child: Text.rich(
                         TextSpan(
                           text: context.tr("Hello,"),
@@ -55,16 +54,16 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 50, top: 10),
+                      padding: EdgeInsets.only(left: 50.w, top: 10.h),
                       child: Text(
                         context.tr("Are you ready for a Glow Up"),
                         style: AppFonts.light16,
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32.h),
                     Row(
                       children: [
-                        SizedBox(width: 32),
+                        SizedBox(width: 32.w),
                         CustomSearchBar(
                           controller: bloc.searchController,
                           hintText: context.tr("Search services"),
@@ -169,9 +168,9 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/Styles/app_colors.dart'; // Make sure this has AppColors.darkText
 
 class StatusToggle extends StatelessWidget {
@@ -22,11 +23,11 @@ class StatusToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 46,
-      padding: const EdgeInsets.all(4),
+      height: 46.h,
+      padding: EdgeInsets.all(4.r),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor, // Full background is white
-        borderRadius: BorderRadius.circular(100),
+        borderRadius: BorderRadius.circular(100.r),
       ),
       child: Row(
         children: List.generate(options.length, (index) {
@@ -40,7 +41,7 @@ class StatusToggle extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: isSelected ? softBrown : Colors.transparent,
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(100.r),
                 ),
                 child: Text(
                   options[index],

@@ -8,3 +8,5 @@ final class DeleteServiceEvent extends ProviderServicesEvent {
 
   DeleteServiceEvent({required this.serviceId});
 }
+
+final class UpdateUIEvent extends ProviderServicesEvent {}

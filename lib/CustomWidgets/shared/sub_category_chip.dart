@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SubCategoryChip extends StatelessWidget {
   final String label;
@@ -17,10 +18,10 @@ class SubCategoryChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
         decoration: BoxDecoration(
           color: isSelected ? Color(0xFF2E2E2E) : Color(0xFFF2E3C6),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
         ),
         child: Text(
           label,
@@ -28,7 +29,7 @@ class SubCategoryChip extends StatelessWidget {
             fontFamily: 'MontserratAlternates',
             color: isSelected ? Colors.white : Color(0xFF2E2E2E),
             fontWeight: FontWeight.w500,
-            fontSize: 14,
+            fontSize: 14.sp,
           ),
         ),
       ),

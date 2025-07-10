@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Utilities/extensions/screen_size.dart';
 
@@ -19,14 +20,14 @@ class CustomBackgroundContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: paddingSize
-          ? EdgeInsets.symmetric(horizontal: 16)
-          : EdgeInsetsGeometry.symmetric(horizontal: 36),
+          ? EdgeInsets.symmetric(horizontal: 16.w)
+          : EdgeInsetsGeometry.symmetric(horizontal: 36.w),
       child: Container(
-        width: context.getScreenWidth(size: 1),
-        height: height,
+        width: 402.w,
+        height: height.h,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         child: childWidget,
       ),

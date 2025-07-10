@@ -55,7 +55,7 @@ class EmployeeCustomCalendar extends StatelessWidget {
                   "Previous Month",
                   style: AppFonts.regular14.copyWith(
                     color: AppColors.white,
-                    fontSize: 10,
+                    fontSize: 10.sp,
                   ),
                 ),
               ],
@@ -75,7 +75,7 @@ class EmployeeCustomCalendar extends StatelessWidget {
                   "Next Month",
                   style: AppFonts.regular14.copyWith(
                     color: AppColors.white,
-                    fontSize: 10,
+                    fontSize: 10.sp,
                   ),
                 ),
                 Icon(

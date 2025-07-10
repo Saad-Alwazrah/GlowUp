@@ -490,34 +490,58 @@ class SupabaseConnect {
     log("Data linked in ${stopwatch.elapsedMicroseconds} µs");
   }
 
-  Map<int, List<Appointment>> getUserAppointments() {
+  Map<int, List<Appointment>> getUserAppointments(
+    List<Appointment> appointmentsStream,
+  ) {
     List<Appointment> pendingAppointments = [];
-    List<Appointment> acceptedAppointments = [];
+    List<Appointment> statusAppointments = [];
     List<Appointment> completedAppointments = [];
-    List<Appointment> rejectedAppointments = [];
     List<Appointment> paidAppointments = [];
     Map<int, List<Appointment>> userAppointments = {
       0: pendingAppointments,
-      1: acceptedAppointments,
-      2: completedAppointments,
-      3: rejectedAppointments,
-      4: paidAppointments,
+      1: statusAppointments,
+      2: paidAppointments,
+      3: completedAppointments,
     };
+    // linking appointments with their stylist
+    for (Appointment appointment in appointmentsStream) {
+      for (Stylist stylist in stylists) {
+        if (appointment.stylistId == stylist.id) {
+          appointment.stylist = stylist;
+        }
+      }
+      // linking appointments with their stylist
+      for (Stylist stylist in stylists) {
+        if (appointment.stylistId == stylist.id) {
+          appointment.stylist = stylist;
+        }
+      }
+      for (Provider provider in providers) {
+        if (appointment.providerId == provider.id) {
+          appointment.provider = provider;
+        }
+      }
+      for (Services service in services) {
+        if (appointment.serviceId == service.id) {
+          appointment.service = service;
+        }
+      }
+    }
 
-    for (var appointment in appointments) {
+    for (var appointment in appointmentsStream) {
       if (appointment.customerId == userProfile!.id) {
         switch (appointment.status) {
           case "Pending":
             pendingAppointments.add(appointment);
             break;
           case "Accepted":
-            acceptedAppointments.add(appointment);
+            statusAppointments.add(appointment);
             break;
           case "Completed":
             completedAppointments.add(appointment);
             break;
           case "Rejected":
-            rejectedAppointments.add(appointment);
+            statusAppointments.add(appointment);
             break;
           case "Paid":
             paidAppointments.add(appointment);
@@ -528,7 +552,9 @@ class SupabaseConnect {
     return userAppointments;
   }
 
-  Map<int, List<Appointment>> getProviderAppointments() {
+  Map<int, List<Appointment>> getProviderAppointments(
+    List<Appointment> appointmentsStream,
+  ) {
     List<Appointment> pendingAppointments = [];
     List<Appointment> statusAppointments = [];
     List<Appointment> completedAppointments = [];
@@ -539,13 +565,38 @@ class SupabaseConnect {
       2: paidAppointments,
       3: completedAppointments,
     };
-
-    for (var appointment in theProvider!.appointments) {
+    for (Appointment appointment in appointmentsStream) {
+      for (Stylist stylist in stylists) {
+        if (appointment.stylistId == stylist.id) {
+          appointment.stylist = stylist;
+        }
+      }
+      // linking appointments with their stylist
+      for (Stylist stylist in stylists) {
+        if (appointment.stylistId == stylist.id) {
+          appointment.stylist = stylist;
+        }
+      }
+      for (Provider provider in providers) {
+        if (appointment.providerId == provider.id) {
+          appointment.provider = provider;
+        }
+        for (Services service in services) {
+          if (appointment.serviceId == service.id) {
+            appointment.service = service;
+          }
+        }
+      }
+    }
+    for (var appointment in appointmentsStream) {
       switch (appointment.status) {
-        case "Pending" || "Rejected":
+        case "Pending":
           pendingAppointments.add(appointment);
           break;
         case "Accepted":
+          statusAppointments.add(appointment);
+          break;
+        case "Rejected":
           statusAppointments.add(appointment);
           break;
         case "Completed":
@@ -558,6 +609,78 @@ class SupabaseConnect {
       }
     }
     return providerAppointments;
+  }
+
+  Future<void> acceptAppointment(int appointmentId) async {
+    final resClient = supabase.client;
+    try {
+      await resClient
+          .from("appointments")
+          .update({"status": "Accepted"})
+          .eq("id", appointmentId);
+      log("Appointment accepted successfully");
+    } catch (e) {
+      log("Error accepting appointment: $e");
+    }
+  }
+
+  Future<void> rejectAppointment(int appointmentId) async {
+    final resClient = supabase.client;
+    try {
+      await resClient
+          .from("appointments")
+          .update({"status": "Rejected"})
+          .eq("id", appointmentId);
+      log("Appointment rejected successfully");
+    } catch (e) {
+      log("Error rejecting appointment: $e");
+    }
+  }
+
+  Future<void> completeAppointment(int appointmentId) async {
+    final resClient = supabase.client;
+    try {
+      await resClient
+          .from("appointments")
+          .update({"status": "Completed"})
+          .eq("id", appointmentId);
+      log("Appointment completed successfully");
+    } catch (e) {
+      log("Error completing appointment: $e");
+    }
+  }
+
+  Stream<List<Appointment>> watchProviderAppointments() {
+    // listen on any change (INSERT, UPDATE, DELETE) keyed by 'id'
+    return supabase.client
+        .from('appointments') // filter to this provider
+        .stream(primaryKey: ['id'])
+        .eq("provider_id", theProvider!.id) // use the primary key to dedupe
+        .order('appointment_date') // optional ordering
+        .map((records) => records.map((e) => Appointment.fromJson(e)).toList());
+  }
+
+  Future<void> payForAppointment(int appointmentId) async {
+    final resClient = supabase.client;
+    try {
+      await resClient
+          .from("appointments")
+          .update({"status": "Paid"})
+          .eq("id", appointmentId);
+      log("Appointment paid successfully");
+    } catch (e) {
+      log("Error paying for appointment: $e");
+    }
+  }
+
+  Stream<List<Appointment>> watchUserAppointments() {
+    // listen on any change (INSERT, UPDATE, DELETE) keyed by 'id'
+    return supabase.client
+        .from('appointments') // filter to this provider
+        .stream(primaryKey: ['id'])
+        .eq("customer_id", userProfile!.id) // use the primary key to dedupe
+        .order('appointment_date') // optional ordering
+        .map((records) => records.map((e) => Appointment.fromJson(e)).toList());
   }
 
   Future<bool> addService({
@@ -626,6 +749,7 @@ class SupabaseConnect {
 
   Future<bool> addStylist({
     required String name,
+    String? bio,
     required String providerId,
   }) async {
     final resClient = supabase.client;
@@ -633,6 +757,8 @@ class SupabaseConnect {
       final newStylist = Stylist(
         name: name,
         providerId: providerId,
+        bio: bio,
+        ratingCount: 0,
         createdAt: DateTime.now().toIso8601String(),
       );
       final newStylistRes = Stylist.fromJson(

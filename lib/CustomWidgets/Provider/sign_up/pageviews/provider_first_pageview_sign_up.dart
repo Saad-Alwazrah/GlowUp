@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/shared/custom_textfield.dart';
 import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
 
@@ -40,7 +41,7 @@ class ProviderFirstPageviewSignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        spacing: 15,
+        spacing: 15.h,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Form(

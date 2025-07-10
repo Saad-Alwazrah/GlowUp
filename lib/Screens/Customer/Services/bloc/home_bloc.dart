@@ -34,5 +34,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
       emit(SearchedServicesState());
     });
+    on<UpdateUIEvent>((event, emit) {
+      emit(UIUpdatedState());
+    });
   }
 }

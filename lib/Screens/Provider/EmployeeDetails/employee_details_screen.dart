@@ -62,7 +62,7 @@ class EmployeeDetails extends StatelessWidget {
                         errorWidget: (context, url, error) =>
                             Icon(Icons.image, color: AppColors.white),
                         height: 150.h,
-                        width: context.getScreenWidth(size: 1),
+                        width: context.getScreenWidth(size: 1.w),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -74,7 +74,7 @@ class EmployeeDetails extends StatelessWidget {
                         SizedBox(width: 120.w),
                         Text(stylist.name, style: AppFonts.semiBold24),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: Row(
                             children: [
                               stylist.avgRating == null
@@ -91,7 +91,7 @@ class EmployeeDetails extends StatelessWidget {
 
                     CustomBackgroundContainer(
                       childWidget: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16.r),
                         child: Text(stylist.bio!, style: AppFonts.medium18),
                       ),
                       height: 150,

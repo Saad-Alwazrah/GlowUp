@@ -43,27 +43,27 @@ class SignUpScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                       Text(
                         context.tr(bloc.titleText[bloc.currentPage]),
                         style: AppFonts.semiBold24,
                       ),
-                      SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                       SmoothPageIndicator(
                         controller: bloc.pageController,
                         count: 3,
                         effect: ExpandingDotsEffect(
-                          radius: 16,
-                          dotWidth: 58,
-                          dotHeight: 8,
+                          radius: 16.r,
+                          dotWidth: 58.w,
+                          dotHeight: 8.h,
                           dotColor: Colors.grey,
                           activeDotColor: Colors.black,
                         ),
                       ),
-                      SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                       SizedBox(
                         height: 450.h,
-                        width: context.getScreenWidth(size: 0.9.w),
+                        width: (402 * 0.9).w,
                         child: PageView(
                           physics: NeverScrollableScrollPhysics(),
                           controller: bloc.pageController,
@@ -127,7 +127,7 @@ class SignUpScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                     ],
                   ),
                 );

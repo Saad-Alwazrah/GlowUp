@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/Styles/app_colors.dart';
 
 class CustomTextfield extends StatelessWidget {
@@ -23,16 +24,18 @@ class CustomTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
       child: TextFormField(
         keyboardType: numbersOnly ? TextInputType.number : null,
-        inputFormatters: numbersOnly ? [FilteringTextInputFormatter.digitsOnly] : null,
+        inputFormatters: numbersOnly
+            ? [FilteringTextInputFormatter.digitsOnly]
+            : null,
         controller: textFieldcontroller,
         decoration: InputDecoration(
           filled: true,
           fillColor: AppColors.lightTextDark,
           hintText: textFieldHint,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(50.r)),
         ),
         obscureText: isPassword,
         obscuringCharacter: "*",

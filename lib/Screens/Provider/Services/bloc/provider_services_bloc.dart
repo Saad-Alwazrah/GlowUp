@@ -22,5 +22,8 @@ class ProviderServicesBloc
         emit(ServiceDeletionErrorState(e.toString()));
       }
     });
+    on<UpdateUIEvent>((event, emit) {
+      emit(UIUpdateState());
+    });
   }
 }

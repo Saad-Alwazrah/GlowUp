@@ -47,9 +47,9 @@ class ProviderServiceCard extends StatelessWidget {
                   Text(
                     service.name,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                     ),
                   ),
                   SizedBox(height: 4.h),
