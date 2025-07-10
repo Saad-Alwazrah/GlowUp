@@ -45,7 +45,7 @@ class LoginScreen extends StatelessWidget {
               }
             },
             child: Scaffold(
-              resizeToAvoidBottomInset: false,
+              resizeToAvoidBottomInset: true,
               body: Column(
                 children: [
                   SizedBox(height: 64.h),
@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                   BlocBuilder<LoginBloc, LoginState>(
                     builder: (context, state) {
                       return BackgroundContainer(
-                        heightSize: 0.7.h,
+                        heightSize: 0.7,
                         childWidget: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,7 +120,7 @@ class LoginScreen extends StatelessWidget {
                                 Navigator.pushNamed(context, '/signup');
                               },
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 20.h),
                           ],
                         ),
                       );

@@ -29,7 +29,7 @@ class ProfileDialog extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.background,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
         ),
         height: containerHeight.h,
         child: Column(
@@ -46,11 +46,7 @@ class ProfileDialog extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                left: 16.0,
-                right: 16.0,
-                bottom: 24.0,
-              ),
+              padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 24.h),
               child: CustomElevatedButton(
                 text: "Submit",
                 onTap: () {

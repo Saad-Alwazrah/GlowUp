@@ -26,10 +26,19 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           appointmentsMap = GetIt.I.get<SupabaseConnect>().getUserAppointments(
             appointments,
           );
+
           return UpdateFromStream();
         },
         onError: (error, stackTrace) => ErrorUpdatingStream(error.toString()),
       );
+    });
+    on<ServicePayEvent>((event, emit) async {
+      try {
+        await supabase.payForAppointment(event.appointmentId);
+        emit(ServicePaySuccess("Payment successful!"));
+      } catch (e) {
+        emit(ServicePayError("Error processing payment: ${e.toString()}"));
+      }
     });
   }
 }

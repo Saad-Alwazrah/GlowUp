@@ -7,10 +7,9 @@ import 'package:glowup/Styles/app_font.dart';
 class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(24.w),

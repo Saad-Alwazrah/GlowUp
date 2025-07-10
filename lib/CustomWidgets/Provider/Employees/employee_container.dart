@@ -18,11 +18,11 @@ class EmployeeContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsGeometry.only(left: 16, right: 16, bottom: 16),
+      padding: EdgeInsetsGeometry.only(left: 16.w, right: 16.w, bottom: 16.h),
       child: GestureDetector(
         onTap: containerMethod,
         child: Container(
-          height: 50,
+          height: 50.h,
           decoration: BoxDecoration(color: AppColors.white),
           child: Row(
             children: [

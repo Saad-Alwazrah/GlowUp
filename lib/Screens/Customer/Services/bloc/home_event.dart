@@ -14,3 +14,5 @@ final class SearchEvent extends HomeEvent {
   final String query;
   SearchEvent(this.query);
 }
+
+final class UpdateUIEvent extends HomeEvent {}

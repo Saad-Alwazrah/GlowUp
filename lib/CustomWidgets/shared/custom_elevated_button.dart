@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/Styles/app_colors.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
   final void Function()? onTap;
-  Widget icon = const SizedBox.shrink();
-  double radius;
+  final Widget icon;
+  final double radius;
+  final int width;
+  final int height;
 
-  CustomElevatedButton({
+  const CustomElevatedButton({
     super.key,
     required this.text,
     required this.onTap,
+
     this.icon = const SizedBox.shrink(),
     this.radius = 100,
+    this.width = 360,
+    this.height = 50,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width:  360.w,
-      height: 50.h,
+      width: width.w,
+      height: height.h,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,

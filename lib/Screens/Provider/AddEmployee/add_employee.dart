@@ -23,7 +23,7 @@ class AddEmployeeScreen extends StatelessWidget {
           return Scaffold(
             body: Column(
               children: [
-                SizedBox(height: 52),
+                SizedBox(height: 52.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
@@ -38,18 +38,18 @@ class AddEmployeeScreen extends StatelessWidget {
                     icon: Icon(Icons.arrow_back, color: AppColors.goldenPeach),
                   ),
                 ),
-                SizedBox(height: 48),
+                SizedBox(height: 48.h),
                 Text(
                   context.tr("Add New Employee"),
                   style: AppFonts.semiBold24,
                 ),
 
-                SizedBox(height: 48),
+                SizedBox(height: 48.h),
 
                 CustomBackgroundContainer(
                   childWidget: Column(
                     children: [
-                      SizedBox(height: 12),
+                      SizedBox(height: 12.h),
                       Form(
                         key: bloc.formKey,
                         child: Column(
@@ -62,7 +62,7 @@ class AddEmployeeScreen extends StatelessWidget {
                                 error == null ? null : context.tr(error);
                               },
                             ),
-                            SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             CustomTextfield(
                               textFieldHint: context.tr("Employee Bio"),
                               textFieldcontroller: bloc.bioController,
@@ -76,9 +76,9 @@ class AddEmployeeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  height: 200.h,
+                  height: 200,
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: 24.h),
                 CustomElevatedButton(
                   text: context.tr("Submit"),
                   onTap: () {

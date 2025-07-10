@@ -16,3 +16,15 @@ final class ErrorUpdatingStream extends BookingState {
 
   ErrorUpdatingStream(this.errorMessage);
 }
+
+final class ServicePaySuccess extends BookingState {
+  final String message;
+
+  ServicePaySuccess(this.message);
+}
+
+final class ServicePayError extends BookingState {
+  final String errorMessage;
+
+  ServicePayError(this.errorMessage);
+}

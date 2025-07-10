@@ -14,3 +14,15 @@ final class ErrorUpdatingStream extends PBookingState {
 
   ErrorUpdatingStream(this.errorMessage);
 }
+
+final class CompleteAppointmentSuccess extends PBookingState {
+  final String message;
+
+  CompleteAppointmentSuccess(this.message);
+}
+
+final class CompleteAppointmentError extends PBookingState {
+  final String errorMessage;
+
+  CompleteAppointmentError(this.errorMessage);
+}

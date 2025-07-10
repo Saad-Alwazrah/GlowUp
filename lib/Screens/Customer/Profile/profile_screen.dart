@@ -93,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
               return Center(
                 child: Column(
                   children: [
-                    SizedBox(height: 100.h),
+                    SizedBox(height: 60.h),
                     GestureDetector(
                       onTap: () {
                         bloc.add(UpdateUserAvatar());
@@ -129,222 +129,226 @@ class ProfileScreen extends StatelessWidget {
 
                     SizedBox(height: 20),
                     CustomBackgroundContainer(
-                      childWidget: Column(
-                        children: [
-                          ListTile(
-                            leading: Icon(Icons.badge_outlined),
-                            title: Text(context.tr("Name")),
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => ProfileDialog(
-                                  containerHeight: 200,
-                                  formKey: bloc.usernameKey,
-                                  textFieldController: bloc.usernameController,
-                                  controllerValidation: (value) {
-                                    final error = bloc.userNameValidation(
+                      childWidget: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListTile(
+                              leading: Icon(Icons.badge_outlined),
+                              title: Text(context.tr("Name")),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => ProfileDialog(
+                                    containerHeight: 200,
+                                    formKey: bloc.usernameKey,
+                                    textFieldController:
+                                        bloc.usernameController,
+                                    controllerValidation: (value) {
+                                      final error = bloc.userNameValidation(
                                         text: value,
                                       );
                                       return error == null
                                           ? null
                                           : context.tr(error);
-                                  },
-                                  textFieldHint: context.tr("New Username"),
-                                  submitMethod: () {
-                                    if (bloc.usernameKey.currentState!
-                                        .validate()) {
-                                      bloc.add(
-                                        UpdateUsernameEvent(
-                                          bloc.usernameController.text,
-                                        ),
-                                      );
-                                      Navigator.pop(context);
-                                    }
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
-                            ),
-                            child: Divider(color: Colors.amber),
-                          ),
-
-                          ListTile(
-                            leading: Icon(Icons.phone),
-                            title: Text(context.tr("Number")),
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => ProfileDialog(
-                                  containerHeight: 200,
-                                  formKey: bloc.phoneNumberKey,
-                                  textFieldController:
-                                      bloc.phoneNumberController,
-                                  controllerValidation: (value) {
-                                    final error = bloc.phoneValidation(
-                                        text: value,
-                                      );
-                                      return error == null
-                                          ? null
-                                          : context.tr(error);
-                                  },
-                                  textFieldHint: context.tr("New Phone Number"),
-                                  submitMethod: () {
-                                    if (bloc.phoneNumberKey.currentState!
-                                        .validate()) {
-                                      bloc.add(
-                                        UpdatePhoneEvent(
-                                          bloc.phoneNumberController.text,
-                                        ),
-                                      );
-                                      Navigator.pop(context);
-                                    }
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                          Divider(),
-                          ListTile(
-                            leading: Icon(Icons.email_outlined),
-                            title: Text(context.tr("Email")),
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => ProfileDialog(
-                                  containerHeight: 200,
-                                  formKey: bloc.emailKey,
-                                  textFieldController: bloc.emailController,
-                                  controllerValidation: (value) {
-                                    final error = bloc.emailValidation(
-                                        text: value,
-                                      );
-                                      return error == null
-                                          ? null
-                                          : context.tr(error);
-                                  },
-                                  textFieldHint: context.tr("New Email"),
-                                  submitMethod: () {
-                                    if (bloc.emailKey.currentState!
-                                        .validate()) {
-                                      bloc.add(
-                                        UpdateEmailEvent(
-                                          bloc.emailController.text,
-                                        ),
-                                      );
-                                      Navigator.pop(context);
-                                    }
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                          Divider(),
-                          // Navigate to Help Screen
-                          ListTile(
-                            leading: Icon(Icons.help),
-                            title: Text(context.tr("Help")),
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const HelpScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                          Divider(),
-
-                          // Navigate to the Settings Screen
-                          ListTile(
-                            leading: Icon(Icons.language),
-                            title: Text(context.tr("Language")),
-                            trailing: AnimatedToggleSwitch<int>.size(
-                              height: 40,
-                              current: bloc.languageSwitchValue,
-                              values: [0, 1],
-                              style: ToggleStyle(
-                                borderColor: AppColors.goldenPeach,
-                                backgroundColor: AppColors.background,
-                                indicatorColor: AppColors.goldenPeach,
-                              ),
-
-                              iconList: [
-                                Text(
-                                  "العربية",
-                                  style: AppFonts.regular14.copyWith(
-                                    fontSize: 10,
-                                    color: bloc.languageSwitchValue == 0
-                                        ? AppColors.white
-                                        : Colors.black,
+                                    },
+                                    textFieldHint: context.tr("New Username"),
+                                    submitMethod: () {
+                                      if (bloc.usernameKey.currentState!
+                                          .validate()) {
+                                        bloc.add(
+                                          UpdateUsernameEvent(
+                                            bloc.usernameController.text,
+                                          ),
+                                        );
+                                        Navigator.pop(context);
+                                      }
+                                    },
                                   ),
-                                ),
-                                Text(
-                                  "English",
-                                  style: AppFonts.regular14.copyWith(
-                                    fontSize: 10,
-                                    color: bloc.languageSwitchValue == 1
-                                        ? AppColors.white
-                                        : Colors.black,
-                                  ),
-                                ),
-                              ],
-                              onChanged: (_) {
-                                if (context.locale == Locale("en")) {
-                                  context.setLocale(Locale("ar"));
-                                } else {
-                                  context.setLocale(Locale("en"));
-                                }
-                                bloc.add(LanguageSwitchToggleEvent());
+                                );
                               },
                             ),
-                          ),
-                          Divider(),
-                          ListTile(
-                            leading: Icon(Icons.contrast),
-                            title: Text(context.tr("Theme")),
-                            trailing: AnimatedToggleSwitch.size(
-                              height: 40,
-                              current: bloc.themeSwitchValue,
-                              values: [0, 1],
-                              style: ToggleStyle(
-                                borderColor: AppColors.goldenPeach,
-                                backgroundColor: AppColors.background,
-                                indicatorColor: AppColors.goldenPeach,
-                              ),
-                              iconList: [
-                                Icon(
-                                  Icons.light_mode,
-                                  color: bloc.themeSwitchValue == 0
-                                      ? Colors.yellow.shade700
-                                      : Colors.black,
-                                ),
-                                Icon(
-                                  Icons.dark_mode,
-                                  color: bloc.themeSwitchValue == 1
-                                      ? AppColors.white
-                                      : Colors.black,
-                                ),
-                              ],
-                              onChanged: (_) =>
-                                  bloc.add(ThemeSwitchToggleEvent()),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Divider(color: Colors.amber),
                             ),
-                          ),
-                          Divider(),
 
-                          // Add the Logout function
-                          ListTile(
-                            leading: Icon(Icons.logout, color: Colors.red),
-                            title: Text(context.tr("Logout")),
-                            onTap: () {
-                              bloc.add(LogOutUser());
-                            },
-                          ),
-                        ],
+                            ListTile(
+                              leading: Icon(Icons.phone),
+                              title: Text(context.tr("Number")),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => ProfileDialog(
+                                    containerHeight: 200,
+                                    formKey: bloc.phoneNumberKey,
+                                    textFieldController:
+                                        bloc.phoneNumberController,
+                                    controllerValidation: (value) {
+                                      final error = bloc.phoneValidation(
+                                        text: value,
+                                      );
+                                      return error == null
+                                          ? null
+                                          : context.tr(error);
+                                    },
+                                    textFieldHint: context.tr(
+                                      "New Phone Number",
+                                    ),
+                                    submitMethod: () {
+                                      if (bloc.phoneNumberKey.currentState!
+                                          .validate()) {
+                                        bloc.add(
+                                          UpdatePhoneEvent(
+                                            bloc.phoneNumberController.text,
+                                          ),
+                                        );
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                            Divider(),
+                            ListTile(
+                              leading: Icon(Icons.email_outlined),
+                              title: Text(context.tr("Email")),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => ProfileDialog(
+                                    containerHeight: 200,
+                                    formKey: bloc.emailKey,
+                                    textFieldController: bloc.emailController,
+                                    controllerValidation: (value) {
+                                      final error = bloc.emailValidation(
+                                        text: value,
+                                      );
+                                      return error == null
+                                          ? null
+                                          : context.tr(error);
+                                    },
+                                    textFieldHint: context.tr("New Email"),
+                                    submitMethod: () {
+                                      if (bloc.emailKey.currentState!
+                                          .validate()) {
+                                        bloc.add(
+                                          UpdateEmailEvent(
+                                            bloc.emailController.text,
+                                          ),
+                                        );
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                            Divider(),
+                            // Navigate to Help Screen
+                            ListTile(
+                              leading: Icon(Icons.help),
+                              title: Text(context.tr("Help")),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const HelpScreen(),
+                                  ),
+                                );
+                              },
+                            ),
+                            Divider(),
+
+                            // Navigate to the Settings Screen
+                            ListTile(
+                              leading: Icon(Icons.language),
+                              title: Text(context.tr("Language")),
+                              trailing: AnimatedToggleSwitch<int>.size(
+                                height: 40.h,
+                                current: bloc.languageSwitchValue,
+                                values: [0, 1],
+                                style: ToggleStyle(
+                                  borderColor: AppColors.goldenPeach,
+                                  backgroundColor: AppColors.background,
+                                  indicatorColor: AppColors.goldenPeach,
+                                ),
+
+                                iconList: [
+                                  Text(
+                                    "العربية",
+                                    style: AppFonts.regular14.copyWith(
+                                      fontSize: 10.sp,
+                                      color: bloc.languageSwitchValue == 0
+                                          ? AppColors.white
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    "English",
+                                    style: AppFonts.regular14.copyWith(
+                                      fontSize: 10.sp,
+                                      color: bloc.languageSwitchValue == 1
+                                          ? AppColors.white
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                ],
+                                onChanged: (_) {
+                                  if (context.locale == Locale("en")) {
+                                    context.setLocale(Locale("ar"));
+                                  } else {
+                                    context.setLocale(Locale("en"));
+                                  }
+                                  bloc.add(LanguageSwitchToggleEvent());
+                                },
+                              ),
+                            ),
+                            Divider(),
+                            ListTile(
+                              leading: Icon(Icons.contrast),
+                              title: Text(context.tr("Theme")),
+                              trailing: AnimatedToggleSwitch.size(
+                                height: 40.h,
+                                current: bloc.themeSwitchValue,
+                                values: [0, 1],
+                                style: ToggleStyle(
+                                  borderColor: AppColors.goldenPeach,
+                                  backgroundColor: AppColors.background,
+                                  indicatorColor: AppColors.goldenPeach,
+                                ),
+                                iconList: [
+                                  Icon(
+                                    Icons.light_mode,
+                                    color: bloc.themeSwitchValue == 0
+                                        ? Colors.yellow.shade700
+                                        : Colors.black,
+                                  ),
+                                  Icon(
+                                    Icons.dark_mode,
+                                    color: bloc.themeSwitchValue == 1
+                                        ? AppColors.white
+                                        : Colors.black,
+                                  ),
+                                ],
+                                onChanged: (_) =>
+                                    bloc.add(ThemeSwitchToggleEvent()),
+                              ),
+                            ),
+                            Divider(),
+
+                            // Add the Logout function
+                            ListTile(
+                              leading: Icon(Icons.logout, color: Colors.red),
+                              title: Text(context.tr("Logout")),
+
+                              onTap: () {
+                                bloc.add(LogOutUser());
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                      height: 520.h,
+                      height: 520,
                       paddingSize: false,
                     ),
                   ],

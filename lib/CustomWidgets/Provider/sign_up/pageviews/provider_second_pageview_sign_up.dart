@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/Shared/CustomMaps/custom_maps.dart';
 import 'package:glowup/CustomWidgets/shared/custom_textfield.dart';
 import 'package:glowup/CustomWidgets/shared/custom_elevated_button.dart';
-import 'package:glowup/Styles/app_colors.dart';
-import 'package:glowup/Utilities/extensions/screen_size.dart';
 
 class ProviderSecondPageviewSignUp extends StatelessWidget {
   GlobalKey<FormState> formKey;
@@ -23,7 +22,7 @@ class ProviderSecondPageviewSignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 15,
+      spacing: 15.h,
       children: [
         // Relpace the placeholder with googleMap instance
 

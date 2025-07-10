@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:glowup/CustomWidgets/Shared/booking_card.dart';
+import 'package:glowup/CustomWidgets/Customer/Booking/booking_card.dart';
 import 'package:glowup/CustomWidgets/shared/status_toggle.dart';
 import 'package:glowup/Screens/Customer/BookingsScreen/bloc/booking_bloc.dart';
 
@@ -16,15 +16,14 @@ class BookingsScreen extends StatelessWidget {
         builder: (context, state) {
           final bloc = context.read<BookingBloc>();
           bloc.add(SubscribeToStreamEvent());
-          final userAppointments = bloc.appointmentsMap;
           return Scaffold(
             body: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.h),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 80),
+                    SizedBox(height: 80.h),
 
                     StatusToggle(
                       selectedIndex: bloc.selectedIndex,
@@ -35,7 +34,7 @@ class BookingsScreen extends StatelessWidget {
                       },
                     ),
 
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     // You can add filtered list or content below here
                     if (bloc.appointmentsMap[bloc.selectedIndex] == null ||
                         bloc.appointmentsMap[bloc.selectedIndex]!.isEmpty)
@@ -52,10 +51,17 @@ class BookingsScreen extends StatelessWidget {
                         (index) {
                           final appointments =
                               bloc.appointmentsMap[bloc.selectedIndex] ?? [];
-                          return BookingCard(appointment: appointments[index]);
+                          return BookingCard(
+                            appointment: appointments[index],
+                            onPay: () {
+                              bloc.add(
+                                ServicePayEvent(appointments[index].id!),
+                              );
+                            },
+                          );
                         },
                       ),
-                    SizedBox(height: 80.h),
+                    SizedBox(height: 60.h),
                   ],
                 ),
               ),

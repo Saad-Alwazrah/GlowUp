@@ -66,7 +66,7 @@ class MyEmployeeScreen extends StatelessWidget {
                       SizedBox(height: 24.h),
 
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: SizedBox(
                           width: context.getScreenWidth(size: 1),
                           height: context.getScreenHeight(size: 0.6.h),

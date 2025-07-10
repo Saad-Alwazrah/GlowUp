@@ -15,7 +15,7 @@ class ThirdPageView extends StatelessWidget {
       padding: EdgeInsets.all(16.w),
       child: SingleChildScrollView(
         child: Column(
-          spacing: 15,
+          spacing: 15.h,
           children: [
             Center(
               child: Text(
@@ -25,14 +25,14 @@ class ThirdPageView extends StatelessWidget {
                 style: AppFonts.medium18,
               ),
             ),
-        
+
             CustomElevatedButton(
               text: context.tr("Go to Login"),
               onTap: () {
                 Navigator.pushReplacementNamed(context, '/login');
               },
             ),
-            SizedBox(height: 24.h,)
+            SizedBox(height: 24.h),
           ],
         ),
       ),

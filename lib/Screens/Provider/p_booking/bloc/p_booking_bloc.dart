@@ -31,5 +31,22 @@ class PBookingBloc extends Bloc<PBookingEvent, PBookingState> {
         onError: (error, stackTrace) => ErrorUpdatingStream(error.toString()),
       );
     });
+    on<AcceptAppointmentEvent>((event, emit) async {
+      final appointment = event.appointment;
+      await supabae.acceptAppointment(appointment.id!);
+    });
+    on<RejectAppointmentEvent>((event, emit) async {
+      final appointment = event.appointment;
+      await supabae.rejectAppointment(appointment.id!);
+    });
+    on<CompleteAppointmentEvent>((event, emit) async {
+      try {
+        final appointment = event.appointment;
+        await supabae.completeAppointment(appointment.id!);
+        emit(CompleteAppointmentSuccess("Appointment completed successfully"));
+      } catch (e) {
+        emit(CompleteAppointmentError("Failed to complete appointment"));
+      }
+    });
   }
 }

@@ -8,3 +8,18 @@ final class PStatusToggleChanged extends PBookingEvent {
 }
 
 final class SubscribeToStreamEvent extends PBookingEvent {}
+
+final class AcceptAppointmentEvent extends PBookingEvent {
+  final Appointment appointment;
+  AcceptAppointmentEvent(this.appointment);
+}
+
+final class RejectAppointmentEvent extends PBookingEvent {
+  final Appointment appointment;
+  RejectAppointmentEvent(this.appointment);
+}
+
+final class CompleteAppointmentEvent extends PBookingEvent {
+  final Appointment appointment;
+  CompleteAppointmentEvent(this.appointment);
+}

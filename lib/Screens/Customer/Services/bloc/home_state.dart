@@ -10,3 +10,5 @@ final class CategorySelectedState extends HomeState {
 }
 
 final class SearchedServicesState extends HomeState {}
+
+final class UIUpdatedState extends HomeState {}

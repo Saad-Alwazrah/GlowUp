@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glowup/Screens/Provider/p_booking/p_booking_screen.dart';
 import 'package:glowup/Screens/Provider/NavBar/bloc/provider_nav_bar_bloc.dart';
@@ -41,12 +42,12 @@ class ProviderNavBarScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    width: 390,
-                    height: 70,
-                    margin: const EdgeInsets.only(bottom: 20),
+                    width: 390.w,
+                    height: 70.h,
+                    margin: EdgeInsets.only(bottom: 20.h),
                     decoration: BoxDecoration(
                       color: Theme.of(context).highlightColor,
-                      borderRadius: BorderRadius.circular(35),
+                      borderRadius: BorderRadius.circular(35.r),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -73,14 +74,14 @@ class ProviderNavBarScreen extends StatelessWidget {
                                 width: 24,
                                 height: 24,
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Text(
                                 context.tr(labels[index]),
                                 style: TextStyle(
                                   color: isActive
                                       ? const Color(0xFF8A766D)
                                       : const Color(0xFFCBB9A8),
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                 ),
                               ),
                             ],

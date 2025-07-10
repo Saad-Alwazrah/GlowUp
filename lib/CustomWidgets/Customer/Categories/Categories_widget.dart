@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glowup/Styles/app_colors.dart';
 import 'package:glowup/Styles/app_font.dart';
@@ -30,8 +31,8 @@ class Categories extends StatelessWidget {
         // mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 66,
-            height: 66,
+            width: 66.w,
+            height: 66.h,
             decoration: BoxDecoration(
               color: isSelected ? selectedColor : unselectedColor,
               shape: BoxShape.circle,
@@ -40,8 +41,8 @@ class Categories extends StatelessWidget {
               child: svgIconPath != null
                   ? SvgPicture.asset(
                       svgIconPath!,
-                      width: 36,
-                      height: 36,
+                      width: 36.w,
+                      height: 36.h,
                       colorFilter: ColorFilter.mode(
                         isSelected ? selectedIconColor : unselectedIconColor,
                         BlendMode.srcIn,
@@ -50,7 +51,7 @@ class Categories extends StatelessWidget {
                   : const SizedBox.shrink(),
             ),
           ),
-          const SizedBox(height: 3), // spacing between circle and text
+          SizedBox(height: 3.h), // spacing between circle and text
           Text(label, style: AppFonts.regular14),
         ],
       ),

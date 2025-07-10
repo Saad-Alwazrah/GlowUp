@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:glowup/Screens/Customer/BookingsScreen/Bookings_screen.dart';
+import 'package:glowup/Screens/Customer/BookingsScreen/bookings_screen.dart';
 
 import 'package:glowup/Screens/Customer/Providers/providers_screen.dart';
 import 'package:glowup/Screens/Customer/NavBar/bloc/nav_bar_bloc.dart';
@@ -45,12 +46,12 @@ class NavBarScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    width: 390,
-                    height: 70,
-                    margin: const EdgeInsets.only(bottom: 20),
+                    width: 390.w,
+                    height: 70.h,
+                    margin: EdgeInsets.only(bottom: 20.h),
                     decoration: BoxDecoration(
                       color: Theme.of(context).highlightColor,
-                      borderRadius: BorderRadius.circular(35),
+                      borderRadius: BorderRadius.circular(35.r),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -74,17 +75,17 @@ class NavBarScreen extends StatelessWidget {
                                       : const Color(0xFFCBB9A8),
                                   BlendMode.srcIn,
                                 ),
-                                width: 24,
-                                height: 24,
+                                width: 24.w,
+                                height: 24.h,
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Text(
                                 context.tr(labels[index]),
                                 style: TextStyle(
                                   color: isActive
                                       ? const Color(0xFF8A766D)
                                       : const Color(0xFFCBB9A8),
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                 ),
                               ),
                             ],

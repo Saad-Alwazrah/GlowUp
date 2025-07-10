@@ -12,7 +12,7 @@ class ProviderThirdPageviewSignUp extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(16.w),
       child: Column(
-        spacing: 15,
+        spacing: 15.h,
         children: [
           Center(
             child: Text(
