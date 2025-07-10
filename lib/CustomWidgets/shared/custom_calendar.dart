@@ -26,8 +26,8 @@ class CustomCalendar extends StatelessWidget {
     }).toList();
 
     return SizedBox(
-      height: 400.h,
-      width: 320.w,
+      height: 430.h,
+      width: 330.w,
       child: TableCalendar(
         locale: context.locale.toLanguageTag(),
         headerStyle: HeaderStyle(
@@ -41,7 +41,7 @@ class CustomCalendar extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           leftChevronIcon: Container(
-            width: 95.w,
+            width: 102.w,
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
             decoration: BoxDecoration(
               color: AppColors.goldenPeach,
