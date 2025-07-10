@@ -8,3 +8,5 @@ final class StatusToggleEvent extends BookingEvent {
   final int index;
   StatusToggleEvent(this.index);
 }
+
+final class SubscribeToStreamEvent extends BookingEvent {}

@@ -71,5 +71,6 @@ class AddingServicesBloc
       // For example, you might want to show a list of stylists and allow the user to select one
       emit(AStylistChosenState());
     });
+    on<UpdateUIEvent>((event, emit) => emit(UIUpdateState()));
   }
 }

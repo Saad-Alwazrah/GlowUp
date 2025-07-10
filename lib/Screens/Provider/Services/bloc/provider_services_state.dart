@@ -12,3 +12,5 @@ final class ServiceDeletionErrorState extends ProviderServicesState {
 
   ServiceDeletionErrorState(this.errorMessage);
 }
+
+final class UIUpdateState extends ProviderServicesState {}

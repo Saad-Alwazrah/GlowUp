@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glowup/CustomWidgets/Shared/custom_elevated_button.dart';
 import 'package:glowup/CustomWidgets/shared/custom_textfield.dart';
 import 'package:glowup/Screens/Provider/AddingServices/bloc/adding_services_bloc.dart';
+import 'package:glowup/Screens/Provider/NavBar/provider_nav_bar_screen.dart';
 import 'package:glowup/Styles/app_colors.dart';
 
 class AddingServicesScreen extends StatelessWidget {
@@ -40,7 +41,12 @@ class AddingServicesScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Service added successfully!")),
                 );
-                Navigator.pop(context); // Go back after adding service
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProviderNavBarScreen(),
+                  ),
+                ); // Go back after adding service
               } else if (state is ServiceAddingErrorState) {
                 // Handle service adding error
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -86,7 +92,9 @@ class AddingServicesScreen extends StatelessWidget {
                                     ),
                                     SizedBox(height: 8.h),
                                     Text(
-                                      context.tr("Press To Upload Service Image"),
+                                      context.tr(
+                                        "Press To Upload Service Image",
+                                      ),
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         color: Colors.grey.withValues(
@@ -159,7 +167,9 @@ class AddingServicesScreen extends StatelessWidget {
                                 double.tryParse(value) == null) {
                               return context.tr("Please enter a price");
                             } else if (double.parse(value) <= 0) {
-                              return context.tr("Price must be greater than zero");
+                              return context.tr(
+                                "Price must be greater than zero",
+                              );
                             }
                             return null;
                           },
@@ -173,7 +183,9 @@ class AddingServicesScreen extends StatelessWidget {
                               child: DropdownButtonFormField<String>(
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return context.tr("Please select a category");
+                                    return context.tr(
+                                      "Please select a category",
+                                    );
                                   }
                                   return null;
                                 },
@@ -185,11 +197,13 @@ class AddingServicesScreen extends StatelessWidget {
                                 ),
                                 value: bloc.slectedCategory,
                                 items:
-                                    <String>['Hair'.tr(),
+                                    <String>[
+                                      'Hair'.tr(),
                                       'Nails'.tr(),
                                       'Skin'.tr(),
                                       'Makeup'.tr(),
-                                      'Other'.tr(),].map<DropdownMenuItem<String>>((
+                                      'Other'.tr(),
+                                    ].map<DropdownMenuItem<String>>((
                                       String value,
                                     ) {
                                       return DropdownMenuItem<String>(
@@ -265,13 +279,16 @@ class AddingServicesScreen extends StatelessWidget {
 
                         CustomElevatedButton(
                           text: context.tr("Add Service"),
-                          onTap: () {
+                          onTap: () async {
                             if (bloc.formKey.currentState!.validate() &&
                                 bloc.imagePath != null &&
                                 bloc.slectedCategory != null &&
                                 bloc.selectedStylists.isNotEmpty) {
                               // Handle form submission
                               bloc.add(AddingServiceEvent());
+                              await Future.delayed(Duration(seconds: 2), () {
+                                bloc.add(UpdateUIEvent());
+                              });
                             }
                           },
                         ),

@@ -490,7 +490,9 @@ class SupabaseConnect {
     log("Data linked in ${stopwatch.elapsedMicroseconds} µs");
   }
 
-  Map<int, List<Appointment>> getUserAppointments() {
+  Map<int, List<Appointment>> getUserAppointments(
+    List<Appointment> appointmentsStream,
+  ) {
     List<Appointment> pendingAppointments = [];
     List<Appointment> acceptedAppointments = [];
     List<Appointment> completedAppointments = [];
@@ -503,8 +505,27 @@ class SupabaseConnect {
       3: rejectedAppointments,
       4: paidAppointments,
     };
+    // linking appointments with their stylist
+    for (Appointment appointment in appointmentsStream) {
+      for (Stylist stylist in stylists) {
+        if (appointment.stylistId == stylist.id) {
+          appointment.stylist = stylist;
+        }
+      }
+      // linking appointments with their stylist
+      for (Stylist stylist in stylists) {
+        if (appointment.stylistId == stylist.id) {
+          appointment.stylist = stylist;
+        }
+      }
+      for (Provider provider in providers) {
+        if (appointment.providerId == provider.id) {
+          appointment.provider = provider;
+        }
+      }
+    }
 
-    for (var appointment in appointments) {
+    for (var appointment in appointmentsStream) {
       if (appointment.customerId == userProfile!.id) {
         switch (appointment.status) {
           case "Pending":
@@ -528,7 +549,9 @@ class SupabaseConnect {
     return userAppointments;
   }
 
-  Map<int, List<Appointment>> getProviderAppointments() {
+  Map<int, List<Appointment>> getProviderAppointments(
+    List<Appointment> appointmentsStream,
+  ) {
     List<Appointment> pendingAppointments = [];
     List<Appointment> statusAppointments = [];
     List<Appointment> completedAppointments = [];
@@ -539,8 +562,25 @@ class SupabaseConnect {
       2: paidAppointments,
       3: completedAppointments,
     };
-
-    for (var appointment in theProvider!.appointments) {
+    for (Appointment appointment in appointmentsStream) {
+      for (Stylist stylist in stylists) {
+        if (appointment.stylistId == stylist.id) {
+          appointment.stylist = stylist;
+        }
+      }
+      // linking appointments with their stylist
+      for (Stylist stylist in stylists) {
+        if (appointment.stylistId == stylist.id) {
+          appointment.stylist = stylist;
+        }
+      }
+      for (Provider provider in providers) {
+        if (appointment.providerId == provider.id) {
+          appointment.provider = provider;
+        }
+      }
+    }
+    for (var appointment in appointmentsStream) {
       switch (appointment.status) {
         case "Pending" || "Rejected":
           pendingAppointments.add(appointment);
@@ -558,6 +598,26 @@ class SupabaseConnect {
       }
     }
     return providerAppointments;
+  }
+
+  Stream<List<Appointment>> watchProviderAppointments() {
+    // listen on any change (INSERT, UPDATE, DELETE) keyed by 'id'
+    return supabase.client
+        .from('appointments') // filter to this provider
+        .stream(primaryKey: ['id'])
+        .eq("provider_id", theProvider!.id) // use the primary key to dedupe
+        .order('appointment_date') // optional ordering
+        .map((records) => records.map((e) => Appointment.fromJson(e)).toList());
+  }
+
+  Stream<List<Appointment>> watchUserAppointments() {
+    // listen on any change (INSERT, UPDATE, DELETE) keyed by 'id'
+    return supabase.client
+        .from('appointments') // filter to this provider
+        .stream(primaryKey: ['id'])
+        .eq("customer_id", userProfile!.id) // use the primary key to dedupe
+        .order('appointment_date') // optional ordering
+        .map((records) => records.map((e) => Appointment.fromJson(e)).toList());
   }
 
   Future<bool> addService({
@@ -635,6 +695,7 @@ class SupabaseConnect {
         name: name,
         providerId: providerId,
         bio: bio,
+        ratingCount: 0,
         createdAt: DateTime.now().toIso8601String(),
       );
       final newStylistRes = Stylist.fromJson(

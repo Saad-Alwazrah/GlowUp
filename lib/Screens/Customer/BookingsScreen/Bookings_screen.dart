@@ -15,7 +15,8 @@ class BookingsScreen extends StatelessWidget {
       child: BlocBuilder<BookingBloc, BookingState>(
         builder: (context, state) {
           final bloc = context.read<BookingBloc>();
-          final userAppointments = bloc.supabase.getUserAppointments();
+          bloc.add(SubscribeToStreamEvent());
+          final userAppointments = bloc.appointmentsMap;
           return Scaffold(
             body: Padding(
               padding: const EdgeInsets.all(20),
@@ -36,14 +37,24 @@ class BookingsScreen extends StatelessWidget {
 
                     const SizedBox(height: 24),
                     // You can add filtered list or content below here
-                    ...List.generate(
-                      userAppointments[bloc.selectedIndex]!.length,
-                      (i) {
-                        final appointment =
-                            userAppointments[bloc.selectedIndex]![i];
-                        return BookingCard(appointment: appointment);
-                      },
-                    ),
+                    if (bloc.appointmentsMap[bloc.selectedIndex] == null ||
+                        bloc.appointmentsMap[bloc.selectedIndex]!.isEmpty)
+                      Center(
+                        child: Text(
+                          "No bookings available",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    if (bloc.appointmentsMap[bloc.selectedIndex] != null &&
+                        bloc.appointmentsMap[bloc.selectedIndex]!.isNotEmpty)
+                      ...List.generate(
+                        bloc.appointmentsMap[bloc.selectedIndex]!.length,
+                        (index) {
+                          final appointments =
+                              bloc.appointmentsMap[bloc.selectedIndex] ?? [];
+                          return BookingCard(appointment: appointments[index]);
+                        },
+                      ),
                     SizedBox(height: 80.h),
                   ],
                 ),

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:glowup/Screens/Provider/p_booking/p_booking.dart';
+import 'package:glowup/Screens/Provider/p_booking/p_booking_screen.dart';
 import 'package:glowup/Screens/Provider/NavBar/bloc/provider_nav_bar_bloc.dart';
 
 import 'package:glowup/Screens/Provider/Profile/provider_profile_screen.dart';

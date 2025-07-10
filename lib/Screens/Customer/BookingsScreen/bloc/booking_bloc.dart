@@ -8,6 +8,7 @@ part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   final supabase = GetIt.I.get<SupabaseConnect>();
+  Map<int, List<Appointment>> appointmentsMap = {};
   int selectedIndex = 0;
 
   BookingBloc() : super(BookingInitial()) {
@@ -17,6 +18,18 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     });
     on<UpdateUIEvent>((event, emit) {
       emit(UIUpdated());
+    });
+    on<SubscribeToStreamEvent>((event, emit) async {
+      await emit.forEach<List<Appointment>>(
+        GetIt.I.get<SupabaseConnect>().watchUserAppointments(),
+        onData: (appointments) {
+          appointmentsMap = GetIt.I.get<SupabaseConnect>().getUserAppointments(
+            appointments,
+          );
+          return UpdateFromStream();
+        },
+        onError: (error, stackTrace) => ErrorUpdatingStream(error.toString()),
+      );
     });
   }
 }

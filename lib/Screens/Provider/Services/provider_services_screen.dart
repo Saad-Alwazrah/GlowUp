@@ -82,9 +82,15 @@ class ProviderServicesScreen extends StatelessWidget {
                             padding: EdgeInsets.all(16.h),
                             child: ProviderServiceCard(
                               service: service,
-                              onDelete: () {
+                              onDelete: () async {
                                 bloc.add(
                                   DeleteServiceEvent(serviceId: service.id!),
+                                );
+                                await Future.delayed(
+                                  Duration(milliseconds: 300),
+                                  () {
+                                    bloc.add(UpdateUIEvent());
+                                  },
                                 );
                               },
                             ),
